@@ -12,9 +12,11 @@ ksharma.xyz cutover is deferred).
   to 2024".)
 - **Never publish Karan's personal Gmail address.** Public contact is **hey@krail.app**
   or a LinkedIn message (https://www.linkedin.com/in/ksharma-xyz/).
-- Use real, accurate content only — never invent metrics, roles, or links. The source of
+- Use real, accurate content only. Never invent metrics, roles, or links. The source of
   truth is `CONTEXT.md` (resume + GitHub).
-- Confident but humble voice. Substance over hype.
+- **Humble yet impressive.** Confident but never flashy or boastful. Let the facts carry
+  it; no bravado or buzzwords (avoid things like "at scale", "done right", "the apps
+  behind the day jobs"). State plainly what was built. The substance is impressive enough.
 
 ## Images
 
