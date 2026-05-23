@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>a11y weather app android | Karan Sharma</title>
+<meta name="description" content="a11y weather app android. An engineering post by Karan Sharma." />
+<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/a11y-weather-app-android/" />
+<meta name="theme-color" content="#13B0E5" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/a11y-weather-app-android/" />
+<meta property="og:title" content="a11y weather app android" />
+<meta property="og:description" content="An engineering post by Karan Sharma." />
+<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"a11y weather app android","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/a11y-weather-app-android/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="../../assets/site.css" />
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <a href="../../" class="brand"><span class="glyph">KS</span><span>Karan Sharma</span></a>
+    <nav class="tabs"><a href="../../#blog" style="text-decoration:none"><button>All posts</button></a></nav>
+    <div class="header-cta"><a href="mailto:hey@krail.app" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Get in touch</a></div>
+  </div>
+</header>
+
+<main class="post-wrap">
+  <div class="post-head">
+    <a class="post-back" href="../../#blog">&larr; All posts</a>
+    <div class="pin">Feb 2023 &middot; 5 min read</div>
+    <h1>a11y weather app android</h1>
+  </div>
+  <article class="article">
+<p>Accessible Android Weather App: Jetpack Compose</p>
+<p>As an application developer, it’s crucial to ensure that our app is accessible to all users, including those with visual impairments who require larger font sizes. This article takes inspiration from the accessibility behavior of the default iOS weather app to explore how it adapts when the font scale is increased. This not only helps individuals with visual impairments but can also aid in localization of the app.</p>
+<p>We will delve into some of the components of the iOS Weather App and note our observations along with the technical approach required to achieve a similar user experience on android.</p>
+<p>The goal of this article is to provide a reference for app developers and designers looking to create user-friendly experiences for individuals with visual impairments or to improve the user experience for all users.</p>
+<p>Following are the screenshots from the iOS Weather app when the Font Scale is Normal and Large respectively.</p>
+<p><img src="images/img-1.webp" alt=" iOS Weather app screenshots when Font Scale is Normal and Large"></p>
+<p>Component: DayTile()</p>
+<p>DayTile - Font Scale: Normal  </p>
+<p>When the font size is normal (eg: 1.0 in android), then we can see following information in the list item:</p>
+<ol>
+<li><p>Day of the Week (Today, Sun etc.)</p>
+</li>
+<li><p>Icon for cloudy / sunny etc. No matter the size of day’s text, the start position of icon remains same through out the list. Consistency rules.</p>
+</li>
+<li><p>Precipitation % if rainy.</p>
+</li>
+<li><p>Minimum and Maximum temperature of the day.</p>
+</li>
+<li><p>Temperature Bar with colors.</p>
+</li>
+</ol>
+<p><img src="images/img-2.webp" alt=""></p>
+<p>DayTile - Font Scale: Large</p>
+<p>When the font size is increased to large, the following information is provided.</p>
+<ol>
+<li><p>Day of the Week (Today, Sun etc.)</p>
+</li>
+<li><p>Icon for cloudy / sunny etc.</p>
+</li>
+<li><p>Precipitation % if rainy.</p>
+</li>
+<li><p>Minimum and Maximum temperature of the day.</p>
+</li>
+</ol>
+<p>Note that the temperature bar may not be displayed if there isn’t enough horizontal space. A prefix is added to the minimum and maximum temperature to add more meaning to the numbers, allowing users to understand the temperature range without relying on the temperature bar.</p>
+<p><img src="images/img-3.webp" alt=""></p>
+<p>What not to do ?</p>
+<p>To avoid displaying text spread across multiple lines, it’s important to create an alternate layout for larger font sizes. Ellipsize the text using … is also not a good approach because it may hide crucial information. Since this is a weather app therefore, it’s essential to display the information correctly regardless of screen size, font scale, or device locale (language and region).</p>
+<p>This problem may also occur if we are using a foldable device in the folded state even when the font size is normal (1.0). Or, it could also happen for a Mobile device, when the text is too big because the language of text might make it longer.</p>
+<p><img src="images/img-4.webp" alt="An image of incorrect and non accessible layout."></p>
+<p>The word “summary” in German language is called “Zusammenfassung”</p>
+<p>How to fix / Initial Approach: Hard switch at Font Scale threshold</p>
+<p>We can perform a hard switch between vertical and horizontal layout in order to display the alternate layouts. We ensure that at large font sizes, the text information will always be displayed properly in a consumable fashion. Following is a very simple code for this which displays the Vertical or Horizontal verison of the layout depending upon the fontScale value.</p>
+<p><img src="images/img-5.webp" alt="Code  for  DayTile using Jetpack Compose"></p>
+<p>Android - DayTile (FontSize is 1.0)</p>
+<p><img src="images/img-6.webp" alt=""></p>
+<p>Android - DayTile (FontSize is 1.4)</p>
+<p><img src="images/img-7.webp" alt=""></p>
+<p>This solution works great, however, there is still a room for improvement.</p>
+<p>Imagine the following device configuration:</p>
+<ol>
+<li><p>Device: Foldable (Folded State)</p>
+</li>
+<li><p>Device Width: 330dp</p>
+</li>
+<li><p>Font Size: 1.0</p>
+</li>
+<li><p>Device Locale: French</p>
+</li>
+</ol>
+<p><img src="images/img-8.webp" alt=""></p>
+<p>The initial approach was to perform a hard switch between vertical and horizontal layout. However, this may still break the layout if the device width is smaller or if the text length varies for different languages.</p>
+<p>2nd Approach: Measure Layout</p>
+<p>Another approach could be to measure the layout and then make a decision to switch between vertical and horizontal orientation. Let’s recall the point 2 from Observation section:</p>
+<p>The start position of the weather icon should always be same for all the Horizontal layouts. Also, all the layouts must be displayed in single orientation, either vertically or horizontally to maintain consistency throughout the app.</p>
+<p>The approach of measuring layout, will break the consistency of the app by having some items in the list displayed vertically while others are displayed horizontally. This is inconsistent and certainly not a good UX.</p>
+<p>DayTile - In French language.</p>
+<p><img src="images/img-9.webp" alt=""></p>
+<p>How do we fix the inconsistency problem ?</p>
+<p>We tried two approaches so far:</p>
+<ol>
+<li><p>Hard Switch at Font Size threshold.</p>
+</li>
+<li><p>Measure layout.</p>
+</li>
+</ol>
+<p>We have observed that none of the two solutions mentioned above are accurate enough to solve this problem for all use cases of device locale, font size and screen size.</p>
+<p>However, if we use a mix of these two approaches, we may be able to cater to a near perfect solution (Nothing is perfect.) to build a great UI which caters to all users.</p>
+<p>Defining a new approach:</p>
+<ol>
+<li><p>Make a hard switch at a certain font size threshold.</p>
+</li>
+<li><p>However, for font size less than threshold, measure the layout and if at least one of the items is measured to display the layout in vertical orientation then all the items in list must be displayed in vertical orientation only.</p>
+</li>
+</ol>
+<p>This is a mixed solution based on the above two approaches and ensures that we achieve a consistent and user friendly experience for all device configurations.</p>
+<p>This is not an easy solution to implement, as it involves measuring of the layout and then applying constraints as per certain calculations. However, it is important to go an extra mile or two to provide our users with the best UX.</p>
+<p>Conclusion</p>
+<p>Not every user is the same.</p>
+<p>We must strongly abide by this quote because:</p>
+<ol>
+<li><p>Some users might use the app at font size 1.0 , however others may choose 1.5, 2.0 or even go below 1.0 up to 0.7 to use their device.</p>
+</li>
+<li><p>Others may use the application in a completely different language and the size of the text may be larger or shorter depending upon the language as well.</p>
+</li>
+<li><p>With newer technologies like Foldable devices, the screen width may be smaller or larger depending upon the state of the device.</p>
+</li>
+</ol>
+<p>Therefore, it is important to ensure that the user interface elements in the app are displayed in a way that is easy for all users to understand. When the font size is increased, it may not be possible to display text and items horizontally. In such cases, it is important to display the items vertically while keeping consistency in mind. This makes it easier for users to read and understand the information in the app.</p>
+<p>In the next post we will analyse another component in the iOS Weather app and try to find an optimal solution.</p>
+<p>Feb 2023 - Karan Sharma</p>
+<p>Page updated</p>
+<p>Google Sites</p>
+<p>Report abuse</p>
+
+  </article>
+  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
+</main>
+
+<footer class="bottom">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="mailto:hey@krail.app" class="btn-3d">hey@krail.app <span class="arr">&rarr;</span></a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost">LinkedIn <span class="arr">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
+  </div>
+</footer>
+</body>
+</html>

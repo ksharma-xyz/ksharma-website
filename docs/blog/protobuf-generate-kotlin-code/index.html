@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>protobuf generate kotlin code | Karan Sharma</title>
+<meta name="description" content="protobuf generate kotlin code. An engineering post by Karan Sharma." />
+<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/protobuf-generate-kotlin-code/" />
+<meta name="theme-color" content="#13B0E5" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/protobuf-generate-kotlin-code/" />
+<meta property="og:title" content="protobuf generate kotlin code" />
+<meta property="og:description" content="An engineering post by Karan Sharma." />
+<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"protobuf generate kotlin code","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/protobuf-generate-kotlin-code/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="../../assets/site.css" />
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <a href="../../" class="brand"><span class="glyph">KS</span><span>Karan Sharma</span></a>
+    <nav class="tabs"><a href="../../#blog" style="text-decoration:none"><button>All posts</button></a></nav>
+    <div class="header-cta"><a href="mailto:hey@krail.app" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Get in touch</a></div>
+  </div>
+</header>
+
+<main class="post-wrap">
+  <div class="post-head">
+    <a class="post-back" href="../../#blog">&larr; All posts</a>
+    <div class="pin">Jul 2024 &middot; 4 min read</div>
+    <h1>protobuf generate kotlin code</h1>
+  </div>
+  <article class="article">
+<p><img src="images/img-1.webp" alt=""></p>
+<p>Sugar, Spice and Protobuf: </p>
+<p>Perfect recipe for cross platform collaboration</p>
+<p>“Protocol Buffers are language-neutral, platform-neutral extensible mechanisms for serializing structured data.”<br>- <a href="https://protobuf.dev/">https://protobuf.dev/</a></p>
+<p>Imagine your organization is developing applications for iOS, Android, Desktop, and Web platforms. Each of these platforms will need to display similar data, which often requires complex data structures and frequent updates. Maintaining consistency across all platforms can be challenging and time-consuming. This is where we can use Protocol Buffers (Protobuf or Proto) to build robust infrastructure for the engineering teams.</p>
+<p><a href="https://protobuf.dev/">Protobuf</a> was developed by Google. It is a language-neutral, platform-neutral, extensible mechanism for serializing structured data. It allows you to define the structure of your data once and use it across various platforms and languages, ensuring consistency and efficiency.  </p>
+<p>The data structure is defined in a file type called .proto. From this proto file, we can automatically generate code for different languages such as C++, C#, Python, Java, Kotlin, Objective C and even Swift. This means strongly typed data structures defined by the backend engineering team can be used by both iOS (Obj. C / Swift) and Android (Java / Kotlin) platforms.</p>
+<p>Advantages of using Protobuf</p>
+<p>Let’s look at some benefits of using Protobuf over REST API’s (json).</p>
+<ol>
+<li>Efficient network layer<br>Protobuf&#39;s help ensure your app requests resources from the server efficiently, with clear definitions provided by compact and efficient message formats. Smaller message sizes mean faster transmission times, which inherently improves network performance, reliability and also reduces engineering maintenance effort.</li>
+</ol>
+<p>Imagine you&#39;re sending information between apps, like a grocery list. Protobufs will take up less space. This means the information will travel faster and use less network bandwidth. This makes our apps work better because they don&#39;t have to spend as much time or data sending information back and forth.</p>
+<ol start="2">
+<li><p>Schema Enforcement<br>Protobuf enforces strict schema definitions, and has strict data type enforcement. Therefore, we prevent any discrepancies and runtime errors during data exchange between services and applications. Our engineering infrastructure becomes robust and we can build reliable systems.  </p>
+<p>Imagine you&#39;re packing gift boxes for different friends. Protobufs are like a packing list that says exactly what can go in each box. There is no more confusion, whether your friend receives an Integer or a String, a BigDecimal or a Float, a nullable or a non null element.</p>
+</li>
+<li><p>Backward Compatibility:</p>
+</li>
+</ol>
+<p>Protobuf supports backward compatibility, allowing changes to the data schema without breaking existing clients. New fields can be added, and old fields can be deprecated, ensuring that older clients can still parse and understand the updated data structure. This flexibility facilitates seamless updates and evolution of the data model, maintaining interoperability across different versions of the application.  </p>
+<p>Imagine you&#39;re building a fitness app that tracks user workouts. Initially, the network layer data has fields like duration and distance.</p>
+<p>Scenario 1: Adding a new field</p>
+<p>As the app progresses and new features are added, say you add a &quot;calories burned&quot; field. With Protobuf&#39;s backward compatibility, older app versions still process the data without recognizing the new field.</p>
+<p>Scenario 2: Deprecating a Field</p>
+<p>If we later on decide to use gps location coordinates in favor of distance field. Protobuf lets older app versions continue using &quot;distance&quot; while newer versions can switch to &quot;GPS coordinates&quot; seamlessly.</p>
+<ol start="4">
+<li>Language Independence:<br>Protobufs act as a bridge between different platforms and teams. They ensure data consistency across the organization, regardless of the programming language engineering teams choose. This empowers teams to work independently with their preferred languages while still maintaining seamless communication and compatibility. The valuable time otherwise spent on ensuring compatibility and communication among teams is now freed for teams to focus on innovation and building even better solutions.</li>
+</ol>
+<p>For e.g. in Android development, we used to build apps using Java and now everyone uses Kotlin, it’s relatively easier to migrate when using protos. Similarly for iOS if you’re migrating from Objective C to Swift, it is relatively easier too.</p>
+<p><a href="https://square.github.io/wire/">Wire</a></p>
+<p>In this post we will focus on Android Development and see how to generate Kotlin code from Protobuf files and automate the process using GitHub Actions. We will use a library called Wire, which is developed by Square.</p>
+<p>For each message type defined in the schema, Wire generates an immutable model class and its builder. The generated code looks like code you’d write by hand: it’s documented, formatted, and simple. Let’s see how to do this. For detailed documentation refer: <a href="https://square.github.io/wire/wire_compiler/">https://square.github.io/wire/wire_compiler/</a></p>
+<p>Protobuf File  </p>
+<p>A sample protobuf file user.proto defining an id, name and age which are strongly typed values as string and integer respectively.</p>
+<p>Add Wire gradle plugin</p>
+<p>The gradle plugin will add two tasks which can generate Kotlin classes.</p>
+<ol>
+<li><p>generateProtos </p>
+</li>
+<li><p>generateMainProtos</p>
+</li>
+</ol>
+<p> </p>
+<p>Generated Kotlin Class</p>
+<p>After running the gradle task, following Kotlin class is created.</p>
+<p>Automating Kotlin file generation using Github Actions</p>
+<p>We can create a GitHub actions workflow to automate Kotlin file generation whenever a pull request is raised to add a new proto file. We will need to commit these changes to the repository somehow, otherwise the files generated on CI server will be lost. We will push the generated Kotlin files to a separate repository and create a PR automatically using Github actions.  </p>
+<p>We have a repository for the backend engineers, where all the protos are stored. We will create a new repository for the mobile engineers to consume, which will have only the generated Kotlin files. This way backend eng. team(s) can work independently of the mobile app teams. Here is the GitHub actions workflow yaml file to do this.</p>
+<p><img src="images/img-2.webp" alt=""></p>
+<p>Workflow yaml file</p>
+<p>Feel free to have a look at the following Github repositories.</p>
+<ol>
+<li><p><a href="https://github.com/ksharma-xyz/Proto-API">Proto-API</a> - A repository containing .proto files.</p>
+</li>
+<li><p><a href="https://github.com/ksharma-xyz/Kotlin-Proto">Kotlin-Proto</a> - A repository containing auto generated Kotlin files from the proto files in proto-api repository.</p>
+</li>
+</ol>
+<p> </p>
+<p>Page updated</p>
+<p>Google Sites</p>
+<p>Report abuse</p>
+
+  </article>
+  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
+</main>
+
+<footer class="bottom">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="mailto:hey@krail.app" class="btn-3d">hey@krail.app <span class="arr">&rarr;</span></a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost">LinkedIn <span class="arr">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
+  </div>
+</footer>
+</body>
+</html>

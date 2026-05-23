@@ -4,6 +4,7 @@
   "type": "module",
   "description": "One-off scraper to extract content + images from the old Google Sites at ksharma.xyz",
   "dependencies": {
+    "marked": "^18.0.4",
     "puppeteer-core": "^23.0.0",
     "turndown": "^7.2.0"
   }

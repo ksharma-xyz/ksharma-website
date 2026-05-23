@@ -1,75 +1,844 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Karan Sharma: Staff Software Engineer</title>
-<meta name="description" content="Karan Sharma, Staff Software Engineer in Sydney. Secure large-scale mobile, Kotlin Multiplatform, AI tooling. Maker of KRAIL, Sumi, and Huezoo. Full site coming soon.">
-<meta name="author" content="Karan Sharma">
-<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/">
-<meta name="theme-color" content="#15130F">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Karan Sharma, Staff Software Engineer, Sydney</title>
+<meta name="description" content="Karan Sharma is a Staff Software Engineer in Sydney building secure mobile products at scale. Maker of KRAIL, Sumi, and Huezoo. Kotlin Multiplatform, Compose, and AI tooling. Writing about Kotlin, Compose, and security." />
+<meta name="author" content="Karan Sharma" />
+<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/" />
+<meta name="theme-color" content="#13B0E5" />
 
-<!-- Open Graph / Twitter -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Karan Sharma">
-<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/">
-<meta property="og:title" content="Karan Sharma: Staff Software Engineer">
-<meta property="og:description" content="Secure large-scale mobile, Kotlin Multiplatform, AI tooling. Maker of KRAIL, Sumi, and Huezoo.">
-<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="en_AU">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Karan Sharma: Staff Software Engineer">
-<meta name="twitter:description" content="Secure large-scale mobile, Kotlin Multiplatform, AI tooling. Maker of KRAIL, Sumi, and Huezoo.">
-<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png">
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/" />
+<meta property="og:title" content="Karan Sharma, Staff Software Engineer, Sydney" />
+<meta property="og:description" content="Secure mobile products at scale. Maker of KRAIL, Sumi, and Huezoo. Kotlin Multiplatform, Compose, and AI tooling." />
+<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_AU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Karan Sharma, Staff Software Engineer, Sydney" />
+<meta name="twitter:description" content="Secure mobile products at scale. Maker of KRAIL, Sumi, and Huezoo. Kotlin Multiplatform, Compose, and AI tooling." />
+<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 
-<style>
-  :root { --bg:#15130F; --paper:#F4ECE0; --ink:#15130F; --muted:#8a8276; --line:rgba(244,236,224,.14); }
-  * { box-sizing:border-box; }
-  html,body { margin:0; padding:0; }
-  body {
-    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
-    background:var(--bg); color:var(--paper);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
-    line-height:1.6; padding:32px;
-  }
-  main { width:100%; max-width:680px; margin:0 auto; }
-  .eyebrow { font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:0 0 18px; }
-  h1 { font-size:clamp(40px,9vw,72px); line-height:1.02; margin:0 0 14px; font-weight:600; letter-spacing:-1px; }
-  .role { font-size:clamp(17px,3.4vw,21px); color:var(--paper); opacity:.85; margin:0 0 8px; }
-  .pitch { font-size:clamp(15px,3vw,18px); color:var(--muted); margin:0 0 36px; max-width:52ch; }
-  .work { font-size:14px; color:var(--muted); margin:0 0 36px; }
-  .work a { color:var(--paper); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:1px; }
-  .work a:hover, .links a:hover { border-color:var(--paper); }
-  .links { display:flex; flex-wrap:wrap; gap:10px 22px; padding-top:28px; border-top:1px solid var(--line); }
-  .links a { color:var(--paper); text-decoration:none; font-size:15px; border-bottom:1px solid transparent; padding-bottom:1px; }
-  .soon { display:inline-block; margin-top:30px; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
-</style>
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Karan Sharma",
+  "jobTitle": "Staff Software Engineer",
+  "url": "https://ksharma-xyz.github.io/ksharma-website/",
+  "image": "https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png",
+  "worksFor": { "@type": "Organization", "name": "Commonwealth Bank" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Sydney", "addressRegion": "NSW", "addressCountry": "AU" },
+  "knowsAbout": ["Kotlin", "Kotlin Multiplatform", "Jetpack Compose", "Mobile Security", "Accessibility", "AI tooling"],
+  "sameAs": [
+    "https://github.com/ksharma-xyz",
+    "https://www.linkedin.com/in/ksharma-xyz/",
+    "https://stackoverflow.com/users/1505493/karan-sharma",
+    "https://androiddev.social/@karansharma"
+  ]
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="apple-touch-icon" href="assets/og-cover.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+
+<link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
-  <main>
-    <p class="eyebrow">Sydney, Australia</p>
-    <h1>Karan Sharma</h1>
-    <p class="role">Staff Software Engineer</p>
-    <p class="pitch">Secure, large-scale mobile products. Kotlin Multiplatform and Jetpack Compose. AI tooling and agentic workflows. Open-source maintainer and conference speaker.</p>
 
-    <p class="work">
-      Maker of
-      <a href="https://krail.app" rel="noopener">KRAIL</a>,
-      <a href="https://ksharma-xyz.github.io/Sumi/" rel="noopener">Sumi</a>, and
-      <a href="https://ksharma-xyz.github.io/HueZoo/" rel="noopener">Huezoo</a>.
-    </p>
+<!-- ===== HEADER ===== -->
+<header class="top">
+  <div class="inner">
+    <a href="#home" class="brand" data-page="home">
+      <span class="glyph">KS</span>
+      <span>Karan Sharma</span>
+    </a>
 
-    <nav class="links" aria-label="Profiles">
-      <a href="https://github.com/ksharma-xyz" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener">LinkedIn</a>
-      <a href="https://stackoverflow.com/users/1505493/karan-sharma" rel="noopener">Stack Overflow</a>
-      <a href="https://androiddev.social/@karansharma" rel="noopener">Mastodon</a>
-      <a href="mailto:hey@krail.app">Email</a>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button data-page="home" aria-current="true">Home</button>
+      <button data-page="apps">Apps</button>
+      <button data-page="portfolio">Portfolio</button>
+      <button data-page="blog">Blog</button>
+      <button data-page="photos">Photos</button>
     </nav>
 
-    <span class="soon">Full site coming soon</span>
-  </main>
+    <div class="header-cta">
+      <a href="mailto:hey@krail.app" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================ -->
+<!-- ===========================  HOME  ========================= -->
+<!-- ============================================================ -->
+<section class="page active" id="page-home">
+
+  <!-- INTRO -->
+  <div class="home-intro">
+    <div class="portrait-frame">
+      <div class="bg-stack-2"></div>
+      <div class="bg-stack"></div>
+      <div class="portrait">
+        <img src="assets/shots/portrait.webp" alt="Karan Sharma" width="520" height="650" />
+      </div>
+    </div>
+
+    <div>
+      <h1>Hey, I'm Karan. I build mobile apps at <span class="blue">work</span>, and on the <span class="blue">side</span>.</h1>
+      <p class="bio">
+        Staff Software Engineer at <a href="https://play.google.com/store/apps/details?id=com.commbank.netbank" rel="noopener">Commonwealth Bank</a>,
+        building the CommBiz business-banking app from the ground up and leading AI strategy for the Android org.
+        Before this: <a href="https://cash.app" rel="noopener">Cash App</a>, Afterpay, Telstra, Zip, and Qualcomm.
+        On the side I build and maintain <a href="https://krail.app" rel="noopener">KRAIL</a>, an open-source
+        Compose Multiplatform transit app for Sydney. I write about Kotlin, Compose, and security.
+      </p>
+
+      <dl class="meta-row">
+        <dt>Now</dt><dd><span class="live-dot"></span>Staff Software Engineer · Commonwealth Bank</dd>
+        <dt>Stack</dt><dd>Kotlin · Compose Multiplatform · iOS · Android · AI tooling</dd>
+        <dt>Side</dt><dd>KRAIL · Sumi · Huezoo, shipped &amp; open source</dd>
+        <dt>Lives</dt><dd>Sydney, Australia · ex-Bangalore</dd>
+      </dl>
+
+      <div class="actions">
+        <a href="#apps" class="btn-3d" data-page="apps">See the work <span class="arr">→</span></a>
+        <a href="#blog" class="btn-3d ghost" data-page="blog">Read the blog <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOW STRIP -->
+  <div class="sec-head">
+    <div class="shape">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+    </div>
+    <div>
+      <h2>Currently <span class="count">/ this week</span></h2>
+      <p>What I'm building, shipping, and writing, updated by hand.</p>
+    </div>
+  </div>
+
+  <div class="now-row">
+    <div class="now-card">
+      <div class="top">
+        <div class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+        </div>
+        <span class="label">Working on</span>
+      </div>
+      <h3>CommBiz mobile, from scratch</h3>
+      <p>Building Commonwealth Bank's business-banking app on Android: architecture, engineering standards, and AI tooling (MCP servers, agents) for the whole org.</p>
+      <div class="foot">staff engineer · since 2024</div>
+    </div>
+
+    <div class="now-card">
+      <div class="top">
+        <div class="ico dark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg>
+        </div>
+        <span class="label">Shipping</span>
+      </div>
+      <h3>KRAIL: Sydney transit</h3>
+      <p>Open-source iOS + Android, built solo in Kotlin Multiplatform. Live on both stores. Presented at Google I/O Extended Brisbane 2025.</p>
+      <div class="foot">krail.app · maintainer</div>
+    </div>
+
+    <div class="now-card">
+      <div class="top">
+        <div class="ico lite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <span class="label">Latest post</span>
+      </div>
+      <h3>Best practices for designing Jetpack Compose APIs</h3>
+      <p>The patterns I wish I'd known three migrations ago.</p>
+      <div class="foot">aug 2025 · 9 min</div>
+    </div>
+  </div>
+
+  <!-- FEATURED APP: KRAIL -->
+  <div class="sec-head">
+    <div class="shape" style="background:var(--b-400)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12,3 22,20 2,20"/></svg>
+    </div>
+    <div>
+      <h2>Featured app <span class="count">/ KRAIL</span></h2>
+      <p>The one I'm most proud of. Solo-built, open-source, on two stores.</p>
+    </div>
+    <div class="right"><a href="#apps" class="btn-3d ghost" data-page="apps" style="padding:7px 12px;font-size:12px;box-shadow:3px 3px 0 var(--ink)">All apps →</a></div>
+  </div>
+
+  <article class="krail">
+    <div class="krail-inner">
+      <div class="krail-lhs">
+        <span class="krail-tag"><span class="live-pulse"></span>live · iOS · Android · 2025 to now</span>
+        <h3>KRAIL: Sydney public<br/>transport, done <span class="blue">right</span>.</h3>
+        <p>A fast, friendly transit app for Sydney trains, metro, buses, ferries and light rail. Live on both stores, built solo in Kotlin Multiplatform with a shared Compose UI.</p>
+        <p>Open source. Proof that KMP can carry a real, polished consumer app.</p>
+
+        <div class="krail-stats">
+          <div class="s"><div class="k">Platforms</div><div class="v">iOS · Android</div></div>
+          <div class="s"><div class="k">Stack</div><div class="v">KMP + Compose</div></div>
+          <div class="s"><div class="k">GitHub</div><div class="v">★ 38, open</div></div>
+        </div>
+
+        <div class="krail-stack">
+          <span class="b">Kotlin</span>
+          <span class="b">Compose Multiplatform</span>
+          <span class="b">SQLDelight</span>
+          <span class="b">Ktor</span>
+          <span class="b">Koin</span>
+        </div>
+
+        <div class="krail-ctas">
+          <a class="btn-3d" href="https://krail.app" rel="noopener">krail.app <span class="arr">→</span></a>
+          <a class="btn-3d ghost" href="https://apps.apple.com/au/app/krail-app/id6738934832" rel="noopener">App Store</a>
+          <a class="btn-3d ghost" href="https://play.google.com/store/apps/details?id=xyz.ksharma.krail" rel="noopener">Play</a>
+          <a class="btn-3d ghost" href="https://github.com/ksharma-xyz/KRAIL" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div class="krail-rhs">
+        <div class="deco tri"></div>
+        <div class="deco sq"></div>
+        <div class="deco cir"></div>
+        <!-- Phone 1 -->
+        <div class="phone">
+          <span class="notch"></span>
+          <div class="screen"><div class="krail-screen s1">
+            <div class="ks-status"><span>9:41</span><span>●●●●</span></div>
+            <div style="margin-top:4px"><div class="ks-title">Trips</div><div class="ks-sub">Today · Sydney</div></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div style="line-height:1.2"><div style="font-weight:600">Town Hall</div><div class="ks-sub">to Chatswood</div></div><span class="ks-time">9:54</span></div>
+            <div class="ks-card"><span class="ks-mode b">B</span><div style="line-height:1.2"><div style="font-weight:600">389</div><div class="ks-sub">Bondi Junction</div></div><span class="ks-time">10:12</span></div>
+            <div class="ks-card"><span class="ks-mode f">F</span><div style="line-height:1.2"><div style="font-weight:600">Manly Fast</div><div class="ks-sub">→ Circular Quay</div></div><span class="ks-time">10:30</span></div>
+            <div class="ks-card"><span class="ks-mode l">L</span><div style="line-height:1.2"><div style="font-weight:600">L1 Dulwich Hill</div><div class="ks-sub">Central</div></div><span class="ks-time">10:38</span></div>
+          </div></div>
+        </div>
+        <!-- Phone 2 (mid) -->
+        <div class="phone mid">
+          <span class="notch"></span>
+          <div class="screen"><div class="krail-screen s2">
+            <div class="ks-status"><span>9:41</span><span>●●●●</span></div>
+            <div style="margin-top:4px"><div class="ks-title">Town Hall</div><div class="ks-sub">Departures · 4 lines</div></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div style="line-height:1.2"><div style="font-weight:600">T1 North Shore</div><div class="ks-sub">Hornsby</div></div><span class="ks-time">2 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div style="line-height:1.2"><div style="font-weight:600">T2 Inner West</div><div class="ks-sub">Leppington</div></div><span class="ks-time">5 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div style="line-height:1.2"><div style="font-weight:600">T3 Bankstown</div><div class="ks-sub">Liverpool</div></div><span class="ks-time">7 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div style="line-height:1.2"><div style="font-weight:600">T4 Eastern</div><div class="ks-sub">Bondi Jct</div></div><span class="ks-time">9 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div style="line-height:1.2"><div style="font-weight:600">T8 Airport</div><div class="ks-sub">Macarthur</div></div><span class="ks-time">11 min</span></div>
+            <div style="margin-top:auto;padding-top:6px;display:flex;gap:6px;justify-content:space-between">
+              <span style="background:#1A2530;border:1px solid #2A3744;border-radius:4px;padding:4px 6px;font-size:8px;color:#8A98A8">Map</span>
+              <span style="background:var(--b-400);color:#fff;border-radius:4px;padding:4px 6px;font-size:8px;font-weight:600">Save</span>
+            </div>
+          </div></div>
+        </div>
+        <!-- Phone 3 -->
+        <div class="phone">
+          <span class="notch"></span>
+          <div class="screen"><div class="krail-screen s3">
+            <div class="ks-status"><span>9:41</span><span>●●●●</span></div>
+            <div style="margin-top:4px"><div class="ks-title">T1 → Chatswood</div><div class="ks-sub">22 min · 5 stops</div></div>
+            <div style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:7px;font-size:9px">
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#fff"></span><div><div style="font-weight:600">Town Hall</div><div style="opacity:.85;font-size:7px">9:54 · P4</div></div></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)"></span><div>Wynyard</div></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)"></span><div>Milsons Pt</div></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)"></span><div>North Sydney</div></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)"></span><div>St Leonards</div></div>
+              <div style="display:flex;gap:8px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#FFF5C7"></span><div><div style="font-weight:600">Chatswood</div><div style="opacity:.85;font-size:7px">10:16</div></div></div>
+            </div>
+            <div style="margin-top:auto;padding-top:6px;font-size:8px;text-align:center;opacity:.9">On time · updated 8s ago</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WRITING TEASER -->
+  <div class="sec-head">
+    <div class="shape" style="background:#FFF5C7">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+    </div>
+    <div>
+      <h2>Recent writing <span class="count">/ 4 latest</span></h2>
+      <p>Engineering posts on Kotlin, Compose, security, and accessibility.</p>
+    </div>
+    <div class="right"><a href="#blog" class="btn-3d ghost" data-page="blog" style="padding:7px 12px;font-size:12px;box-shadow:3px 3px 0 var(--ink)">All posts →</a></div>
+  </div>
+
+  <div class="posts-list">
+    <a class="post-row" href="blog/jetpack-compose-best-practices/"><div class="date">Aug 2025</div><div class="title">Best practices for designing Jetpack Compose APIs</div><div class="read">9 min</div></a>
+    <a class="post-row" href="blog/google-io-extended-2025-compose-multiplatform-to-city/"><div class="date">Jun 2025</div><div class="title">Google I/O Extended 2025 (Brisbane): Compose Multiplatform to the City</div><div class="read">talk</div></a>
+    <a class="post-row" href="blog/protobuf-generate-kotlin-code/"><div class="date">Jul 2024</div><div class="title">Sugar, Spice, and Protobuf: cross-platform collaboration</div><div class="read">8 min</div></a>
+    <a class="post-row" href="blog/encryption-google-tink-android/"><div class="date">May 2024</div><div class="title">Cryptography with Google Tink on Android</div><div class="read">12 min</div></a>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- ===========================  APPS  ========================= -->
+<!-- ============================================================ -->
+<section class="page" id="page-apps">
+
+  <div class="page-intro">
+    <div>
+      <h1>Apps I've shipped, <span class="blue">on purpose</span>.</h1>
+      <p class="lede">Consumer apps and small open-source libraries, all Kotlin Multiplatform. Each one teaches me something I fold back into the day job.</p>
+    </div>
+    <div class="shapes-deco">
+      <div class="shape-tile blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg></div>
+      <div class="shape-tile cream"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><rect x="4" y="4" width="16" height="16"/></svg></div>
+      <div class="shape-tile dark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></div>
+    </div>
+  </div>
+
+  <!-- KRAIL big block -->
+  <div class="sec-head">
+    <div class="shape" style="background:var(--b-400)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12,3 22,20 2,20"/></svg>
+    </div>
+    <div>
+      <h2>KRAIL <span class="count">/ flagship</span></h2>
+      <p>Sydney public transport for iOS &amp; Android.</p>
+    </div>
+  </div>
+
+  <article class="krail" style="box-shadow:6px 6px 0 var(--b-400)">
+    <div class="krail-inner">
+      <div class="krail-lhs">
+        <span class="krail-tag"><span class="live-pulse"></span>live · iOS · Android · 2025 to now</span>
+        <h3>The one I'm most <span class="blue">proud of</span>.</h3>
+        <p>A fast, friendly transit app for Sydney trains, metro, buses, ferries and light rail. Live on both stores, open source, built solo.</p>
+        <p>Kotlin Multiplatform with a shared Compose UI on iOS and Android, and a talk at Google I/O Extended Brisbane 2025 on how it's built.</p>
+
+        <div class="krail-stats">
+          <div class="s"><div class="k">Open source</div><div class="v">Yes · ★ 38</div></div>
+          <div class="s"><div class="k">Platforms</div><div class="v">iOS · Android</div></div>
+          <div class="s"><div class="k">Built</div><div class="v">Solo, in KMP</div></div>
+        </div>
+
+        <div class="krail-stack">
+          <span class="b">Kotlin</span><span class="b">Compose Multiplatform</span>
+          <span class="b">SQLDelight</span><span class="b">Ktor</span><span class="b">Koin</span>
+        </div>
+
+        <div class="krail-ctas">
+          <a class="btn-3d" href="https://krail.app" rel="noopener">krail.app <span class="arr">→</span></a>
+          <a class="btn-3d ghost" href="https://apps.apple.com/au/app/krail-app/id6738934832" rel="noopener">App Store</a>
+          <a class="btn-3d ghost" href="https://play.google.com/store/apps/details?id=xyz.ksharma.krail" rel="noopener">Play</a>
+          <a class="btn-3d ghost" href="https://github.com/ksharma-xyz/KRAIL" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div class="krail-rhs">
+        <div class="deco tri"></div>
+        <div class="deco sq"></div>
+        <div class="deco cir"></div>
+        <div class="phone">
+          <span class="notch"></span>
+          <div class="screen"><div class="krail-screen s1">
+            <div class="ks-status"><span>9:41</span><span>●●●●</span></div>
+            <div><div class="ks-title">Trips</div><div class="ks-sub">Today · Sydney</div></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div><div style="font-weight:600">Town Hall</div><div class="ks-sub">→ Chatswood</div></div><span class="ks-time">9:54</span></div>
+            <div class="ks-card"><span class="ks-mode b">B</span><div><div style="font-weight:600">389</div><div class="ks-sub">Bondi Jct</div></div><span class="ks-time">10:12</span></div>
+            <div class="ks-card"><span class="ks-mode f">F</span><div><div style="font-weight:600">Manly Fast</div><div class="ks-sub">→ Quay</div></div><span class="ks-time">10:30</span></div>
+            <div class="ks-card"><span class="ks-mode l">L</span><div><div style="font-weight:600">L1 Dulwich Hill</div><div class="ks-sub">Central</div></div><span class="ks-time">10:38</span></div>
+          </div></div>
+        </div>
+        <div class="phone mid">
+          <span class="notch"></span>
+          <div class="screen"><div class="krail-screen s2">
+            <div class="ks-status"><span>9:41</span><span>●●●●</span></div>
+            <div><div class="ks-title">Town Hall</div><div class="ks-sub">Departures · 4 lines</div></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div><div style="font-weight:600">T1 North Shore</div></div><span class="ks-time">2 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div><div style="font-weight:600">T2 Inner West</div></div><span class="ks-time">5 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div><div style="font-weight:600">T3 Bankstown</div></div><span class="ks-time">7 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div><div style="font-weight:600">T4 Eastern</div></div><span class="ks-time">9 min</span></div>
+            <div class="ks-card"><span class="ks-mode t">T</span><div><div style="font-weight:600">T8 Airport</div></div><span class="ks-time">11 min</span></div>
+          </div></div>
+        </div>
+        <div class="phone">
+          <span class="notch"></span>
+          <div class="screen"><div class="krail-screen s3">
+            <div class="ks-status"><span>9:41</span><span>●●●●</span></div>
+            <div><div class="ks-title">T1 → Chatswood</div><div class="ks-sub">22 min · 5 stops</div></div>
+            <div style="background:rgba(255,255,255,.15);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:6px;font-size:9px">
+              <div>● Town Hall</div><div>● Wynyard</div><div>● Milsons Pt</div><div>● North Sydney</div><div>● St Leonards</div><div style="font-weight:600">● Chatswood</div>
+            </div>
+            <div style="margin-top:auto;font-size:8px;text-align:center;opacity:.9">On time</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- LAB / MINI APPS -->
+  <div class="sec-head">
+    <div class="shape" style="background:#FFF5C7">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2">
+        <line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/>
+      </svg>
+    </div>
+    <div>
+      <h2>The lab <span class="count">/ shipped on the side</span></h2>
+      <p>Small, finished apps. Each built in Kotlin Multiplatform for iOS and Android.</p>
+    </div>
+  </div>
+
+  <div class="apps-strip">
+    <a class="app-mini" href="https://ksharma-xyz.github.io/Sumi/" rel="noopener">
+      <div class="ico real"><img src="assets/shots/sumi-icon.webp" alt="Sumi app icon" width="56" height="56" /></div>
+      <h3>Sumi <span class="meta">iOS · Android · 2025</span></h3>
+      <p>A quiet daily Sudoku. Ink on paper, no noise. Sudoku built around stillness.</p>
+      <div class="foot"><div class="platforms"><span>iOS</span><span>Android</span></div><span>KMP · Compose</span></div>
+    </a>
+
+    <a class="app-mini" href="https://ksharma-xyz.github.io/HueZoo/" rel="noopener">
+      <div class="ico real"><img src="assets/shots/huezoo-icon.webp" alt="Huezoo app icon" width="56" height="56" /></div>
+      <h3>Huezoo <span class="meta">iOS · Android · 2025</span></h3>
+      <p>A color-matching game for curious minds. Bright, quick, and a little addictive.</p>
+      <div class="foot"><div class="platforms"><span>iOS</span><span>Android</span></div><span>KMP · Compose</span></div>
+    </a>
+
+    <div class="app-mini" aria-disabled="true" style="cursor:default">
+      <div class="ico lite"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div>
+      <h3>Astraman <span class="meta">soon</span></h3>
+      <p>Something new, in the workshop. Kotlin Multiplatform, like the rest.</p>
+      <div class="foot"><div class="platforms"><span>iOS</span><span>Android</span></div><span>Coming soon</span></div>
+    </div>
+  </div>
+
+  <!-- OPEN SOURCE -->
+  <div class="sec-head">
+    <div class="shape">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+      </svg>
+    </div>
+    <div>
+      <h2>Open source <span class="count">/ selected repos</span></h2>
+      <p>Libraries and apps I maintain in the open. Everything else lives on GitHub.</p>
+    </div>
+    <div class="right"><a href="https://github.com/ksharma-xyz" rel="noopener" class="btn-3d ghost" style="padding:7px 12px;font-size:12px;box-shadow:3px 3px 0 var(--ink)">github.com/ksharma-xyz →</a></div>
+  </div>
+
+  <div class="repo-grid">
+    <a class="repo" href="https://github.com/ksharma-xyz/KRAIL" rel="noopener">
+      <div class="top"><span class="name">
+        <svg class="shape-mini" viewBox="0 0 24 24" fill="#13B0E5" stroke="#0A1620" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg>
+        ksharma-xyz/KRAIL</span><span class="vis">Public</span></div>
+      <p>Sydney public transport app for iOS &amp; Android. Built with Kotlin Multiplatform &amp; Compose. The flagship side project.</p>
+      <div class="foot"><span class="lang"><span class="ld" style="background:#A97BFF"></span>Kotlin</span><span class="star">★ 38</span><span style="margin-left:auto">GitHub ↗</span></div>
+    </a>
+
+    <a class="repo" href="https://github.com/ksharma-xyz/dhruva" rel="noopener">
+      <div class="top"><span class="name">
+        <svg class="shape-mini" viewBox="0 0 24 24" fill="#0A1620" stroke="#0A1620" stroke-width="2"><rect x="4" y="4" width="16" height="16"/></svg>
+        ksharma-xyz/dhruva</span><span class="vis">Public</span></div>
+      <p>A Kotlin Multiplatform location library for Android and iOS. Sanskrit-named, one API across platforms.</p>
+      <div class="foot"><span class="lang"><span class="ld" style="background:#A97BFF"></span>Kotlin</span><span style="margin-left:auto">GitHub ↗</span></div>
+    </a>
+
+    <a class="repo" href="https://github.com/ksharma-xyz/aagya" rel="noopener">
+      <div class="top"><span class="name">
+        <svg class="shape-mini" viewBox="0 0 24 24" fill="#FFF5C7" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+        ksharma-xyz/aagya</span><span class="vis">Public</span></div>
+      <p>A Kotlin Multiplatform permission library for Android and iOS. Runtime permissions without the per-platform boilerplate.</p>
+      <div class="foot"><span class="lang"><span class="ld" style="background:#A97BFF"></span>Kotlin</span><span style="margin-left:auto">GitHub ↗</span></div>
+    </a>
+
+    <a class="repo" href="https://github.com/ksharma-xyz/Sumi" rel="noopener">
+      <div class="top"><span class="name">
+        <svg class="shape-mini" viewBox="0 0 24 24" fill="#13B0E5" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="#0A1620"/></svg>
+        ksharma-xyz/Sumi</span><span class="vis">Public</span></div>
+      <p>Zen Sudoku. Kotlin Multiplatform + Compose for iOS and Android. A daily puzzle built around stillness.</p>
+      <div class="foot"><span class="lang"><span class="ld" style="background:#A97BFF"></span>Kotlin</span><span style="margin-left:auto">GitHub ↗</span></div>
+    </a>
+
+    <a class="repo" href="https://github.com/ksharma-xyz/HueZoo" rel="noopener">
+      <div class="top"><span class="name">
+        <svg class="shape-mini" viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.4"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg>
+        ksharma-xyz/HueZoo</span><span class="vis">Public</span></div>
+      <p>A color-matching game for curious minds. Kotlin Multiplatform + Compose, iOS and Android.</p>
+      <div class="foot"><span class="lang"><span class="ld" style="background:#A97BFF"></span>Kotlin</span><span style="margin-left:auto">GitHub ↗</span></div>
+    </a>
+
+    <a class="repo" href="https://github.com/ksharma-xyz/KRAIL-API-PROTO" rel="noopener">
+      <div class="top"><span class="name">
+        <svg class="shape-mini" viewBox="0 0 24 24" fill="#0A1620" stroke="#0A1620" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg>
+        ksharma-xyz/KRAIL-API-PROTO</span><span class="vis">Public</span></div>
+      <p>Shared API data contracts in Protocol Buffers, the typed boundary between KRAIL's app and backend.</p>
+      <div class="foot"><span class="lang"><span class="ld" style="background:#654FF0"></span>Protobuf</span><span style="margin-left:auto">GitHub ↗</span></div>
+    </a>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- =========================  PORTFOLIO  ====================== -->
+<!-- ============================================================ -->
+<section class="page" id="page-portfolio">
+
+  <div class="page-intro">
+    <div>
+      <h1>A decade. <span class="blue">Ten companies.</span> One craft.</h1>
+      <p class="lede">From the first Android engineer at a Bangalore healthcare startup to Staff Engineer building a major Australian bank's business app. The throughline: owning the hard parts: security, platforms, the foundations other teams build on.</p>
+    </div>
+    <div class="shapes-deco">
+      <div class="shape-tile blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16"/></svg></div>
+      <div class="shape-tile cream"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></div>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div class="now-row" style="margin-bottom:24px">
+    <div class="now-card">
+      <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18"/></svg></div><span class="label">Years shipping</span></div>
+      <h3 style="font-size:32px;letter-spacing:-0.03em">10+</h3>
+      <p>Since 2015: Android, then iOS, now Kotlin Multiplatform everywhere.</p>
+    </div>
+    <div class="now-card">
+      <div class="top"><div class="ico dark"><svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg></div><span class="label">Companies</span></div>
+      <h3 style="font-size:32px;letter-spacing:-0.03em">10</h3>
+      <p>Banks, fintechs, telcos, OEMs and healthcare startups. Two continents.</p>
+    </div>
+    <div class="now-card">
+      <div class="top"><div class="ico lite"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div><span class="label">Apps shipped</span></div>
+      <h3 style="font-size:32px;letter-spacing:-0.03em">3</h3>
+      <p>KRAIL, Sumi and Huezoo on the side, plus the apps behind the day jobs.</p>
+    </div>
+  </div>
+
+  <!-- Experience -->
+  <div class="sec-head">
+    <div class="shape" style="background:var(--b-400)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/></svg>
+    </div>
+    <div>
+      <h2>Experience <span class="count">/ 2015 → now</span></h2>
+      <p>Each row is a real engagement. Newest first.</p>
+    </div>
+    <div class="right"><a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost" style="padding:7px 12px;font-size:12px;box-shadow:3px 3px 0 var(--ink)">Full CV (LinkedIn) →</a></div>
+  </div>
+
+  <div class="work-list">
+    <div class="work-row">
+      <div class="yr">2024 to now</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--b-400)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="4" y="4" width="16" height="16"/></svg></span>
+        <div><div class="co">Commonwealth Bank</div><span class="role-tag">Staff Software Engineer</span></div>
+      </div>
+      <div class="summary">Building CommBiz, CBA's business-banking app, from scratch: architecture, engineering standards, and AI strategy for the Android org (internal MCP servers, agents, design-system automation). Shipped secure multi-step authorization for high-value payments and foundational platform tooling used across squads.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2022 to 2024</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2.5"><polygon points="12,4 22,20 2,20"/></svg></span>
+        <div><div class="co">Block · Cash App</div><span class="role-tag">Senior Software Engineer</span></div>
+      </div>
+      <div class="summary">Built and shipped Cross-Border Payments for international markets using server-driven UI. Contributed to the design-systems team, grew Compose adoption, and led accessibility (WCAG) work with a Storybook app for other teams.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2021 to 2022</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:#FFF5C7"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.5"><circle cx="12" cy="12" r="8"/></svg></span>
+        <div><div class="co">Afterpay</div><span class="role-tag">Senior Software Engineer</span></div>
+      </div>
+      <div class="summary">Built registration, login, KYC and peer-to-peer payments in a fast-moving product team. Built an accessible Material design system and complex Compose UI: parallax, calendars, overflow layouts.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2020 to 2021</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--b-100)"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.5"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg></span>
+        <div><div class="co">Telstra</div><span class="role-tag">Senior Android Developer</span></div>
+      </div>
+      <div class="summary">Rebuilt the Payments tab with Kotlin Flows and Coroutines, improved load performance, and led migrations off deprecated libraries. Built UI frameworks and a design system with the UX team; mentored engineers.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2020</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--paper)"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.5"><polygon points="12,20 22,4 2,4"/></svg></span>
+        <div><div class="co">Qantas</div><span class="role-tag">Android Engineer</span></div>
+      </div>
+      <div class="summary">Booking flow components and account screens for the Qantas Frequent Flyer Android app.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2019 to 2020</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--b-400)"><svg viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg></span>
+        <div><div class="co">Zip</div><span class="role-tag">Android Engineer · BNPL</span></div>
+      </div>
+      <div class="summary">Built the in-store payments feature in Kotlin and RxJava, plus complex wallet-card animations with the Anko declarative framework.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2019</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="3"><line x1="4" y1="12" x2="20" y2="12"/></svg></span>
+        <div><div class="co">myBeepr</div><span class="role-tag">Android Engineer · Healthcare</span></div>
+      </div>
+      <div class="summary">Secure clinical communications for hospital teams: messaging, account linking and on-call workflows.</div>
+      <div class="city">Sydney</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2018 to 2019</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:#FFF5C7"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.5"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></span>
+        <div><div class="co">Qualcomm</div><span class="role-tag">Software Engineer · Embedded Android</span></div>
+      </div>
+      <div class="summary">Developed and tested OTA upgrades for Snapdragon chipsets, and supported OEMs (Razer, Square, Reliance) launching new Android devices.</div>
+      <div class="city">Bangalore</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2017</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--b-100)"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.5"><rect x="4" y="4" width="16" height="16"/></svg></span>
+        <div><div class="co">Micromax</div><span class="role-tag">Android Engineer</span></div>
+      </div>
+      <div class="summary">Android system apps shipped on entry-level handsets across India.</div>
+      <div class="city">Bangalore</div>
+    </div>
+
+    <div class="work-row">
+      <div class="yr">2015 to 2017</div>
+      <div class="co-block">
+        <span class="co-shape" style="background:var(--paper)"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2.5"><polygon points="12,4 22,20 2,20"/></svg></span>
+        <div><div class="co">Portea Medical</div><span class="role-tag">Android Engineer · First Android hire</span></div>
+      </div>
+      <div class="summary">First Android engineer at the home-healthcare startup. Built social login with account linking, the patient booking and medicine-ordering flow, and a library for real-time clinician location tracking.</div>
+      <div class="city">Bangalore</div>
+    </div>
+  </div>
+
+  <!-- Speaking -->
+  <div class="sec-head">
+    <div class="shape" style="background:#FFF5C7">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><path d="M3 10v4l4 .5L12 19V5L7 9.5L3 10z"/></svg>
+    </div>
+    <div>
+      <h2>Speaking &amp; teaching <span class="count">/ selected</span></h2>
+      <p>Talks and internal training. Slides and video linked where available.</p>
+    </div>
+  </div>
+
+  <div class="talks">
+    <div class="talk">
+      <span class="shape-mini" style="background:var(--b-400)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg></span>
+      <div><h4>Compose Multiplatform to the City</h4><p>Google I/O Extended · Brisbane · Jun 2025</p></div>
+    </div>
+    <div class="talk">
+      <span class="shape-mini" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><rect x="4" y="4" width="16" height="16"/></svg></span>
+      <div><h4>AI-assisted development</h4><p>Internal engineering talks · Commonwealth Bank</p></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- ===========================  BLOG  ========================= -->
+<!-- ============================================================ -->
+<section class="page" id="page-blog">
+
+  <div class="page-intro">
+    <div>
+      <h1>Notes from the work. <span class="blue">Mostly Kotlin.</span></h1>
+      <p class="lede">Engineering posts on Kotlin, Compose, security, accessibility, and the parts of the job nobody schedules.</p>
+    </div>
+    <div class="shapes-deco">
+      <div class="shape-tile dark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></div>
+      <div class="shape-tile lite"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg></div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <button class="tag-pill" data-tag="all" aria-pressed="true">All · 9</button>
+    <button class="tag-pill" data-tag="Kotlin">Kotlin</button>
+    <button class="tag-pill" data-tag="Compose">Compose</button>
+    <button class="tag-pill" data-tag="Security">Security</button>
+    <button class="tag-pill" data-tag="Accessibility">Accessibility</button>
+    <button class="tag-pill" data-tag="Tooling">Tooling</button>
+  </div>
+
+  <!-- Featured -->
+  <div class="sec-head" style="border-top:0;padding-top:32px">
+    <div class="shape" style="background:var(--b-400)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="12,3 22,20 2,20"/></svg>
+    </div>
+    <div>
+      <h2>Featured <span class="count">/ recent pick</span></h2>
+      <p>The one I'd hand a new engineer joining a Compose codebase.</p>
+    </div>
+  </div>
+
+  <article class="feat-post">
+    <div class="left">
+      <div class="scene">
+        <div class="shape-c"></div>
+        <div class="shape-a"></div>
+        <div class="shape-b"></div>
+      </div>
+    </div>
+    <div class="right">
+      <span class="pin">Featured · Aug 2025</span>
+      <h3>Best practices for designing Jetpack Compose APIs</h3>
+      <p>What I wish I'd known three migrations ago: modifier hygiene, slot APIs that age well, and designing for the engineers who'll inherit your code two years from now.</p>
+      <div class="foot">
+        <span>9 min read</span>
+        <span>Kotlin · Compose</span>
+        <a href="blog/jetpack-compose-best-practices/" class="btn-3d" style="margin-left:auto;padding:8px 12px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Read post →</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- All posts -->
+  <div class="sec-head">
+    <div class="shape">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/></svg>
+    </div>
+    <div>
+      <h2>All posts <span class="count">/ 9 total</span></h2>
+      <p>Newest first.</p>
+    </div>
+  </div>
+
+  <div class="posts-list">
+    <a class="post-row" data-tags="Kotlin Compose" href="blog/jetpack-compose-best-practices/"><div class="date">Aug 2025</div><div class="title">Best practices for designing Jetpack Compose APIs</div><div class="read">9 min</div></a>
+    <a class="post-row" data-tags="Compose Kotlin" href="blog/google-io-extended-2025-compose-multiplatform-to-city/"><div class="date">Jun 2025</div><div class="title">Google I/O Extended 2025 (Brisbane): Compose Multiplatform to the City</div><div class="read">talk</div></a>
+    <a class="post-row" data-tags="Kotlin Tooling" href="blog/protobuf-generate-kotlin-code/"><div class="date">Jul 2024</div><div class="title">Sugar, Spice, and Protobuf: cross-platform collaboration</div><div class="read">8 min</div></a>
+    <a class="post-row" data-tags="Tooling" href="blog/graphite-improve-dev-velocity-using-git/"><div class="date">Jun 2024</div><div class="title">Ship faster with Graphite: improve dev velocity</div><div class="read">6 min</div></a>
+    <a class="post-row" data-tags="Tooling" href="blog/android-adb-shortcuts-for-productivity/"><div class="date">Jun 2024</div><div class="title">Android: adb shortcuts for productivity</div><div class="read">5 min</div></a>
+    <a class="post-row" data-tags="Security Kotlin" href="blog/encryption-google-tink-android/"><div class="date">May 2024</div><div class="title">Cryptography with Google Tink on Android</div><div class="read">12 min</div></a>
+    <a class="post-row" data-tags="Security Compose" href="blog/jetpack-compose-security-disable-screenshots-recordings/"><div class="date">Apr 2024</div><div class="title">Protect data by blocking screenshots in Jetpack Compose</div><div class="read">5 min</div></a>
+    <a class="post-row" data-tags="Accessibility Compose" href="blog/a11y-weather-app-android/"><div class="date">Feb 2023</div><div class="title">Accessible Weather App in Jetpack Compose</div><div class="read">10 min</div></a>
+    <a class="post-row" data-tags="Accessibility Compose" href="blog/accessibility-list-item-android-jetpack-compose/"><div class="date">Jan 2023</div><div class="title">Accessibility: List Item Design in Jetpack Compose</div><div class="read">7 min</div></a>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- =========================  PHOTOS  ========================= -->
+<!-- ============================================================ -->
+<section class="page" id="page-photos">
+  <div class="page-intro">
+    <div>
+      <h1>Quiet things. <span class="blue">Mostly Sydney.</span></h1>
+      <p class="lede">Shot on a Fuji X100V. A gallery is on the way. Check back soon.</p>
+    </div>
+    <div class="shapes-deco">
+      <div class="shape-tile cream"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:10px;margin-top:8px">
+    <div style="grid-column:span 2;grid-row:span 2" class="photo-cell"></div>
+    <div class="photo-cell"></div>
+    <div class="photo-cell"></div>
+    <div style="grid-column:span 2" class="photo-cell"></div>
+    <div class="photo-cell"></div>
+    <div class="photo-cell"></div>
+    <div class="photo-cell"></div>
+    <div style="grid-column:span 2" class="photo-cell"></div>
+    <div class="photo-cell"></div>
+    <div class="photo-cell"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bottom">
+  <div class="inner">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking. Email or a message on LinkedIn is fastest.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="mailto:hey@krail.app" class="btn-3d">hey@krail.app <span class="arr">→</span></a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost">LinkedIn <span class="arr">↗</span></a>
+      </div>
+    </div>
+    <div class="col">
+      <h5>Elsewhere</h5>
+      <ul>
+        <li><a href="https://github.com/ksharma-xyz" rel="noopener">github ↗</a></li>
+        <li><a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener">linkedin ↗</a></li>
+        <li><a href="https://androiddev.social/@karansharma" rel="noopener">mastodon ↗</a></li>
+        <li><a href="https://stackoverflow.com/users/1505493/karan-sharma" rel="noopener">stack overflow ↗</a></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h5>Projects</h5>
+      <ul>
+        <li><a href="https://krail.app" rel="noopener">→ krail.app</a></li>
+        <li><a href="https://ksharma-xyz.github.io/Sumi/" rel="noopener">→ Sumi</a></li>
+        <li><a href="https://ksharma-xyz.github.io/HueZoo/" rel="noopener">→ Huezoo</a></li>
+        <li><a href="https://github.com/ksharma-xyz/ksharma-website" rel="noopener">→ this site (source)</a></li>
+      </ul>
+    </div>
+    <div class="meta">
+      <span>© 2026 Karan Sharma · Sydney</span>
+      <span>Built with plain HTML · #13B0E5</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Tab routing (data-page anywhere switches tabs; hash supported) 
+  const tabs = [...document.querySelectorAll('#tabs button')];
+  const pages = [...document.querySelectorAll('.page')];
+  function show(page) {
+    if (!document.getElementById('page-' + page)) page = 'home';
+    tabs.forEach(b => b.setAttribute('aria-current', b.dataset.page === page ? 'true' : 'false'));
+    pages.forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
+  }
+  function go(page) {
+    show(page);
+    history.replaceState(null, '', '#' + page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-page]');
+    if (!t) return;
+    e.preventDefault();
+    go(t.dataset.page);
+  });
+  show((location.hash || '#home').slice(1));
+
+  // Blog tag filter 
+  const pills = [...document.querySelectorAll('.tag-pill')];
+  pills.forEach(p => p.addEventListener('click', () => {
+    pills.forEach(x => x.setAttribute('aria-pressed', x === p ? 'true' : 'false'));
+    const tag = p.dataset.tag;
+    document.querySelectorAll('#page-blog .post-row').forEach(row => {
+      const tags = row.dataset.tags || '';
+      row.style.display = (!tag || tag === 'all' || tags.includes(tag)) ? '' : 'none';
+    });
+  }));
+</script>
+
 </body>
 </html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>accessible list item design | Karan Sharma</title>
+<meta name="description" content="accessible list item design. An engineering post by Karan Sharma." />
+<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/accessibility-list-item-android-jetpack-compose/" />
+<meta name="theme-color" content="#13B0E5" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/accessibility-list-item-android-jetpack-compose/" />
+<meta property="og:title" content="accessible list item design" />
+<meta property="og:description" content="An engineering post by Karan Sharma." />
+<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"accessible list item design","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/accessibility-list-item-android-jetpack-compose/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="../../assets/site.css" />
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <a href="../../" class="brand"><span class="glyph">KS</span><span>Karan Sharma</span></a>
+    <nav class="tabs"><a href="../../#blog" style="text-decoration:none"><button>All posts</button></a></nav>
+    <div class="header-cta"><a href="mailto:hey@krail.app" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Get in touch</a></div>
+  </div>
+</header>
+
+<main class="post-wrap">
+  <div class="post-head">
+    <a class="post-back" href="../../#blog">&larr; All posts</a>
+    <div class="pin">Jan 2023 &middot; 5 min read</div>
+    <h1>accessible list item design</h1>
+  </div>
+  <article class="article">
+<p>Accessible List Item Design in Android: Jetpack Compose</p>
+<p>Today, we will create an accessible list item component in android using Jetpack Compose. We will support RTL Languages and Dark Mode as well using Material Design.</p>
+<p><img src="images/img-1.webp" alt="A sample image with an email icon and a title and subtitle text. At the end of image there is a right arrow icon"></p>
+<p><img src="images/img-2.webp" alt="A sample image with an shopping cart icon and a title and subtitle text. An info icon at the right end."></p>
+<p>In most mobile applications, there is a common list element layout which has a left icon, a title, a subtitle and a right icon. This UI element is generally a part of a list. Sounds very common isn’t it ? And it is very easy to create one.<br>For example, let&#39;s imagine the following design layout received as part of Figma layout. The developers may usually interpret the layout in their own terms.</p>
+<p>There are following open questions a developer must ask to understand the behaviour of layout in following conditions:</p>
+<ol>
+<li><p> When the font scale is increased from 1.0 to 2.0</p>
+</li>
+<li><p> When the locale is changed from LTR language English to an RTL language such as Arabic.</p>
+</li>
+<li><p> When the title text is larger in length that it can no longer fit in the given width even for font scale = 1.0</p>
+</li>
+<li><p> How does the UI behave in Dark Mode ?</p>
+</li>
+<li><p> Assuming that the entire item is clickable then what should be the color of focus indicator ?</p>
+</li>
+<li><p> What is the behavior when Talkback accessibility service is enabled ?</p>
+</li>
+</ol>
+<p>These are all very important questions an engineer need to ask before starting the development work in order to build a beautiful layout. Seems not so simple now is it ? No worries let’s go through each of the questions and we’ll find that at-least some of them have a very simple solution.</p>
+<p>In this post we’re only concentrating on Jetpack Compose, however similar techniques can be applied with View based layouts as well, though am not advocating that it would be as simple as Compose UI, therefore I would recommend to switch to Jetpack Compose.</p>
+<p>Alright then we’re ready to get onto answering those very fundamental questions about the design.</p>
+<p>1. When the font scale is increased from 1.0 to 2.0</p>
+<p>The title text and the subtitle text should not overlap each other and also, they must not overlap with the other icons. Therefore, they must have a safe space to grow. We can figure out that we will run out of the available width once the text reached the right icon, therefore the text must grow vertically. Another approach would be to trim the text with an ellipsis (…). </p>
+<p>However, I’m not a fan of ellipsis as it hides the text and it becomes really challenging for the user to understand the information if it is not even available in the next screen when we click on this list item.</p>
+<p>2. When the locale is changed from LTR language English to an RTL language such as Arabic.</p>
+<p>If the user has selected an RTL Language for the device, then the application must respect it and the layout / list item must draw itself from right to left instead of left ot right. This is quite simple to achieve as we use start and end paddings. This was a bit confusing in the View based layouts as the paddings could also be specifically applied only to the left / right hand side, in which case the layout will not respect the LayoutDirection of device.</p>
+<p>3. When the title text is larger in length that it can no longer fit in the given width even for font scale = 1.0</p>
+<p>This use case is similar to the Q1 above.</p>
+<p>4. How does the UI behave in Dark Mode ?</p>
+<p>If the application design system supports dark mode, which means the colors for theme are defined for light mode and dark mode separately, then this is not a problem as the Design Team has already solved it for you. However it is advised to make sure the foreground to background color ratio satisfies WCAG AA / AAA standard ratios.</p>
+<p>In the case of no dark theme support from the design system , as an engineer, you must push for the Dark Mode support in your design system as most of the users prefer to use their device in Dark mode rather than Light Mode, therefore, if your app supports it, it will be rated highly among it’s users and add to the success and popularity of the app among it’s users.</p>
+<p>5. Assuming that the entire item is clickable then what should be the color of focus indicator ?</p>
+<p>Focus indicators are quite useful from an accessibility perspective. If a user is using an external keyboard or a switch device to navigate through the app then focus indicators indicate the currently selected UI element.</p>
+<p>Since this is a color related question again, it is best if it is driven from the design system created by the Design / UX team. However, if there is no proper guidance, we can refer how MaterialTheme handles it using the <a href="https://developer.android.com/reference/kotlin/androidx/compose/foundation/Indication">Indication</a>. You can also check <a href="https://android.googlesource.com/platform/frameworks/support/+/refs/heads/androidx-main/compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/Indication.kt#159">Compose Foundation API’s</a> for reference.</p>
+<p>6. What is the behavior when Talkback accessibility service is enabled ?</p>
+<p>Ideally if the entire element is clickable, then it must be merged together into a single node for Talkback. We can achieve this by using <a href="https://developer.android.com/jetpack/compose/semantics">semantics</a> modifier. Checkout this section on android Developers about about <a href="https://developer.android.com/jetpack/compose/semantics#merged-vs-unmerged">merging</a> layout element into a single one.</p>
+<p>In the code below, we achieve this using Modifier.semantics (mergeDescendants = true) {}. This will ensure that, we receive single focus on the entire ListItem when talkback is on and all the text is announced together instead of different focus elements..</p>
+<p>Code</p>
+<p><img src="images/img-3.webp" alt=""></p>
+<p>Light Mode</p>
+<p><img src="images/img-4.webp" alt=""></p>
+<p>Dark Mode</p>
+<p><img src="images/img-5.webp" alt=""></p>
+<p>RTL (Right to Left) Mode</p>
+<p><img src="images/img-6.webp" alt=""></p>
+<p>Large Font Size (2.0)</p>
+<p><img src="images/img-7.webp" alt=""></p>
+<p>Notice that the direction of the arrow in the RTL layout has also changed. We can achieve this by either using a different icon as per the layout direction or using the <a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier#%28androidx.compose.ui.Modifier%29.rotate%28kotlin.Float%29">rotate modifier</a>, as well in this particular case.</p>
+<p>val layoutDirection = LocalLayoutDirection.current</p>
+<p>imageVector = if (layoutDirection == LayoutDirection.Ltr) Icons.Rounded.KeyboardArrowRight</p>
+<p>            else Icons.Rounded.KeyboardArrowLeft</p>
+<p>Jan 2023 - Karan Sharma</p>
+<p>Page updated</p>
+<p>Google Sites</p>
+<p>Report abuse</p>
+
+  </article>
+  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
+</main>
+
+<footer class="bottom">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="mailto:hey@krail.app" class="btn-3d">hey@krail.app <span class="arr">&rarr;</span></a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost">LinkedIn <span class="arr">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,5 @@
+
+# Design handoff — local only, never publish/commit (delete later)
+docs/handoff/
+.DS_Store
+**/.DS_Store

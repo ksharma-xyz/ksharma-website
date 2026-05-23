@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>google io  extended 2025 compose multiplatform to city | Karan Sharma</title>
+<meta name="description" content="google io  extended 2025 compose multiplatform to city. An engineering post by Karan Sharma." />
+<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/google-io-extended-2025-compose-multiplatform-to-city/" />
+<meta name="theme-color" content="#13B0E5" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/google-io-extended-2025-compose-multiplatform-to-city/" />
+<meta property="og:title" content="google io  extended 2025 compose multiplatform to city" />
+<meta property="og:description" content="An engineering post by Karan Sharma." />
+<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"google io  extended 2025 compose multiplatform to city","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/google-io-extended-2025-compose-multiplatform-to-city/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="../../assets/site.css" />
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <a href="../../" class="brand"><span class="glyph">KS</span><span>Karan Sharma</span></a>
+    <nav class="tabs"><a href="../../#blog" style="text-decoration:none"><button>All posts</button></a></nav>
+    <div class="header-cta"><a href="mailto:hey@krail.app" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Get in touch</a></div>
+  </div>
+</header>
+
+<main class="post-wrap">
+  <div class="post-head">
+    <a class="post-back" href="../../#blog">&larr; All posts</a>
+    <div class="pin">Jun 2025 &middot; 5 min read</div>
+    <h1>google io  extended 2025 compose multiplatform to city</h1>
+  </div>
+  <article class="article">
+<p>Compose Multiplatform to the City</p>
+<p><img src="images/img-1.webp" alt=""></p>
+<p>Compose Multiplatform to the City - KRAIL</p>
+<p>Hello from Sydney! In this post, I’ll walk you through how I used Compose Multiplatform to build a real world, cross-platform public transport app called KRAIL for Android and iOS. This project was part of my talk at Google I/O Extended 2025 (Brisbane).</p>
+<p>KRAIL App is available on both Google Play and Apple App Store.  </p>
+<ul>
+<li><p>Android - <a href="https://play.google.com/store/apps/details?id=xyz.ksharma.krail">https://play.google.com/store/apps/details?id=xyz.ksharma.krail</a></p>
+</li>
+<li><p>iOS - <a href="https://apps.apple.com/us/app/krail-app/id6738934832">https://apps.apple.com/us/app/krail-app/id6738934832</a></p>
+</li>
+</ul>
+<p>Goal</p>
+<p>I wanted to build an app that:</p>
+<ul>
+<li><p>Shares UI and logic across Android and iOS.</p>
+</li>
+<li><p>Lets users search for locations and see real-time transport info.</p>
+</li>
+<li><p>Stores frequent trips locally via a shared database layer.</p>
+</li>
+<li><p>Supports themable UI including dark mode.</p>
+</li>
+<li><p>Collects analytics and logs crashes.</p>
+</li>
+</ul>
+<p>Why Compose Multiplatform?</p>
+<p><a href="https://github.com/JetBrains/compose-multiplatform">JetBrains Compose Multiplatform</a> is a modern framework that allows you to write declarative UI once in Kotlin and run it on Android, iOS, desktop, and even web. The shared code lives in the commonMain module, while platform-specific code goes in androidMain and iosMain.</p>
+<p>This project used:</p>
+<ul>
+<li><p>Kotlin/JVM for Android</p>
+</li>
+<li><p>Kotlin/Native for iOS</p>
+</li>
+<li><p>Compose UI in shared Kotlin</p>
+</li>
+<li><p>SwiftUI/UIViewController wrappers on iOS to host the Kotlin UI</p>
+</li>
+</ul>
+<p>Project Structure Breakdown</p>
+<ul>
+<li><p>The composeApp module holds all the shared logic and UI.</p>
+</li>
+<li><p>iosApp is an Xcode project that imports the shared Kotlin framework and wraps it using SwiftUI (ContentView.swift), and UIViewControllerRepresentable.</p>
+</li>
+</ul>
+<p>The Android and iOS apps both call into KrailApp(), our main Compose entry point, with platform-specific setup code for DI using Koin.</p>
+<p>Android Compilation Flow</p>
+<ol>
+<li><p>Kotlin code is compiled into Java bytecode.</p>
+</li>
+<li><p>Bytecode is transformed into DEX format.</p>
+</li>
+<li><p>DEX is bundled into an APK.</p>
+</li>
+<li><p>Installed on device via ART (Android Runtime).</p>
+</li>
+</ol>
+<p>iOS Compilation Flow</p>
+<ol>
+<li><p>Kotlin code is compiled to LLVM IR via Kotlin/Native.</p>
+</li>
+<li><p>LLVM IR is turned into native ARM64 code.</p>
+</li>
+<li><p>That code is packaged into a .framework or static library.</p>
+</li>
+<li><p>Used by Xcode and launched on device no JVM involved.</p>
+</li>
+</ol>
+<p>Networking with Ktor</p>
+<p>For making HTTP requests, I used Ktor, a Kotlin-native library. It supports multiple platforms via engine abstraction:</p>
+<ul>
+<li><p>Darwin for iOS (iosMain)</p>
+</li>
+<li><p>OkHttp for Android (androidMain)</p>
+</li>
+</ul>
+<p>I define a shared expect function for the HTTP client, and provide actual implementations per platform.</p>
+<p>// Shared</p>
+<p>expect fun httpClient(): HttpClient</p>
+<p>// Android</p>
+<p>actual fun httpClient(): HttpClient = HttpClient(OkHttp) { ... }</p>
+<p>// iOS</p>
+<p>actual fun httpClient(): HttpClient = HttpClient(Darwin) { ... }</p>
+<p>We can use ContentNegotiation with either JSON or Protobuf depending on the backend, and Ktor handles deserialization into data classes. We can use kotlinx serlialization library for serilaization / deserialization purposes.</p>
+<p>Local Storage with SQLDelight</p>
+<p>In order to save frequent trips, we need to use a multiplatform library for storage and I chose SQLelight for this. It works well for both Android and iOS. SQLDelight stands out because it generates type-safe Kotlin APIs directly from .sq SQL files, ensuring compile-time safety and reducing runtime errors. Room also got multiplatform support recently, however, here are some reasons why I prefer SQL Delight.</p>
+<ol>
+<li><p>Type-safe APIs: By writing SQL in .sq files (e.g., SavedTrip.sq), SQLDelight generates Kotlin interfaces and data classes, so you interact with your database using strongly-typed code.</p>
+</li>
+<li><p>Coroutines and Flow support: Database operations can be performed asynchronously and reactively, making it easy to update the UI as data changes.</p>
+</li>
+<li><p>Delightful migrations: Schema changes are managed with versioned SQL scripts, and there’s no annotation or reflection overhead as seen in libraries like Room.</p>
+</li>
+<li><p>Multiplatform drivers: SQLDelight works seamlessly across platforms. For example, AndroidSqliteDriver is used on Android, while NativeSqliteDriver is used on iOS. Using expect and actual mechanism it was quite easy to provide different driver for different platforms.</p>
+</li>
+</ol>
+<p>Code Example:</p>
+<p>Write your SQL in a .sq file, such as:  </p>
+<p>insertOrReplaceTrip:</p>
+<p>INSERT OR REPLACE INTO SavedTrip(</p>
+<p>tripId, </p>
+<p>fromStopId, </p>
+<p>fromStopName, </p>
+<p>toStopId, </p>
+<p>toStopName, </p>
+<p>timestamp</p>
+<p>)</p>
+<p>VALUES (?, ?, ?, ?, ?, datetime(&#39;now&#39;));</p>
+<p>SQLDelight generates a Kotlin APIs for us, so we can get the queries object from the Database object and the directly execute the SQL statement using Kotlin code. this is pretty cool.</p>
+<p>private val db = Database(factory.createDriver())</p>
+<p>private val query = db.databaseQueries</p>
+<p>query.insertOrReplaceTrip(</p>
+<p>   tripId,</p>
+<p>   fromStopId,</p>
+<p>   fromStopName,</p>
+<p>   toStopId,</p>
+<p>   toStopName,</p>
+<p>)</p>
+<p>The correct driver is provided per platform, ensuring smooth multiplatform support.</p>
+<p>Theming and Design System</p>
+<p>I intentionally chose not to use the Material 3 library. Instead, I built the TAJ design system directly on top of Compose’s foundational APIs. For example, instead of using the Material TextField, TAJ uses the low level BasicTextField to create custom input components.</p>
+<p>The core of TAJ consists of KrailColors and KrailTypography, which define the color palette and typography styles for the app. These are provided to composables via CompositionLocalProvider, enabling consistent theming and automatic support for light and dark modes. This approach gives full control over the UI, avoids dependencies on evolving libraries, and ensures a consistent look and feel across platforms.:</p>
+<ul>
+<li><p>KrailColors</p>
+</li>
+<li><p>KrailTypography</p>
+</li>
+</ul>
+<p>All are injected into the composables via CompositionLocalProvider, and support light/dark themes automatically.</p>
+<p>Crash Monitoring &amp; Analytics</p>
+<p>To improve reliability and product insights:</p>
+<ul>
+<li>Firebase Crashlytics for Android and iOS using <a href="https://github.com/GitLiveApp/firebase-kotlin-sdk">GitLive</a></li>
+</ul>
+<p>We can also tracked:</p>
+<ul>
+<li><p>App startup time</p>
+</li>
+<li><p>API success/failure rates</p>
+</li>
+<li><p>User behavior (popular stops, flows)</p>
+</li>
+</ul>
+<p>This data helped optimize the app and prioritize features.</p>
+<p>Live Demo</p>
+<p>I wrapped up the session with a demo across:</p>
+<ul>
+<li><p>Android (intro flow, search, large font support)</p>
+</li>
+<li><p>iOS (saved trips, theme switching)</p>
+</li>
+<li><p>Desktop (reusing the same Compose code!)</p>
+</li>
+</ul>
+<p>The app KRAIL is open-source and available <a href="https://github.com/ksharma-xyz/KRAIL">on GitHub</a>.</p>
+<p>Conclusion</p>
+<p>Compose Multiplatform has evolved quickly, and it’s ready for real-world apps. With strong tooling, predictable compilation, and first-class multiplatform libraries like Ktor and SQLDelight, it’s an exciting time to build UIs for every screen using just Kotlin.</p>
+<p>Whether you’re a solo dev or scaling for teams, you can now design, code, and ship delightful cross-platform apps with one shared mindset and language.</p>
+<p>by Karan Sharma - <a href="https://speakerdeck.com/ksharmaxyz/compose-multiplatform-to-the-city"></a>7 June 2025</p>
+<p><a href="https://docs.google.com/presentation/d/1xlmhByyeV4kXpl6DuSeKub2eTsKJZYv83wKQD7yT9XE/present" title="Open Presentation, Compose Multiplatform to the CITY - Google I/O Extended in new window"></a></p>
+<p><img src="https://www.gstatic.com/images/icons/material/product/1x/slides_32dp.png" alt="">Compose Multiplatform to the CITY - Google I/O Extended</p>
+<p>Page updated</p>
+<p>Google Sites</p>
+<p>Report abuse</p>
+
+  </article>
+  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
+</main>
+
+<footer class="bottom">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="mailto:hey@krail.app" class="btn-3d">hey@krail.app <span class="arr">&rarr;</span></a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost">LinkedIn <span class="arr">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
+  </div>
+</footer>
+</body>
+</html>

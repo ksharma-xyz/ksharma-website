@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Best practices for designing Jetpack Compose APIs | Karan Sharma</title>
+<meta name="description" content="Best practices for designing Jetpack Compose APIs. An engineering post by Karan Sharma." />
+<link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-best-practices/" />
+<meta name="theme-color" content="#13B0E5" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-best-practices/" />
+<meta property="og:title" content="Best practices for designing Jetpack Compose APIs" />
+<meta property="og:description" content="An engineering post by Karan Sharma." />
+<meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Best practices for designing Jetpack Compose APIs","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-best-practices/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="../../assets/site.css" />
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <a href="../../" class="brand"><span class="glyph">KS</span><span>Karan Sharma</span></a>
+    <nav class="tabs"><a href="../../#blog" style="text-decoration:none"><button>All posts</button></a></nav>
+    <div class="header-cta"><a href="mailto:hey@krail.app" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">Get in touch</a></div>
+  </div>
+</header>
+
+<main class="post-wrap">
+  <div class="post-head">
+    <a class="post-back" href="../../#blog">&larr; All posts</a>
+    <div class="pin">Aug 2025 &middot; 7 min read</div>
+    <h1>Best practices for designing Jetpack Compose APIs</h1>
+  </div>
+  <article class="article">
+<p>Best practices for designing Jetpack Compose APIs</p>
+<p>When building UIs with Jetpack Compose (or Compose Multiplatform), especially in apps where all of the UI is now written in Compose, one of the biggest challenges I’ve seen is how inconsistent things can get across teams.</p>
+<p>Here are two examples from my past experience:</p>
+<ul>
+<li><p>PR reviews get stuck on the same comments over and over. I’ve been in reviews where half the discussion is just about the order of modifiers, or whether a parameter should be hoisted or not. These things matter, but it slows everyone down when the same points have to be raised repeatedly.  </p>
+</li>
+<li><p>Every engineer has a different idea of how to build a Compose component. Once I saw two engineers build a card/tile component in completely different ways. One passed all the state down, the other used CompositionLocal to read the state. Both worked, but it felt like two different approaches living in the same codebase. Both approaches had their own scalability and maintainability issues, we’ll cover it below.</p>
+</li>
+</ul>
+<p>Problems like these aren’t just technical, they’re also about the team and the time and effort put into building software. More time ends up being spent debating code style than shipping features. Alignment across large teams is also critical but harder to achieve, which is why onboarding new engineers can either be super painful or super smooth depending on whether patterns are clearly set. Having guidelines enforced in the codebase means engineers know at the time of writing what’s acceptable, and more importantly, why.</p>
+<p>That’s what led me to write this post. These are the 5 most common mistakes I’ve seen people make (the ones I’ve caught in reviews many times), along with how to fix them. I’ll also show how to automate some of these checks with lint rules, so we don’t have to rely on manual review comments for every PR.</p>
+<p>I’ve been building design systems in Compose for the past 4 years now. While my approach isn’t perfect, these are some of the learnings that have worked well for me and my teams. </p>
+<p>1. Correct usage and order of Modifier</p>
+<p>The first thing that comes to mind is Modifier and its correct usage.</p>
+<p>Modifiers let us customize the appearance, behavior, and layout of UI elements. For example, we can change size, padding, background color, or add scrolling capability to a composable. Modifiers are immutable, so if we chain multiple modifiers, a new instance is created each time. The order of chaining is important here because it affects the final output.</p>
+<p>Here are some of the other guidelines that should be followed when using Modifiers.</p>
+<ul>
+<li><p>Always take modifier: Modifier = Modifier as the first optional parameter.</p>
+</li>
+<li><p>Apply the modifier to the root layout of your composable.</p>
+</li>
+<li><p>Don’t reuse the same modifier for multiple composables. (unless you want to introduce bugs! 😉)</p>
+</li>
+<li><p>Chain modifiers in a logical order (e.g., padding → background → clickable), otherwise ripple effects may be incorrect or you may wonder, where did the padding go.</p>
+</li>
+</ul>
+<p>Read more here: <a href="https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-component-api-guidelines.md#modifier-parameter">modifier-paramater</a> </p>
+<p>a.) Order of Modifiers is important</p>
+<p>b.) Always take Modifier as the first optional parameter.</p>
+<p>c.) Apply the modifier to the root layout of your composable.</p>
+<p>2. Stable and Immutable Parameters</p>
+<p>Compose has 3 phases before it’s rendered on your favourite Pixel / Samsung.  </p>
+<p>1. Composition: Compose runs composable functions and outputs a tree structure consisting of layout nodes that represents the UI.</p>
+<p>2. Layout: This phase is about measurement and placement for each node in the layout tree.</p>
+<p>3. Drawing: This phase will draw into a Canvas on the screen.</p>
+<p>Compose uses a smart recomposition system that skips recomposition when inputs haven’t changed. If your parameters are mutable or unstable, it forces unnecessary recompositions which can result in poor performance of the app.  </p>
+<p>It is therefore important to understand the @Stable and @Immutable annotations properly and their usage. To learn in deeper detail about stability and immutability, I would highly recommend reading this <a href="https://chrisbanes.me/posts/composable-metrics/">post</a> from Chris Banes.</p>
+<p>Immutable<br>An object is considered Immutable if all of its properties and fields can&#39;t be changed after it&#39;s created. If you need to update it, a new instance with the new information must be created. Compose can easily detect a change by checking if the new object is different from the old one.  </p>
+<p>E.g. Theming related classes such as Typography or Colors, therefore these are perfect examples for being marked as Immutable. You can create them once and then use a new instance if the theme is changed rather than changing the original one.</p>
+<p>Stable  </p>
+<p>A class is considered stable when its properties may change over time, but Compose can still reliably track those changes. Marking it with @Stable tells Compose: this object might mutate, but I’ll notify you correctly when it does.<br>Here, IntroState is marked as @Stable because title and items can change, but Compose will still know when to recompose.  </p>
+<p>@Stable</p>
+<p>data class IntroState(</p>
+<p>    val title: String,</p>
+<p>    val items: List<String></p>
+<p>)</p>
+<p>Tip: If you use immutable types (like ImmutableList from kotlinx.collections.immutable), then you don’t need @Stable annotation since Compose already knows they’re safe.  </p>
+<p>General Guidelines</p>
+<ul>
+<li><p>Prefer immutable types like ImmutableList, ImmutableSet, or val data classes over mutable ones and avoid passing mutable types like MutableList into composables</p>
+</li>
+<li><p>Annotate classes with @Stable or @Immutable when it makes sense. A lot of this is handled by <a href="https://developer.android.com/develop/ui/compose/performance/stability/strongskipping">strong skipping mode</a> in compose if you’re using Kotlin version 2.0.20 or higher, but still it’s nicer to keep following these practices.</p>
+</li>
+</ul>
+<p>// ❌ Don&#39;t do this</p>
+<p>// Do not use mutable list</p>
+<p>@Composable</p>
+<p>fun MyComponent(data: MutableList<String>) { </p>
+<p>    //...</p>
+<p>}</p>
+<p>// ✅ Do this</p>
+<p>// use immutable list to avoid unnecessary recompositions.</p>
+<p>@Composable</p>
+<p>fun MyComponent(data: ImmutableList<String>) { </p>
+<p>    //...</p>
+<p>}</p>
+<p>Here are some more resources to deep dive into stability in compose:</p>
+<ul>
+<li><p><a href="https://developer.android.com/develop/ui/compose/performance/stability">Stability in Compose</a></p>
+</li>
+<li><p><a href="https://www.youtube.com/watch?v=EOQB8PTLkpY">Performance Best Practices - I/O Talk</a></p>
+</li>
+<li><p><a href="https://developer.android.com/develop/ui/compose/phases">Compose Phases</a></p>
+</li>
+</ul>
+<p>3. Prefer slot APIs for flexibility and customisation</p>
+<p>A common mistake is overloading your composables with too many parameters. Instead, provide slots that let callers inject their own composables. Example: If you build a Button that only supports a label, later when the design team asks for an optional icon, you’ll have to change the API and break existing usages.  </p>
+<p>See the approach 1 below in code example. This approach is rigid. It also raises questions like: should the icon be a drawable, or a design system icon type? What if we need something else? With slots, we don’t have to anticipate every future requirement up front.</p>
+<p>4. State Hoisting for Reusability</p>
+<p>State hoisting in Jetpack Compose is a design pattern where the state of a composable is moved to its caller (parent). You should keep the state closest to where it is consumed. State hoisting allows the caller to manage state, making your components more reusable and testable.  </p>
+<p>Code Exmaple:<br>In this approach 1, the switch owns its own state, so we can’t control it externally.  </p>
+<p>In the approach 2, the parent manages state, and the component stays reusable. If an external event or a ui other than MySwitch wants to toggle it, now it is possible too.</p>
+<p>5. Use Composition Locals Sparingly</p>
+<p>I think, using Composition Locals in Compose, is like adding spices to a dish. You need just the right amount otherwise it’s ruined.</p>
+<p>We should use Composition locals for truly global values such as colors and typography. The things that probably won&#39;t change throughout the app session. However, we should avoid overusing them. Even though Composition Locals help us pass data down the tree without having to go through every composable child, they hide dependencies, affect testability, and make debugging harder. This can sometimes make us wonder why the composables are behaving in a way that isn&#39;t clear from just looking at the code.</p>
+<p>Automating Best Practices with Lint Rules</p>
+<p>Catching these issues in code review works, but it’s repetitive and slows down development. A better approach is to automate them with lint rules. These rules were originally built by engineers at Twitter, and are now maintained in this repository <a href="https://mrmans0n.github.io/compose-rules/">Compose Rules</a> by Nacho Lopez.</p>
+<p>They work with Compose Multiplatform or Android projects, and can be added as a Detekt plugin. For example:</p>
+<p>detekt-compose = { group = &quot;io.nlopez.compose.rules&quot;, name = &quot;detekt&quot;, version = ”0.4.27&quot; }</p>
+<p>Once enabled, they’ll flag things like:</p>
+<ul>
+<li><p>Wrong Modifier usage or order</p>
+</li>
+<li><p>Mutable parameters in composables</p>
+</li>
+<li><p>Missing state hoisting</p>
+</li>
+<li><p>Overuse of CompositionLocal</p>
+</li>
+<li><p>Poor slot API design</p>
+</li>
+</ul>
+<p>Here’s an example of usage in my project KRAIL: <a href="https://github.com/ksharma-xyz/KRAIL/pull/813/files">KRAIL App - PR #813</a> This way, engineers don’t have to manually catch these in every PR. The checks run automatically and give instant feedback during development.</p>
+<p>Bonus Tip:</p>
+<p>Do not declare variables inside the composable functions. This leads to redecoration of variables every time the layout recomposes. This may lead to performance issues and must be strictly avoided. </p>
+<p>By following these guidelines, I hope your Compose APIs will feel more scalable. You can read in detail about compose api guidelines in the doc from androidx repository: <a href="https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-component-api-guidelines.md">Compose Component API Guidelines</a></p>
+<p>Page updated</p>
+<p>Google Sites</p>
+<p>Report abuse</p>
+
+  </article>
+  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
+</main>
+
+<footer class="bottom">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="mailto:hey@krail.app" class="btn-3d">hey@krail.app <span class="arr">&rarr;</span></a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost">LinkedIn <span class="arr">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
+  </div>
+</footer>
+</body>
+</html>
