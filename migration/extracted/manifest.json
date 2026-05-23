@@ -1,0 +1,194 @@
+[
+  {
+    "slug": "home",
+    "url": "https://www.ksharma.xyz/home",
+    "type": "pages",
+    "title": "Karan Sharma",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "portfolio",
+    "url": "https://www.ksharma.xyz/portfolio",
+    "type": "pages",
+    "title": "Portfolio",
+    "date": "",
+    "images": 11
+  },
+  {
+    "slug": "blog",
+    "url": "https://www.ksharma.xyz/blog",
+    "type": "pages",
+    "title": "Blog",
+    "date": "",
+    "images": 0
+  },
+  {
+    "slug": "photography",
+    "url": "https://www.ksharma.xyz/photography",
+    "type": "pages",
+    "title": "Photography",
+    "date": "",
+    "images": 5
+  },
+  {
+    "slug": "social",
+    "url": "https://www.ksharma.xyz/social",
+    "type": "pages",
+    "title": "Social",
+    "date": "",
+    "images": 4
+  },
+  {
+    "slug": "commonwealthbankaustralia",
+    "url": "https://www.ksharma.xyz/commonwealthbankaustralia",
+    "type": "portfolio",
+    "title": "commonwealthbankaustralia",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "cash-app",
+    "url": "https://www.ksharma.xyz/cash-app",
+    "type": "portfolio",
+    "title": "cash-app",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "money-by-afterpay",
+    "url": "https://www.ksharma.xyz/money-by-afterpay",
+    "type": "portfolio",
+    "title": "money-by-afterpay",
+    "date": "",
+    "images": 1
+  },
+  {
+    "slug": "telstra",
+    "url": "https://www.ksharma.xyz/telstra",
+    "type": "portfolio",
+    "title": "telstra",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "zip-pay",
+    "url": "https://www.ksharma.xyz/zip-pay",
+    "type": "portfolio",
+    "title": "zip-pay",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "qualcomm",
+    "url": "https://www.ksharma.xyz/qualcomm",
+    "type": "portfolio",
+    "title": "qualcomm",
+    "date": "",
+    "images": 1
+  },
+  {
+    "slug": "micromax",
+    "url": "https://www.ksharma.xyz/micromax",
+    "type": "portfolio",
+    "title": "micromax",
+    "date": "",
+    "images": 1
+  },
+  {
+    "slug": "portea",
+    "url": "https://www.ksharma.xyz/portea",
+    "type": "portfolio",
+    "title": "portea",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "qantas",
+    "url": "https://www.ksharma.xyz/qantas",
+    "type": "portfolio",
+    "title": "qantas",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "my-beepr",
+    "url": "https://www.ksharma.xyz/my-beepr",
+    "type": "portfolio",
+    "title": "my-beepr",
+    "date": "",
+    "images": 2
+  },
+  {
+    "slug": "jetpack-compose-best-practices",
+    "url": "https://www.ksharma.xyz/jetpack-compose-best-practices",
+    "type": "blog",
+    "title": "Best practices for designing Jetpack Compose APIs",
+    "date": "2025-08",
+    "images": 0
+  },
+  {
+    "slug": "google-io-extended-2025-compose-multiplatform-to-city",
+    "url": "https://www.ksharma.xyz/google-io-extended-2025-compose-multiplatform-to-city",
+    "type": "blog",
+    "title": "google-io--extended-2025-compose-multiplatform-to-city",
+    "date": "2025-06",
+    "images": 1
+  },
+  {
+    "slug": "protobuf-generate-kotlin-code",
+    "url": "https://www.ksharma.xyz/protobuf-generate-kotlin-code",
+    "type": "blog",
+    "title": "protobuf-generate-kotlin-code",
+    "date": "2024-07",
+    "images": 2
+  },
+  {
+    "slug": "graphite-improve-dev-velocity-using-git",
+    "url": "https://www.ksharma.xyz/graphite-improve-dev-velocity-using-git",
+    "type": "blog",
+    "title": "graphite improve dev velocity using git",
+    "date": "2024-06",
+    "images": 0
+  },
+  {
+    "slug": "android-adb-shortcuts-for-productivity",
+    "url": "https://www.ksharma.xyz/android-adb-shortcuts-for-productivity",
+    "type": "blog",
+    "title": "android: adb shortcuts for productivity",
+    "date": "2024-06",
+    "images": 0
+  },
+  {
+    "slug": "encryption-google-tink-android",
+    "url": "https://www.ksharma.xyz/encryption-google-tink-android",
+    "type": "blog",
+    "title": "encryption-google-tink-android",
+    "date": "2024-05",
+    "images": 0
+  },
+  {
+    "slug": "jetpack-compose-security-disable-screenshots-recordings",
+    "url": "https://www.ksharma.xyz/jetpack-compose-security-disable-screenshots-recordings",
+    "type": "blog",
+    "title": "Disable Screenshot and Screen Recording",
+    "date": "2024-04",
+    "images": 0
+  },
+  {
+    "slug": "a11y-weather-app-android",
+    "url": "https://www.ksharma.xyz/a11y-weather-app-android",
+    "type": "blog",
+    "title": "a11y-weather-app-android",
+    "date": "2023-02",
+    "images": 9
+  },
+  {
+    "slug": "accessibility-list-item-android-jetpack-compose",
+    "url": "https://www.ksharma.xyz/accessibility-list-item-android-jetpack-compose",
+    "type": "blog",
+    "title": "accessible-list-item-design",
+    "date": "2023-01",
+    "images": 7
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "ksharma-website-migration",
+  "private": true,
+  "type": "module",
+  "description": "One-off scraper to extract content + images from the old Google Sites at ksharma.xyz",
+  "dependencies": {
+    "puppeteer-core": "^23.0.0",
+    "turndown": "^7.2.0"
+  }
+}
