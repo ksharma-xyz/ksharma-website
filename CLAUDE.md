@@ -10,8 +10,8 @@ ksharma.xyz cutover is deferred).
 - **No em dashes (—) anywhere in copy. Ever.** Use a colon, comma, "to", or a clean
   short sentence. Keep sentences simple. (Also avoid the en dash for ranges; write "2022
   to 2024".)
-- **Never publish Karan's personal email** (`hey@krail.app`). Public contact is
-  **hey@krail.app** or a LinkedIn message (https://www.linkedin.com/in/ksharma-xyz/).
+- **Never publish Karan's personal Gmail address.** Public contact is **hey@krail.app**
+  or a LinkedIn message (https://www.linkedin.com/in/ksharma-xyz/).
 - Use real, accurate content only — never invent metrics, roles, or links. The source of
   truth is `CONTEXT.md` (resume + GitHub).
 - Confident but humble voice. Substance over hype.
