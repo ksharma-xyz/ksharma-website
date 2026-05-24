@@ -3,3 +3,6 @@
 docs/handoff/
 .DS_Store
 **/.DS_Store
+
+# Project guidance / copy guidelines — local only, never publish
+CLAUDE.md
