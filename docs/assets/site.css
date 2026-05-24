@@ -657,7 +657,7 @@
 
     .home-intro {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 40px;
       padding: 32px 0 40px;
     }
     .portrait-frame { max-width: 240px; margin: 0 auto; height: 300px; }
@@ -744,7 +744,7 @@
     header.top .header-cta { display: none; }
 
     /* Hero */
-    .home-intro { padding: 24px 0 32px; gap: 24px; }
+    .home-intro { padding: 24px 0 32px; gap: 36px; }
     .home-intro h1 { font-size: 28px; line-height: 1.12; }
     .home-intro p.bio { font-size: 15px; }
     .portrait-frame { max-width: 200px; height: 250px; }
