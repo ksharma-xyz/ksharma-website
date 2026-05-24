@@ -157,7 +157,7 @@ The app KRAIL is open-source and available [on GitHub](https://github.com/ksharm
 <div class="video-embed">
   <iframe
     title="Google I/O Extended 2025 Brisbane: Compose Multiplatform to the City"
-    src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID"
+    src="https://www.youtube.com/embed/4CLXWmzxYcw"
     allowfullscreen
     loading="lazy">
   </iframe>
