@@ -815,17 +815,15 @@
     /* Work timeline */
     .work-row {
       grid-template-columns: 1fr;
-      gap: 6px;
+      grid-template-rows: auto auto auto auto;
+      gap: 4px;
       padding: 18px 0;
+      align-items: start;
     }
-    .work-row .yr,
-    .work-row .co-block,
-    .work-row .summary,
-    .work-row .city { grid-column: 1; }
-    .work-row .yr { order: 1; }
-    .work-row .co-block { order: 2; }
-    .work-row .summary { order: 3; padding-top: 4px; }
-    .work-row .city { order: 4; }
+    .work-row .yr      { grid-column: 1; grid-row: 1; }
+    .work-row .co-block { grid-column: 1; grid-row: 2; }
+    .work-row .summary  { grid-column: 1; grid-row: 3; padding-top: 6px; }
+    .work-row .city     { grid-column: 1; grid-row: 4; padding-top: 2px; }
     .work-row .co-block .co { font-size: 15px; }
     .work-row .summary { font-size: 13px; }
 
