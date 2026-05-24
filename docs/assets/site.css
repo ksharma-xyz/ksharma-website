@@ -222,7 +222,7 @@
   .home-intro h1 {
     font-size: 46px; font-weight: 700;
     letter-spacing: -0.03em; line-height: 1.1;
-    margin: 0 0 22px;
+    margin: 0;
     max-width: 640px;
     text-wrap: balance;
   }
@@ -239,10 +239,11 @@
   .home-intro .bio a:hover { color: var(--b-400); }
 
   .meta-row {
-    display: grid; grid-template-columns: 90px 1fr; gap: 8px 16px;
+    display: grid; grid-template-columns: 90px 1fr; gap: 14px 20px;
     font-family: var(--mono); font-size: 13px;
     border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
-    padding: 14px 0;
+    padding: 22px 0;
+    margin-top: 28px;
     max-width: 580px;
   }
   .meta-row dt { color: var(--ink-3); text-transform: uppercase; font-size: 11px; letter-spacing: 0.06em; padding-top: 1px; }
@@ -253,7 +254,7 @@
     margin-right: 6px; transform: translateY(-1px);
   }
 
-  .actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .actions { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
 
   /* ——— Now strip with shape tiles ——— */
   .now-row {
