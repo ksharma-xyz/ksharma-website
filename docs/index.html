@@ -97,7 +97,7 @@
     </div>
 
     <div>
-      <h1>Software that works for <span class="blue">everyone.</span></h1>
+      <h1><span class="verb-cycle blue" data-words="Building,Designing,Crafting,Shipping">Building</span><br>Software that works for <span class="blue">everyone.</span></h1>
 
       <dl class="meta-row">
         <dt>Now</dt><dd><span class="live-dot"></span>Staff Software Engineer · Sydney</dd>
@@ -353,7 +353,7 @@
     </div>
   </article>
 
-  <div class="apps-strip" style="grid-template-columns:1fr 1fr">
+  <div class="apps-strip" style="grid-template-columns:1fr">
     <div class="app-mini" aria-disabled="true" style="cursor:default">
       <div class="ico lite"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1620" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div>
       <h3>Astraman <span class="meta">soon</span></h3>
@@ -874,7 +874,34 @@
   });
   show((location.hash || '#home').slice(1));
 
-  // Blog tag filter 
+  // Verb cycling on hero h1
+  (function(){
+    var el = document.querySelector('.verb-cycle');
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var words = el.dataset.words.split(',');
+    var i = 0;
+    setInterval(function(){
+      i = (i + 1) % words.length;
+      el.style.transition = 'opacity .25s ease, transform .25s ease';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-10px)';
+      setTimeout(function(){
+        el.textContent = words[i];
+        el.style.transition = 'none';
+        el.style.transform = 'translateY(10px)';
+        el.style.opacity = '0';
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            el.style.transition = 'opacity .3s ease, transform .3s ease';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          });
+        });
+      }, 260);
+    }, 2400);
+  })();
+
+  // Blog tag filter
   const pills = [...document.querySelectorAll('.tag-pill')];
   pills.forEach(p => p.addEventListener('click', () => {
     pills.forEach(x => x.setAttribute('aria-pressed', x === p ? 'true' : 'false'));
