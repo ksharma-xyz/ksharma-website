@@ -660,7 +660,8 @@
       gap: 28px;
       padding: 32px 0 40px;
     }
-    .portrait-frame { max-width: 240px; margin: 0 auto; }
+    .portrait-frame { max-width: 240px; margin: 0 auto; height: 300px; }
+    .portrait-frame .portrait { height: 100%; }
     .home-intro h1 { font-size: 36px; }
 
     .page-intro {
@@ -746,7 +747,7 @@
     .home-intro { padding: 24px 0 32px; gap: 24px; }
     .home-intro h1 { font-size: 28px; line-height: 1.12; }
     .home-intro p.bio { font-size: 15px; }
-    .portrait-frame { max-width: 200px; }
+    .portrait-frame { max-width: 200px; height: 250px; }
 
     .actions { gap: 8px; }
     .actions .btn-3d { padding: 10px 14px; font-size: 13px; }
