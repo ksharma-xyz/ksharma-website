@@ -97,7 +97,7 @@ Here are some resources to deep dive into stability in Compose:
 A common mistake is overloading your composables with too many parameters. Instead, provide slots that let callers inject their own composables. Example: If you build a Button that only supports a label, later when the design team asks for an optional icon, you'll have to change the API and break existing usages.
 
 ```kotlin
-// ❌ Approach 1: rigid — adding an icon later forces an API break
+// ❌ Approach 1: rigid, adding an icon later forces an API break
 @Composable
 fun AppButton(
     text: String,
@@ -114,7 +114,7 @@ fun AppButton(
 With slots, we don't have to anticipate every future requirement up front. The caller brings their own content:
 
 ```kotlin
-// ✅ Approach 2: slot API — callers compose whatever they need
+// ✅ Approach 2: slot API, callers compose whatever they need
 @Composable
 fun AppButton(
     onClick: () -> Unit,
@@ -125,14 +125,14 @@ fun AppButton(
     }
 }
 
-// Usage — zero API changes when design evolves
+// Usage: zero API changes when design evolves
 AppButton(onClick = { }) {
     Icon(Icons.Default.Star, contentDescription = null)
     Text("Favourite")
 }
 ```
 
-Should the icon be a drawable or a design system type? What if we need something else entirely? With slots, that's the caller's problem — in a good way.
+Should the icon be a drawable or a design system type? What if we need something else entirely? With slots, that's the caller's problem, in a good way.
 
 ## 4. State Hoisting for Reusability
 
