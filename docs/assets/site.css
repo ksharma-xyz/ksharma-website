@@ -304,9 +304,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
-    min-height: 480px;
+    min-height: 520px;
   }
-  .krail-lhs { padding: 36px 36px 28px; display: flex; flex-direction: column; }
+  .krail-lhs { padding: 48px 44px 40px; display: flex; flex-direction: column; }
   .krail-tag {
     display: inline-flex; align-items: center; gap: 10px;
     font-family: var(--mono); font-size: 11px;
