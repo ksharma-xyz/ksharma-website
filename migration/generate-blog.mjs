@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(__dirname, 'extracted', 'blog');
 const IMG_SRC = path.join(SRC, 'images');
 const OUT = path.join(__dirname, '..', 'docs', 'blog');
-const BASE = 'https://ksharma-xyz.github.io/ksharma-website';
+const BASE = 'https://ksharma.xyz';
 
 const MONTHS = { '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' };
 

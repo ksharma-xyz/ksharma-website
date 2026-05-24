@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-best-practices/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/google-io-extended-2025-compose-multiplatform-to-city/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/protobuf-generate-kotlin-code/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/graphite-improve-dev-velocity-using-git/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/android-adb-shortcuts-for-productivity/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/encryption-google-tink-android/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-security-disable-screenshots-recordings/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/a11y-weather-app-android/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ksharma-xyz.github.io/ksharma-website/blog/accessibility-list-item-android-jetpack-compose/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://ksharma.xyz/blog/jetpack-compose-best-practices/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ksharma.xyz/blog/google-io-extended-2025-compose-multiplatform-to-city/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ksharma.xyz/blog/protobuf-generate-kotlin-code/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/blog/graphite-improve-dev-velocity-using-git/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/blog/android-adb-shortcuts-for-productivity/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/blog/encryption-google-tink-android/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/blog/jetpack-compose-security-disable-screenshots-recordings/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/blog/a11y-weather-app-android/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ksharma.xyz/blog/accessibility-list-item-android-jetpack-compose/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
