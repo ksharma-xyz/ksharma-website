@@ -659,7 +659,7 @@
       gap: 28px;
       padding: 32px 0 40px;
     }
-    .portrait-frame { max-width: 240px; }
+    .portrait-frame { max-width: 240px; margin: 0 auto; }
     .home-intro h1 { font-size: 36px; }
 
     .page-intro {
@@ -684,10 +684,10 @@
     .apps-strip { grid-template-columns: 1fr; }
     .repo-grid { grid-template-columns: 1fr; }
     .work-row {
-      grid-template-columns: 80px 1fr;
+      grid-template-columns: 100px 1fr;
       gap: 16px;
     }
-    .work-row .yr { grid-column: 1; grid-row: 1; }
+    .work-row .yr { grid-column: 1; grid-row: 1; white-space: nowrap; }
     .work-row .co-block { grid-column: 2; grid-row: 1; }
     .work-row .summary { grid-column: 1 / -1; grid-row: 2; padding-top: 4px; }
     .work-row .city { grid-column: 1 / -1; grid-row: 3; padding-top: 2px; }
@@ -796,10 +796,11 @@
       padding: 10px 0 !important;
     }
     .krail-stats .s:last-child { border-bottom: none; }
-    .krail-rhs { padding: 20px 0; gap: 10px; }
-    .krail-rhs .deco { display: none; } /* corner shapes hidden — too crowded */
+    .krail-rhs { padding: 20px 0; gap: 10px; justify-content: center; }
+    .krail-rhs .deco { display: none; }
+    .krail-rhs .phone:not(.mid) { display: none; }
     .phone { width: 130px; height: 280px; box-shadow: 4px 4px 0 var(--ink); }
-    .phone.mid { width: 145px; height: 310px; }
+    .phone.mid { width: 160px; height: 340px; }
     .krail-ctas { gap: 8px; }
     .krail-ctas .btn-3d { padding: 10px 14px; font-size: 13px; }
 
