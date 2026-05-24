@@ -58,8 +58,14 @@ function readTime(text) {
   return Math.max(2, Math.round(words / 220)) + ' min read';
 }
 
-function page({ title, dateLabel, slug, contentHtml, readLabel }) {
+function page({ title, dateLabel, slug, contentHtml, readLabel, prevPost, nextPost }) {
   const url = `${BASE}/blog/${slug}/`;
+  const prevHtml = prevPost
+    ? `<a href="../../blog/${prevPost.slug}/" class="post-nav-link"><span class="post-nav-label">&larr; Previous</span><span class="post-nav-title">${esc(prevPost.title)}</span></a>`
+    : `<span></span>`;
+  const nextHtml = nextPost
+    ? `<a href="../../blog/${nextPost.slug}/" class="post-nav-link post-nav-link--next"><span class="post-nav-label">Next &rarr;</span><span class="post-nav-title">${esc(nextPost.title)}</span></a>`
+    : `<span></span>`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -86,6 +92,7 @@ function page({ title, dateLabel, slug, contentHtml, readLabel }) {
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
 <link rel="stylesheet" href="../../assets/site.css" />
 </head>
 <body>
@@ -105,8 +112,18 @@ function page({ title, dateLabel, slug, contentHtml, readLabel }) {
   </div>
   <article class="article">
 ${contentHtml}
+    <div class="article-byline">
+      <span class="article-byline-glyph" aria-hidden="true">KS</span>
+      <div><strong>Karan Sharma</strong><span>${dateLabel}</span></div>
+    </div>
+    <nav class="post-nav" aria-label="Post navigation">
+      ${prevHtml}
+      <div class="post-nav-share">
+        <button class="btn-3d ghost" onclick="sharePost()" style="box-shadow:3px 3px 0 var(--ink);font-size:13px;padding:8px 14px">Share &uarr;</button>
+      </div>
+      ${nextHtml}
+    </nav>
   </article>
-  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
 </main>
 
 <footer class="bottom">
@@ -122,34 +139,48 @@ ${contentHtml}
     <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
   </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());
+function sharePost(){var u=location.href,t=document.title;if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(function(){var b=document.querySelector('.post-nav-share button');var orig=b.textContent;b.textContent='Link copied!';setTimeout(function(){b.textContent=orig;},1800);});}}
+</script>
 </body>
 </html>
 `;
 }
 
+// First pass: collect all post metadata sorted by date (oldest first)
 const files = fs.readdirSync(SRC).filter(f => f.endsWith('.md'));
-let n = 0;
-for (const f of files) {
+const posts = files.map(f => {
   const slug = f.replace(/\.md$/, '');
   const raw = fs.readFileSync(path.join(SRC, f), 'utf8');
   const { fm, body } = parseFront(raw);
   const cleaned = clean(body, slug);
-  const contentHtml = marked.parse(cleaned);
-  const title = (fm.title || slug).replace(/-/g, ' ');
+  const title = (fm.title && fm.title !== slug) ? fm.title : slug.replace(/-/g, ' ');
   let dateLabel = '';
   if (fm.date) { const [y, m] = fm.date.split('-'); dateLabel = `${MONTHS[m] || ''} ${y}`.trim(); }
+  return { slug, raw, fm, cleaned, title, dateLabel };
+});
+posts.sort((a, b) => (a.fm.date || '0000') < (b.fm.date || '0000') ? -1 : 1);
+
+let n = 0;
+for (let i = 0; i < posts.length; i++) {
+  const { slug, cleaned, title, dateLabel } = posts[i];
+  const contentHtml = marked.parse(cleaned);
   const readLabel = readTime(cleaned);
+  const prevPost = i > 0 ? { slug: posts[i - 1].slug, title: posts[i - 1].title } : null;
+  const nextPost = i < posts.length - 1 ? { slug: posts[i + 1].slug, title: posts[i + 1].title } : null;
 
   const outDir = path.join(OUT, slug);
   fs.mkdirSync(outDir, { recursive: true });
-  // copy images for this post
   const srcImg = path.join(IMG_SRC, slug);
   if (fs.existsSync(srcImg)) {
     const dstImg = path.join(outDir, 'images');
     fs.mkdirSync(dstImg, { recursive: true });
     for (const im of fs.readdirSync(srcImg)) fs.copyFileSync(path.join(srcImg, im), path.join(dstImg, im));
   }
-  fs.writeFileSync(path.join(outDir, 'index.html'), page({ title, dateLabel, slug, contentHtml, readLabel }));
+  fs.writeFileSync(path.join(outDir, 'index.html'), page({ title, dateLabel, slug, contentHtml, readLabel, prevPost, nextPost }));
   console.log(`✓ blog/${slug}/  (${dateLabel}, ${readLabel})`);
   n++;
 }

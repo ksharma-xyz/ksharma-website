@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>encryption google tink android | Karan Sharma</title>
-<meta name="description" content="encryption google tink android. An engineering post by Karan Sharma." />
+<title>Cryptography with Google Tink on Android | Karan Sharma</title>
+<meta name="description" content="Cryptography with Google Tink on Android. An engineering post by Karan Sharma." />
 <link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/encryption-google-tink-android/" />
 <meta name="theme-color" content="#13B0E5" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Karan Sharma" />
 <meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/encryption-google-tink-android/" />
-<meta property="og:title" content="encryption google tink android" />
+<meta property="og:title" content="Cryptography with Google Tink on Android" />
 <meta property="og:description" content="An engineering post by Karan Sharma." />
 <meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","headline":"encryption google tink android","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/encryption-google-tink-android/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Cryptography with Google Tink on Android","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/encryption-google-tink-android/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
 </script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,6 +24,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
 <link rel="stylesheet" href="../../assets/site.css" />
 </head>
 <body>
@@ -39,58 +40,84 @@
   <div class="post-head">
     <a class="post-back" href="../../#blog">&larr; All posts</a>
     <div class="pin">May 2024 &middot; 2 min read</div>
-    <h1>encryption google tink android</h1>
+    <h1>Cryptography with Google Tink on Android</h1>
   </div>
   <article class="article">
-<p>Cryptography with Google Tink on Android</p>
-<p>Securely storing customer information is really critical to an organisation&#39;s success. The customers will be storing some really sensitive information such as passwords, financial data etc. Implementing encryption will prevent unauthorised access to the data and also help with compliance and regulations. </p>
+<p>Securely storing customer information is really critical to an organisation&#39;s success. The customers will be storing some really sensitive information such as passwords, financial data etc. Implementing encryption will prevent unauthorised access to the data and also help with compliance and regulations.</p>
 <p>Implementing cryptography can be complex though and traditional libraries often require extensive coding knowledge about the mathematics behind cryptographic algorithms.</p>
 <p>This is exactly where the use case of Google Tink comes into picture. It is a user-friendly, open-source cryptography library which can be used for android app development along with a couple other languages.</p>
-<p>What is Google Tink</p>
+<h3>What is Google Tink</h3>
 <p>Tink is a multi-language, cross-platform, open source library that provides secure and easy-to-use cryptographic APIs, and was created and is being maintained by cryptographers and security engineers at Google.</p>
-<p>Advantages of using Tink</p>
+<h3>Advantages of using Tink</h3>
 <p>Tink offers several compelling advantages:</p>
 <ul>
-<li><p>Ease of Use: Tink&#39;s intuitive APIs make encryption and decryption very easy to implement, even for developers with limited cryptography experience.</p>
-</li>
-<li><p>Trusted Development: Google cryptographers designed and maintain Tink, ensuring its security and reliability.</p>
-</li>
-<li><p>Versatility: Tink supports a wide range of encryption algorithms, including symmetric (AES), asymmetric (RSA), and hybrid (combining both).</p>
-</li>
-<li><p>Security-Focused Design: Tink prioritizes security best practices, guiding developers towards safer implementations.</p>
-</li>
+<li><strong>Ease of Use:</strong> Tink&#39;s intuitive APIs make encryption and decryption very easy to implement, even for developers with limited cryptography experience.</li>
+<li><strong>Trusted Development:</strong> Google cryptographers designed and maintain Tink, ensuring its security and reliability.</li>
+<li><strong>Versatility:</strong> Tink supports a wide range of encryption algorithms, including symmetric (AES), asymmetric (RSA), and hybrid (combining both).</li>
+<li><strong>Security-Focused Design:</strong> Tink prioritizes security best practices, guiding developers towards safer implementations.</li>
 </ul>
-<p>Integrating Tink in Android</p>
+<h3>Integrating Tink in Android</h3>
 <p>Adding Tink to your project is straightforward. Include the dependency in your app-level Gradle file:</p>
-<p>Android Keystore</p>
-<p><a href="https://developer.android.com/privacy-and-security/keystore">&quot;The Android Keystore system</a> lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. Also, the keystore system lets you restrict when and how keys can be used, such as requiring user authentication for key use or restricting keys to use only in certain cryptographic modes.&quot; -  developer.android.com</p>
+<pre><code class="language-kotlin">implementation(&quot;com.google.crypto.tink:tink-android:1.10.0&quot;)
+</code></pre>
+<h3>Android Keystore</h3>
+<p>&quot;The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. Also, the keystore system lets you restrict when and how keys can be used, such as requiring user authentication for key use or restricting keys to use only in certain cryptographic modes.&quot; - <a href="https://developer.android.com/privacy-and-security/keystore">developer.android.com</a></p>
 <p>We can use Android Keystore to manage (create, store and retrieve) the cryptographic keys securely and is actually one of the safest and easiest ways to securely manage the keys.</p>
-<p>Let&#39;s have a look at some code on how to encrypt and decrypt using Tink. You can have a look at the complete code in the Github repo here: <a href="https://github.com/ksharma-xyz/TinkAndroidSample">https://github.com/ksharma-xyz/TinkAndroidSample</a></p>
-<p>Use Cases for Tink Android</p>
-<ol>
-<li>Encrypting SharedPreferences:</li>
-</ol>
-<p>SharedPreferences are quite commonly used to store small key value data in Android. We can use Tink to implement a secure way to save the app data.  </p>
-<p>It is also quite interesting to note that the library EncryptedSharedPreferences (<a href="https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences">Link</a>) uses Google Tink underneath in order to provide, so we could use it directly in this case.</p>
-<ol start="2">
-<li>Encrypting Files:</li>
-</ol>
-<p>Tink can also be used to encrypt files or large streams of data. <a href="https://developers.google.com/tink/encrypt-large-files-or-data-streams">Read more</a> </p>
-<p>References</p>
-<ul>
-<li><p>Documentation - <a href="https://developers.google.com/tink">https://developers.google.com/tink</a></p>
-</li>
-<li><p>Github - <a href="https://github.com/tink-crypto">https://github.com/tink-crypto</a></p>
-</li>
-<li><p>Demo App: <a href="https://github.com/ksharma-xyz/TinkAndroidSample">https://github.com/ksharma-xyz/TinkAndroidSample</a></p>
-</li>
-</ul>
-<p>Page updated</p>
-<p>Google Sites</p>
-<p>Report abuse</p>
+<p>Let&#39;s have a look at some code on how to encrypt and decrypt using Tink. You can have a look at the complete code in the <a href="https://github.com/ksharma-xyz/TinkAndroidSample">Github repo</a>.</p>
+<pre><code class="language-kotlin">import androidx.security.crypto.MasterKeys
+import com.google.crypto.tink.integration.android.AndroidKeystoreAesGcm
 
+object TinkCryptoManager {
+
+    // Get / Create Keys using Android Keystore
+    private val aesKeystore =
+        AndroidKeystoreAesGcm(MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC))
+
+    fun encrypt(plainText: String): ByteArray =
+        aesKeystore.encrypt(plainText.toByteArray(), &quot;Data&quot;.toByteArray())
+
+    fun decrypt(cipherText: ByteArray): String {
+        val plaintTextBytes =
+            aesKeystore.decrypt(cipherText, &quot;Data&quot;.toByteArray())
+        return String(plaintTextBytes)
+    }
+}
+</code></pre>
+<h3>Use Cases for Tink Android</h3>
+<p><strong>Encrypting SharedPreferences:</strong></p>
+<p>SharedPreferences are quite commonly used to store small key value data in Android. We can use Tink to implement a secure way to save the app data.</p>
+<p>It is also quite interesting to note that the library <a href="https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences">EncryptedSharedPreferences</a> uses Google Tink underneath, so we could use it directly in this case.</p>
+<p><strong>Encrypting Files:</strong></p>
+<p>Tink can also be used to encrypt files or large streams of data. <a href="https://developers.google.com/tink/encrypt-data">Read more</a></p>
+<h3>Watch</h3>
+<div class="video-embed">
+  <iframe
+    title="Cryptography with Google Tink on Android"
+    src="https://player.vimeo.com/video/949883857?h=2247b92c05"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+    allowfullscreen
+    loading="lazy">
+  </iframe>
+</div><h3>References</h3>
+<ul>
+<li><a href="https://developers.google.com/tink">Documentation</a></li>
+<li><a href="https://github.com/tink-crypto">GitHub</a></li>
+<li><a href="https://github.com/ksharma-xyz/TinkAndroidSample">Demo App</a></li>
+</ul>
+
+    <div class="article-byline">
+      <span class="article-byline-glyph" aria-hidden="true">KS</span>
+      <div><strong>Karan Sharma</strong><span>May 2024</span></div>
+    </div>
+    <nav class="post-nav" aria-label="Post navigation">
+      <a href="../../blog/jetpack-compose-security-disable-screenshots-recordings/" class="post-nav-link"><span class="post-nav-label">&larr; Previous</span><span class="post-nav-title">Security: Protect data by blocking screenshots in Jetpack Compose</span></a>
+      <div class="post-nav-share">
+        <button class="btn-3d ghost" onclick="sharePost()" style="box-shadow:3px 3px 0 var(--ink);font-size:13px;padding:8px 14px">Share &uarr;</button>
+      </div>
+      <a href="../../blog/android-adb-shortcuts-for-productivity/" class="post-nav-link post-nav-link--next"><span class="post-nav-label">Next &rarr;</span><span class="post-nav-title">Android: adb shortcuts for productivity</span></a>
+    </nav>
   </article>
-  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
 </main>
 
 <footer class="bottom">
@@ -106,5 +133,11 @@
     <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
   </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());
+function sharePost(){var u=location.href,t=document.title;if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(function(){var b=document.querySelector('.post-nav-share button');var orig=b.textContent;b.textContent='Link copied!';setTimeout(function(){b.textContent=orig;},1800);});}}
+</script>
 </body>
 </html>

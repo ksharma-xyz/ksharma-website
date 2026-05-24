@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>graphite improve dev velocity using git | Karan Sharma</title>
-<meta name="description" content="graphite improve dev velocity using git. An engineering post by Karan Sharma." />
+<title>Ship faster with Graphite - Improve dev velocity | Karan Sharma</title>
+<meta name="description" content="Ship faster with Graphite - Improve dev velocity. An engineering post by Karan Sharma." />
 <link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/graphite-improve-dev-velocity-using-git/" />
 <meta name="theme-color" content="#13B0E5" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Karan Sharma" />
 <meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/graphite-improve-dev-velocity-using-git/" />
-<meta property="og:title" content="graphite improve dev velocity using git" />
+<meta property="og:title" content="Ship faster with Graphite - Improve dev velocity" />
 <meta property="og:description" content="An engineering post by Karan Sharma." />
 <meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","headline":"graphite improve dev velocity using git","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/graphite-improve-dev-velocity-using-git/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Ship faster with Graphite - Improve dev velocity","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/graphite-improve-dev-velocity-using-git/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
 </script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,6 +24,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
 <link rel="stylesheet" href="../../assets/site.css" />
 </head>
 <body>
@@ -39,148 +40,155 @@
   <div class="post-head">
     <a class="post-back" href="../../#blog">&larr; All posts</a>
     <div class="pin">Jun 2024 &middot; 6 min read</div>
-    <h1>graphite improve dev velocity using git</h1>
+    <h1>Ship faster with Graphite - Improve dev velocity</h1>
   </div>
   <article class="article">
-<p>Ship faster with Graphite - Improve dev velocity </p>
 <p>What is the most precious thing about being a developer? Is it the intelligence or the knowledge? I reckon it&#39;s time. Because if you can do more in less time that&#39;s a win.</p>
-<p>What if I told you there was a tool that can slash through your repetitive tasks and free you to focus on the code that matters. </p>
-<p>Example 1: You have  to migrate a component from View based to Jetpack Compose. This will need following workflow:</p>
-<ul>
-<li><p>PR 1 - Build the new component in Compose + Deprecate the usages of old component.</p>
-</li>
-<li><p>PR 2..n - Replace the usages of XXView to XXCompose(). Now this could be n number of PR&#39;s depending upon the codebase and you obviously want to handle one usage at a time in order to reduce any risks of introducing errors. If any errors happen you wanna nail the root cause fast and pivot faster. Which is why, it&#39;s best to keep separate PR&#39;s for each usage migration.</p>
-</li>
-</ul>
+<p>What if I told you there was a tool that can slash through your repetitive tasks and free you to focus on the code that matters.</p>
+<p>Example 1: You have to migrate a component from View based to Jetpack Compose. This will need following workflow:</p>
+<p>PR 1 - Build the new component in Compose + Deprecate the usages of old component.</p>
+<p>PR 2..n - Replace the usages of XXView to XXCompose(). Now this could be n number of PRs depending upon the codebase and you obviously want to handle one usage at a time in order to reduce any risks of introducing errors. If any errors happen you wanna nail the root cause fast and pivot faster. Which is why, it&#39;s best to keep separate PRs for each usage migration.</p>
 <p>Example 2: You are building an MVVM android app.</p>
-<ul>
-<li><p>PR 1 - Build the data layer</p>
-</li>
-<li><p>PR 2 - Build the Domain Layer</p>
-</li>
-<li><p>PR 3 - Build the UI Layer</p>
-</li>
-</ul>
+<p>PR 1 - Build the data layer</p>
+<p>PR 2 - Build the Domain Layer</p>
+<p>PR 3 - Build the UI Layer</p>
 <p>In this workflow, you can start in any order, however you don&#39;t want to wait and do nothing while the Data layer PR is in review. You still wanna go ahead and build that awesome UI your design team has built in Figma coz you&#39;re too eager to build it. Bonus: This UI is also new to design system and other teams will also use it in the future, so you are going nuts.</p>
-<p>We make 3 branches from main as follows:<br>main ----feature1/data----feature1/domain----feature1/UI</p>
+<p>We make 3 branches from main as follows:
+<code>main ----feature1/data----feature1/domain----feature1/UI</code></p>
 <p>Now what If:</p>
-<ul>
-<li><p>There are so many changes in data layer PR that might actually end up affecting UI layer branch and it needs lot of rework.</p>
-</li>
-<li><p>Data layer PR review takes so many back and forth decision making that I end up rebasing 3 branches again and again. It is hard to maintain 3 branches in sync.</p>
-</li>
-<li><p>The main branch has some changes that I need to resolve conflict 3 times.</p>
-</li>
-</ul>
-<p>Now it&#39;s very tempting for engineer to think, there are too many issues so let&#39;s wait for Data Layer to be final and then start other work. BUT,  What If, your awesome colleague told you that there is a place on earth where you go and these issues will look so simple and silly that you&#39;ll no even think about it before making 3, 5, or even 10 branches. </p>
-<p>Introducing <a href="https://graphite.dev">Graphite.dev</a></p>
-<p>Graphite helps you create smaller pull requests, stay unblocked, and ship faster. Let&#39;s look at some advantages of Graphite and then we&#39;ll dive into the workflow that I use while creating PR&#39;s.</p>
-<ul>
-<li><p>Effortless Branch management:  When the data layer branch gets merged, we need to rebase the main branch and then perform interactive rebase on the UI layer branch (all the dependant branches). Imagine if this was automated somehow. Graphite does that, we&#39;ll see how. </p>
-</li>
-<li><p>Frictionless Conflict Resolution: Let&#39;s say data layer branch got merged but with some changes that will introduce conflicting changes in UI layer branch. With graphite, this will never happen, coz all conflicts will need to be resolved as and when you update the data layer branch itself. When the parent branch changes, graphite will automatically attempt re-stacking the child branch.<br>In cases changes are without conflicts, the UI layer branch will automatically be up to date, without us needing to switch the branch and rebase manually.. How cool is that? </p>
-</li>
-<li><p>Intuitive Navigation: Can your colleague look at your branches and tell which branch is the parent and which one is the child. git branch command does not tell anything about that. So if you&#39;re a CLI nerd like me how can you navigate to the parent branch of x-branch? Or even a little complex action such as go to the root of this stack of branches. Forget complex git commands for switching branches. Graphite offers user-friendly navigation with commands like gt u (up), gt d (down), and autocomplete for branch selection. No need to memorize which branch depends on which.</p>
-</li>
-<li><p>Effortless PR Creation and Updates: I will push a branch and then go to github to create a PR right? With Graphite, you can create and update PRs in right from the CLI. Use gt ss (stack submit) to effortlessly submit a new PR or update an existing one. Need to make changes after raising a PR? No sweat! Simply stage your changes with gt add -A, commit them with gt m -c (modify commit) or gt m (modify / amend), and finally resubmit with gt ss.</p>
-</li>
-<li><p>Maintaining PR Harmony: Keeping your PR train on track can be a headache. Thankfully, Graphite automates branch dependency checks. Whenever you update a branch, dependent branches are automatically re-stacked, ensuring everything stays in sync.</p>
-</li>
-<li><p>Type Less, Do More: git has painfully long and complex commands sometimes and we often create alias to make them shorter. Graphite lets you define aliases for frequently used commands. This means less typing and more productivity. E.g we can use uses gt ss instead of the full gt stack submit, among others.</p>
-</li>
-</ul>
-<p>My workflow</p>
-<p>Install Graphite from Homebrew ███████▒▒▒ 70%</p>
-<p>brew install withgraphite/tap/graphite</p>
-<p>gt --version</p>
-<p>Authenticate with CLI ᕙ(  •̀ ᗜ •́  )ᕗ </p>
-<p><a href="https://graphite.dev/docs/installing-the-cli#authenticating-the-cli">Installing &amp; authenticating the CLI | Graphite Docs</a></p>
-<p>Initialize Graphite for your repository</p>
-<p>gt init</p>
-<p># Would you like to start tracking existing branches to create your first stack? › (y/N)</p>
-<p>Checkout a branch</p>
-<p>gt checkout main</p>
-<p>OR</p>
-<p>gt co main</p>
-<p>Build something cool 🛠️</p>
-<p>Feature Part - 1</p>
-<p># add all unstaged change (same syntax as git add)</p>
-<p>gt add -A</p>
-<p># Single command to Commit and Create Branch</p>
-<p>gt create -m &quot;Commit message&quot; branch_name</p>
-<p># Automatic branch name</p>
-<p>gt create -m “Commit message”</p>
-<p># Shorthand Alias</p>
-<p>gt c -m &quot;Commit message&quot;</p>
-<p>Feature Part - 2</p>
-<p># Build cool feature Part-2</p>
-<p>gt add -A</p>
-<p># New Branch in Town</p>
-<p>gt c &quot;Cool Feature Part2&quot;</p>
-<p>Where am I (view log)?  📍</p>
-<p>gt log # view stack of branches</p>
-<p># Alias</p>
-<p>gt l</p>
-<p>gt ll # log long</p>
-<p>gt ls # log short - the one I use the most.</p>
-<p># Upside Down Log (Cake)</p>
-<p>gt l --reverse</p>
-<p>How to navigate (switch branches) ? 🚗</p>
-<p>gt u # gt up</p>
-<p>gt u 2 # Let’s Jump ┏(❛̃ ͜ʖ❛̃)┛</p>
-<p>gt d # gt down</p>
-<p># Not sure, which branch to navigate to? Let’s choose.   👈 / 👉</p>
-<p>gt co # gt checkout</p>
-<p>? Checkout a branch (autocomplete or arrow keys) ›</p>
-<p>pp--06-14-part_3</p>
-<p>pp--06-14-part_2</p>
-<p>❯   pp--06-14-part_1</p>
-<p>main</p>
-<p># To the top or down the hill  🚁 🪂</p>
-<p>gt t # gt branch top</p>
-<p>gt b # gt bottom</p>
-<p>Can I make a PR using Graphite ? (▀ ̿ĺ̯ ▀̿ ̿)</p>
-<p>gt ss # gt stack submit - Create / Update PR&#39;s</p>
-<p># Comments on PR ? Let’s make an update.</p>
-<p># Make the changes</p>
-<p>gt add -A # Add all unstaged changes</p>
-<p>gt m # gt  modify</p>
-<p>gt m -c # gt modify commit</p>
-<p>gt ss # stack submit - Update PR&#39;s</p>
-<p>Wanna update to latest trunk?</p>
-<p>gt sync # gt sync. Pull latest master and update stack automatically.</p>
-<p># It’s magic. ✧ </p>
-<p># Master already up to date, Just restack ?</p>
-<p>gt r # gt restack</p>
-<p># Restack only current branch</p>
-<p>gt restack # - restacks only the current branch onto its parent</p>
-<p>Fold two branches. ¯\_(ツ)_/¯</p>
-<p>gt fold - (combines) the current branch into its parent</p>
-<p>Can this be two PRs? (◑_◑)</p>
-<p>gt sp # gt split --by-commit </p>
-<p><a href="https://graphite.dev/docs/edit-branch-order">Change Branch Order</a></p>
-<p>gt move  # Select the base branch</p>
-<p>Rebase the current branch onto the target branch and restack all of its descendants</p>
-<p>gt redorder # Manually reorder branch names by typing</p>
-<p>gt pop # Delete the current branch but retain the state of files in the working tree</p>
-<p>gt rename [name] # Rename a branch</p>
-<p>gt trunk # Checkout main / trunk branch</p>
-<p>Resolve Conflicts</p>
-<p>gt add -A</p>
-<p>gt cont # gt continue</p>
-<p>Not reinventing the wheel 𖥞</p>
-<p>git add</p>
-<p>git stash</p>
-<p>git diff</p>
-<p>git status # gt status</p>
-<p># Thank You ツ</p>
-<p>Trust me once you are comfortable with Graphite, it will save a huge amount of time and what&#39;s more precious than saving those couple minutes a day just trying to make sure your branch is up to date. Nah! We&#39;ve got <a href="https://graphite.dev">Graphite.dev</a></p>
-<p>Page updated</p>
-<p>Google Sites</p>
-<p>Report abuse</p>
+<p>There are so many changes in data layer PR that might actually end up affecting UI layer branch and it needs lot of rework.</p>
+<p>Data layer PR review takes so many back and forth decision making that I end up rebasing 3 branches again and again. It is hard to maintain 3 branches in sync.</p>
+<p>The main branch has some changes that I need to resolve conflict 3 times.</p>
+<p>Now it&#39;s very tempting for engineer to think, there are too many issues so let&#39;s wait for Data Layer to be final and then start other work. BUT, What If, your awesome colleague told you that there is a place on earth where you go and these issues will look so simple and silly that you&#39;ll not even think about it before making 3, 5, or even 10 branches.</p>
+<h2>Introducing Graphite</h2>
+<p>Graphite helps you create smaller pull requests, stay unblocked, and ship faster. Let&#39;s look at some advantages of Graphite and then we&#39;ll dive into the workflow that I use while creating PRs.</p>
+<p><strong>Effortless Branch management:</strong> When the data layer branch gets merged, we need to rebase the main branch and then perform interactive rebase on the UI layer branch (all the dependant branches). Imagine if this was automated somehow. Graphite does that, we&#39;ll see how.</p>
+<p><strong>Frictionless Conflict Resolution:</strong> Let&#39;s say data layer branch got merged but with some changes that will introduce conflicting changes in UI layer branch. With graphite, this will never happen, coz all conflicts will need to be resolved as and when you update the data layer branch itself. When the parent branch changes, graphite will automatically attempt re-stacking the child branch. In cases changes are without conflicts, the UI layer branch will automatically be up to date, without us needing to switch the branch and rebase manually. How cool is that?</p>
+<p><strong>Intuitive Navigation:</strong> Can your colleague look at your branches and tell which branch is the parent and which one is the child. git branch command does not tell anything about that. So if you&#39;re a CLI nerd like me how can you navigate to the parent branch of x-branch? Or even a little complex action such as go to the root of this stack of branches. Forget complex git commands for switching branches. Graphite offers user-friendly navigation with commands like <code>gt u</code> (up), <code>gt d</code> (down), and autocomplete for branch selection. No need to memorize which branch depends on which.</p>
+<p><strong>Effortless PR Creation and Updates:</strong> I will push a branch and then go to github to create a PR right? With Graphite, you can create and update PRs right from the CLI. Use <code>gt ss</code> (stack submit) to effortlessly submit a new PR or update an existing one. Need to make changes after raising a PR? No sweat! Simply stage your changes with <code>gt add -A</code>, commit them with <code>gt m -c</code> (modify commit) or <code>gt m</code> (modify / amend), and finally resubmit with <code>gt ss</code>.</p>
+<p><strong>Maintaining PR Harmony:</strong> Keeping your PR train on track can be a headache. Thankfully, Graphite automates branch dependency checks. Whenever you update a branch, dependent branches are automatically re-stacked, ensuring everything stays in sync.</p>
+<p><strong>Type Less, Do More:</strong> git has painfully long and complex commands sometimes and we often create alias to make them shorter. Graphite lets you define aliases for frequently used commands. This means less typing and more productivity. E.g. we can use <code>gt ss</code> instead of the full <code>gt stack submit</code>, among others.</p>
+<h2>My Workflow</h2>
+<h3>Install Graphite</h3>
+<pre><code class="language-bash">brew install withgraphite/tap/graphite
+gt --version
+</code></pre>
+<h3>Authenticate with CLI</h3>
+<p>After installing, authenticate with your GitHub account. See the <a href="https://graphite.dev/docs/installing-the-cli">Installing &amp; authenticating the CLI</a> guide on Graphite Docs.</p>
+<h3>Initialize Graphite for your repository</h3>
+<pre><code class="language-bash">gt init
+# Would you like to start tracking existing branches to create your first stack? › (y/N)
+</code></pre>
+<h3>Checkout a branch</h3>
+<pre><code class="language-bash">gt checkout main
+# shorthand:
+gt co main
+</code></pre>
+<h3>Build something cool 🛠️</h3>
+<p><strong>Feature Part 1</strong></p>
+<pre><code class="language-bash"># add all unstaged changes (same syntax as git add)
+gt add -A
 
+# single command to commit and create branch
+gt create -m &quot;Commit message&quot; branch_name
+
+# automatic branch name
+gt create -m &quot;Commit message&quot;
+
+# shorthand alias
+gt c -m &quot;Commit message&quot;
+</code></pre>
+<p><strong>Feature Part 2</strong></p>
+<pre><code class="language-bash">gt add -A
+
+# new branch in town
+gt c &quot;Cool Feature Part2&quot;
+</code></pre>
+<h3>Where am I (view log)? 📍</h3>
+<pre><code class="language-bash">gt log    # view stack of branches
+# Aliases:
+gt l
+gt ll     # log long
+gt ls     # log short - the one I use the most.
+</code></pre>
+<h3>Upside Down Log (Cake)</h3>
+<pre><code class="language-bash">gt l --reverse
+</code></pre>
+<h3>How to navigate (switch branches)? 🚗</h3>
+<pre><code class="language-bash">gt u      # gt up
+gt u 2    # jump 2 levels up
+
+gt d      # gt down
+
+# Not sure which branch to navigate to? Let&#39;s choose.
+gt co     # gt checkout - shows autocomplete picker
+</code></pre>
+<pre><code>? Checkout a branch (autocomplete or arrow keys) ›
+  pp--06-14-part_3
+  pp--06-14-part_2
+❯ pp--06-14-part_1
+  main
+</code></pre>
+<pre><code class="language-bash"># To the top or down the hill
+gt t      # gt branch top
+gt b      # gt bottom
+</code></pre>
+<h3>Can I make a PR using Graphite?</h3>
+<pre><code class="language-bash">gt ss     # gt stack submit - Create / Update PR&#39;s
+
+# Make changes then update:
+gt add -A  # add all unstaged changes
+gt m       # gt modify
+gt m -c    # gt modify commit
+gt ss      # stack submit - update PR&#39;s
+</code></pre>
+<h3>Wanna update to latest trunk?</h3>
+<pre><code class="language-bash">gt sync   # pull latest main and update stack automatically
+
+# Main already up to date, just restack?
+gt r      # gt restack
+
+# Restack only current branch
+gt restack
+</code></pre>
+<h3>Fold two branches</h3>
+<pre><code class="language-bash">gt fold   # combines the current branch into its parent
+</code></pre>
+<h3>Can this be two PRs?</h3>
+<pre><code class="language-bash">gt sp     # gt split --by-commit
+</code></pre>
+<h3>Change Branch Order</h3>
+<pre><code class="language-bash">gt move           # select base branch (rebase current onto target, restack descendants)
+gt reorder        # manually reorder branch names by typing
+gt pop            # delete current branch but retain state of files in working tree
+gt rename [name]  # rename a branch
+gt trunk          # checkout main / trunk branch
+</code></pre>
+<h3>Resolve Conflicts</h3>
+<pre><code class="language-bash">gt add -A
+gt cont   # gt continue
+</code></pre>
+<h3>Not reinventing the wheel</h3>
+<pre><code class="language-bash"># Standard git commands still work:
+git add
+git stash
+git diff
+git status   # gt status
+</code></pre>
+<p>Trust me once you are comfortable with Graphite, it will save a huge amount of time and what&#39;s more precious than saving those couple minutes a day just trying to make sure your branch is up to date. Nah! We&#39;ve got Graphite.dev</p>
+
+    <div class="article-byline">
+      <span class="article-byline-glyph" aria-hidden="true">KS</span>
+      <div><strong>Karan Sharma</strong><span>Jun 2024</span></div>
+    </div>
+    <nav class="post-nav" aria-label="Post navigation">
+      <a href="../../blog/android-adb-shortcuts-for-productivity/" class="post-nav-link"><span class="post-nav-label">&larr; Previous</span><span class="post-nav-title">Android: adb shortcuts for productivity</span></a>
+      <div class="post-nav-share">
+        <button class="btn-3d ghost" onclick="sharePost()" style="box-shadow:3px 3px 0 var(--ink);font-size:13px;padding:8px 14px">Share &uarr;</button>
+      </div>
+      <a href="../../blog/protobuf-generate-kotlin-code/" class="post-nav-link post-nav-link--next"><span class="post-nav-label">Next &rarr;</span><span class="post-nav-title">Sugar, Spice and Protobuf: Perfect recipe for cross platform collaboration</span></a>
+    </nav>
   </article>
-  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
 </main>
 
 <footer class="bottom">
@@ -196,5 +204,11 @@
     <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
   </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());
+function sharePost(){var u=location.href,t=document.title;if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(function(){var b=document.querySelector('.post-nav-share button');var orig=b.textContent;b.textContent='Link copied!';setTimeout(function(){b.textContent=orig;},1800);});}}
+</script>
 </body>
 </html>

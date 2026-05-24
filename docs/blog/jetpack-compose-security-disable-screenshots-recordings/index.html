@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Disable Screenshot and Screen Recording | Karan Sharma</title>
-<meta name="description" content="Disable Screenshot and Screen Recording. An engineering post by Karan Sharma." />
+<title>Security: Protect data by blocking screenshots in Jetpack Compose | Karan Sharma</title>
+<meta name="description" content="Security: Protect data by blocking screenshots in Jetpack Compose. An engineering post by Karan Sharma." />
 <link rel="canonical" href="https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-security-disable-screenshots-recordings/" />
 <meta name="theme-color" content="#13B0E5" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Karan Sharma" />
 <meta property="og:url" content="https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-security-disable-screenshots-recordings/" />
-<meta property="og:title" content="Disable Screenshot and Screen Recording" />
+<meta property="og:title" content="Security: Protect data by blocking screenshots in Jetpack Compose" />
 <meta property="og:description" content="An engineering post by Karan Sharma." />
 <meta property="og:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","headline":"Disable Screenshot and Screen Recording","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-security-disable-screenshots-recordings/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Security: Protect data by blocking screenshots in Jetpack Compose","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma-xyz.github.io/ksharma-website/"},"url":"https://ksharma-xyz.github.io/ksharma-website/blog/jetpack-compose-security-disable-screenshots-recordings/","image":"https://ksharma-xyz.github.io/ksharma-website/assets/og-cover.png"}
 </script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,6 +24,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
 <link rel="stylesheet" href="../../assets/site.css" />
 </head>
 <body>
@@ -38,47 +39,136 @@
 <main class="post-wrap">
   <div class="post-head">
     <a class="post-back" href="../../#blog">&larr; All posts</a>
-    <div class="pin">Apr 2024 &middot; 3 min read</div>
-    <h1>Disable Screenshot and Screen Recording</h1>
+    <div class="pin">Apr 2024 &middot; 4 min read</div>
+    <h1>Security: Protect data by blocking screenshots in Jetpack Compose</h1>
   </div>
   <article class="article">
-<p>Security: Protect data by blocking screenshots in Jetpack Compose</p>
-<p>One of the most common ways to improve the security for the android application is to prevent screenshots and disallow the data to be displayed on non secure external displays.  </p>
-<p>It is also very easy to implement. We need to set the following flag to the Activity, and all the content displayed inside the activity will not appear in the screenshots.</p>
-<p>An important thing to keep in mind is that , when this flag is applied, it will prevent all screens data from screenshots. It&#39;s a good and easy solution if that&#39;s the requirement. However,  if we want to prevent screenshots for only a few screens in the app, then how do we do it?</p>
+<p>One of the most common ways to improve the security for the android application is to prevent screenshots and disallow the data to be displayed on non secure external displays. It is also very easy to implement. We need to set the following flag to the Activity, and all the content displayed inside the activity will not appear in the screenshots.</p>
+<p>An important thing to keep in mind is that , when this flag is applied, it will prevent all screens data from screenshots. It&#39;s a good and easy solution if that&#39;s the requirement. However, if we want to prevent screenshots for only a few screens in the app, then how do we do it?</p>
 <p>Let&#39;s look at some code to understand this.</p>
-<p>Prevent screenshots for entire app</p>
+<pre><code class="language-kotlin">activity.getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE)
+</code></pre>
+<h2>Prevent screenshots for entire app</h2>
 <p>Whenever the application starts, set the flag LayoutParams.FLAG_SECURE to the activity window. This will ensure, all screens content will not be captured in screenshots / screen recording.</p>
-<p>Prevent screenshots for individual screens only</p>
+<h2>Prevent screenshots for individual screens only</h2>
 <p>If we wanna prevent individual screens only, then we can simply set and unset the flag for those screens. We will need to listen to the activity lifecycle. When the secure screen content is started to be displayed, we will set the secure flag so it cannot be captured and when the user navigates away from the screen, we will clear the flag, so other screens can still be available for screenshot or screen recording. Let&#39;s look at some code on how to do it.</p>
-<p>Step - 1  Create a Composable Lifecycle listener</p>
+<h3>Step - 1 Create a Composable Lifecycle listener</h3>
 <p>We need a way to listen to the lifecycle changes in Compose, and we can do so using <a href="https://developer.android.com/reference/androidx/lifecycle/LifecycleOwner">LifecycleOwner</a>.</p>
 <ul>
-<li><p>LifecycleOwner is a class through which we can access the android <a href="https://developer.android.com/reference/androidx/lifecycle/Lifecycle">Lifecycle</a>.  </p>
-</li>
-<li><p>Lifecycle class contains the following methods  <a href="https://developer.android.com/reference/androidx/lifecycle/Lifecycle#removeObserver%28androidx.lifecycle.LifecycleObserver%29">removeObserver</a>(@<a href="https://developer.android.com/reference/androidx/annotation/NonNull">NonNull</a> <a href="https://developer.android.com/reference/androidx/lifecycle/LifecycleObserver">LifecycleObserver</a> observer) and addObserver(@<a href="https://developer.android.com/reference/androidx/annotation/NonNull">NonNull</a> <a href="https://developer.android.com/reference/androidx/lifecycle/LifecycleObserver">LifecycleObserver</a> observer).</p>
-</li>
-<li><p>Via Lifecycle class, we can access the enum Lifecycle.Event.  It contains the constant value (eg. ON_CREATE, ON_PAUSE etc.) to represent the event of the LifecycleOwner.</p>
-</li>
-<li><p>We can use DisposableEffect  because we want to listen to certain events and clean up after we&#39;re done.  We want to clean up either when the LifecycleOwner changes or when the composable we&#39;re using it in leaves composition (navigating away from the screen).</p>
-</li>
+<li>LifecycleOwner is a class through which we can access the android <a href="https://developer.android.com/reference/androidx/lifecycle/Lifecycle">Lifecycle</a>.</li>
+<li>Lifecycle class contains the following methods <a href="https://developer.android.com/reference/androidx/lifecycle/Lifecycle#removeObserver%28androidx.lifecycle.LifecycleObserver%29">removeObserver</a>(@<a href="https://developer.android.com/reference/androidx/annotation/NonNull">NonNull</a><a href="https://developer.android.com/reference/androidx/lifecycle/LifecycleObserver">LifecycleObserver</a> observer) and addObserver(@<a href="https://developer.android.com/reference/androidx/annotation/NonNull">NonNull</a><a href="https://developer.android.com/reference/androidx/lifecycle/LifecycleObserver">LifecycleObserver</a> observer).</li>
+<li>Via Lifecycle class, we can access the enum Lifecycle.Event. It contains the constant value (eg. ON_CREATE, ON_PAUSE etc.) to represent the event of the LifecycleOwner.</li>
+<li>We can use DisposableEffect because we want to listen to certain events and clean up after we&#39;re done. We want to clean up either when the LifecycleOwner changes or when the composable we&#39;re using it in leaves composition (navigating away from the screen).</li>
 </ul>
-<p>Step - 2  Using ComposableLifecycleListener to set and clear flags</p>
+<pre><code class="language-kotlin">import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+
+@Composable
+fun ComposableLifecycleListener(
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    onEvent: (LifecycleOwner, Lifecycle.Event) -&gt; Unit,
+) {
+    DisposableEffect(key1 = lifecycleOwner) {
+        val observer = LifecycleEventObserver { source, event -&gt;
+            onEvent(source, event)
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+}
+</code></pre>
+<h3>Step - 2 Using ComposableLifecycleListener to set and clear flags</h3>
 <p>We can use the ComposableLifecycleListener in the Screen level composable to listen to the changes in android lifecycle.</p>
 <p>Important Points</p>
 <ul>
-<li><p>We need a reference to the Activity in order to access the Window, so we can set set / clear the flags on it. How do we get the Activity reference in a Composable function? We are utilizing an approach we saw in the <a href="https://github.com/google/accompanist/blob/a9506584939ed9c79890adaaeb58de01ed0bb823/permissions/src/main/java/com/google/accompanist/permissions/PermissionsUtil.kt#L132">accompanist</a> library code.</p>
-</li>
-<li><p>By setting thge flag in ON_START and clearing the flag in ON_STOP event, we can ensure the user will not be able to take a screenshot. However, we might still leak some sensitive information, if we&#39;re capturing a screen recording and navigate away from the secure screen. This happens because the ON_STOP lifecycle event has been fired and we&#39;ve received the event in the ComposableLifecycleListener, however the actual screen transition has not completed. Therefore, the content may still be visible on insecure displays. In order to tackle this, we can add a slight delay to clear the flag which ensures that the navigation is complete and we&#39;re safe to clear the flag.</p>
-</li>
+<li>We need a reference to the Activity in order to access the Window, so we can set set / clear the flags on it. How do we get the Activity reference in a Composable function? We are utilizing an approach we saw in the <a href="https://github.com/google/accompanist/blob/a9506584939ed9c79890adaaeb58de01ed0bb823/permissions/src/main/java/com/google/accompanist/permissions/PermissionsUtil.kt#L132">accompanist</a> library code.</li>
+<li>By setting thge flag in ON_START and clearing the flag in ON_STOP event, we can ensure the user will not be able to take a screenshot. However, we might still leak some sensitive information, if we&#39;re capturing a screen recording and navigate away from the secure screen. This happens because the ON_STOP lifecycle event has been fired and we&#39;ve received the event in the ComposableLifecycleListener, however the actual screen transition has not completed. Therefore, the content may still be visible on insecure displays. In order to tackle this, we can add a slight delay to clear the flag which ensures that the navigation is complete and we&#39;re safe to clear the flag.</li>
 </ul>
 <p>Let&#39;s look at some code on how to do this.</p>
-<p>Page updated</p>
-<p>Google Sites</p>
-<p>Report abuse</p>
+<pre><code class="language-kotlin">import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.view.WindowManager.LayoutParams.FLAG_SECURE
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 
+@Composable
+fun SecureScreen() {
+    val context: Context = LocalContext.current
+    val activity = context.findActivity()
+
+    SecureScreenContent(modifier = Modifier.fillMaxSize())
+
+    ComposableLifecycleListener { source, event -&gt;
+        when (event) {
+            Lifecycle.Event.ON_START -&gt; activity.window.setFlags(FLAG_SECURE, FLAG_SECURE)
+            Lifecycle.Event.ON_STOP -&gt; {
+                source.lifecycleScope.launch {
+                    /*
+                    Add a small delay to ensure we have navigated away from the secure screen.
+                    Otherwise, it will still be visible during screen recording.
+                     */
+                    delay(200)
+                    activity.window.clearFlags(FLAG_SECURE)
+                }
+            }
+            else -&gt; Unit
+        }
+    }
+}
+
+@Composable
+private fun SecureScreenContent(modifier: Modifier) {
+    Box(
+        modifier = modifier.background(color = Color.Red),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = &quot;Secure Screen&quot;)
+    }
+}
+
+fun Context.findActivity(): Activity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    throw IllegalStateException(&quot;Activity not found&quot;)
+}
+</code></pre>
+
+    <div class="article-byline">
+      <span class="article-byline-glyph" aria-hidden="true">KS</span>
+      <div><strong>Karan Sharma</strong><span>Apr 2024</span></div>
+    </div>
+    <nav class="post-nav" aria-label="Post navigation">
+      <a href="../../blog/a11y-weather-app-android/" class="post-nav-link"><span class="post-nav-label">&larr; Previous</span><span class="post-nav-title">Accessible Android Weather App: Jetpack Compose</span></a>
+      <div class="post-nav-share">
+        <button class="btn-3d ghost" onclick="sharePost()" style="box-shadow:3px 3px 0 var(--ink);font-size:13px;padding:8px 14px">Share &uarr;</button>
+      </div>
+      <a href="../../blog/encryption-google-tink-android/" class="post-nav-link post-nav-link--next"><span class="post-nav-label">Next &rarr;</span><span class="post-nav-title">Cryptography with Google Tink on Android</span></a>
+    </nav>
   </article>
-  <p style="padding:24px 0 8px"><a class="btn-3d ghost" href="../../#blog" style="box-shadow:3px 3px 0 var(--ink)">&larr; Back to all posts</a></p>
 </main>
 
 <footer class="bottom">
@@ -94,5 +184,11 @@
     <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
   </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());
+function sharePost(){var u=location.href,t=document.title;if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(function(){var b=document.querySelector('.post-nav-share button');var orig=b.textContent;b.textContent='Link copied!';setTimeout(function(){b.textContent=orig;},1800);});}}
+</script>
 </body>
 </html>
