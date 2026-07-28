@@ -255,6 +255,24 @@
     margin-right: 6px; transform: translateY(-1px);
   }
 
+  /* ——— Inline separator (replaces middot characters) ——— */
+  .sep {
+    display: inline-block; width: 1px; height: 0.85em;
+    background: currentColor; opacity: .3;
+    margin: 0 9px; vertical-align: -1px;
+  }
+
+  /* ——— Chip rows (stack / ships lists) ——— */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+  .chips li {
+    font-family: var(--mono); font-size: 11px; line-height: 1.6;
+    padding: 2px 8px;
+    border: 1px solid var(--rule-2); border-radius: 4px;
+    background: var(--paper); color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .chips li.on { border-color: var(--ink); background: var(--b-50); color: var(--ink); }
+
   .actions { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
 
   /* ——— Now strip with shape tiles ——— */
@@ -383,6 +401,32 @@
     border-radius: 50%;
     background: var(--b-400);
     border: 2px solid var(--ink);
+  }
+
+  /* ——— Agent pipeline diagram (AI page, sits in the dark feature block) ——— */
+  .krail-rhs.diagram { align-items: center; padding: 40px 28px; }
+  .pipe { position: relative; z-index: 1; width: 100%; max-width: 300px; }
+  .pipe .step {
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 4px;
+    box-shadow: 4px 4px 0 var(--ink);
+    padding: 11px 14px; color: var(--ink);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pipe .step .gl {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border: 2px solid var(--ink); border-radius: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--b-400);
+  }
+  .pipe .step .gl svg { width: 13px; height: 13px; }
+  .pipe .step .k { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); display: block; }
+  .pipe .step .v { font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+  .pipe .link { width: 2px; height: 16px; background: rgba(255,255,255,.55); margin-left: 26px; }
+  .pipe .loop {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px dashed rgba(255,255,255,.3);
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.6;
+    letter-spacing: .04em; text-transform: uppercase; color: #CCEEF9;
   }
 
   /* phone */
@@ -733,12 +777,12 @@
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
     header.top nav.tabs::-webkit-scrollbar { display: none; }
     header.top nav.tabs button {
-      padding: 6px 10px;
-      font-size: 13px;
+      padding: 6px 8px;
+      font-size: 12.5px;
       flex-shrink: 0;
     }
     header.top .header-cta { display: none; }
