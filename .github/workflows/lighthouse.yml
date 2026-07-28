@@ -20,7 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      SITE_URL: https://ksharma-xyz.github.io/ksharma-website/
+      # The site is served on the custom domain (docs/CNAME). The old
+      # ksharma-xyz.github.io/ksharma-website/ address no longer serves it, so
+      # auditing that URL silently audits stale content.
+      SITE_URL: https://ksharma.xyz/
     steps:
       - uses: actions/setup-node@v4
         with:
@@ -41,16 +44,28 @@ jobs:
           lighthouse "$SITE_URL" --output=json --output=html --output-path=./audit/lighthouse-mobile \
             --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --quiet \
             --form-factor=mobile --screenEmulation.mobile=true
-      - name: Print score summary
+      - name: Print score summary and enforce thresholds
         run: |
           node -e "
           const d = JSON.parse(require('fs').readFileSync('audit/lighthouse.report.json'));
           const m = JSON.parse(require('fs').readFileSync('audit/lighthouse-mobile.report.json'));
           const f = (r,k) => Math.round(r.categories[k].score*100);
-          let out = '| Category | Desktop | Mobile |\n|---|---|---|\n';
-          ['performance','accessibility','best-practices','seo'].forEach(k => out += \`| \${k} | \${f(d,k)} | \${f(m,k)} |\n\`);
+          const MIN = { performance: 75, accessibility: 100, 'best-practices': 100, seo: 100 };
+          let out = '| Category | Desktop | Mobile | Min |\n|---|---|---|---|\n';
+          const failures = [];
+          Object.keys(MIN).forEach(k => {
+            const dv = f(d,k), mv = f(m,k);
+            out += \`| \${k} | \${dv} | \${mv} | \${MIN[k]} |\n\`;
+            if (dv < MIN[k]) failures.push(\`desktop \${k} = \${dv} (min \${MIN[k]})\`);
+            if (mv < MIN[k]) failures.push(\`mobile \${k} = \${mv} (min \${MIN[k]})\`);
+          });
           console.log(out);
-          " >> "$GITHUB_STEP_SUMMARY"
+          require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY, out);
+          if (failures.length) {
+            console.error('Lighthouse below threshold:\n  ' + failures.join('\n  '));
+            process.exit(1);
+          }
+          "
       - uses: actions/upload-artifact@v4
         if: always()
         with:

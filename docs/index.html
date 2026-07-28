@@ -65,8 +65,8 @@
       <span>Karan Sharma</span>
     </a>
 
-    <nav class="tabs" id="tabs" role="tablist">
-      <button data-page="home" aria-current="true">Home</button>
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <button data-page="home" aria-current="page">Home</button>
       <button data-page="apps">Apps</button>
       <button data-page="ai">AI</button>
       <button data-page="portfolio">Portfolio</button>
@@ -703,11 +703,11 @@
   <div class="talks">
     <div class="talk">
       <span class="shape-mini" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><rect x="4" y="4" width="16" height="16"/></svg></span>
-      <div><h4>AI-assisted development</h4><p>Training and mentoring engineers at work</p></div>
+      <div><h3>AI-assisted development</h3><p>Training and mentoring engineers at work</p></div>
     </div>
     <div class="talk">
       <span class="shape-mini" style="background:var(--b-400)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg></span>
-      <div><h4>Writing on Kotlin, Compose, and tooling</h4><p><a href="#blog" data-page="blog" style="color:var(--b-600)">Nine posts, newest first</a></p></div>
+      <div><h3>Writing on Kotlin, Compose, and tooling</h3><p><a href="#blog" data-page="blog" style="color:var(--b-600)">Nine posts, newest first</a></p></div>
     </div>
   </div>
 
@@ -989,11 +989,11 @@
   <div class="talks">
     <div class="talk">
       <span class="shape-mini" style="background:var(--b-400)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12,4 22,20 2,20"/></svg></span>
-      <div><h4>Compose Multiplatform to the City</h4><p>Google I/O Extended<span class="sep"></span>Brisbane<span class="sep"></span>Jun 2025</p></div>
+      <div><h3>Compose Multiplatform to the City</h3><p>Google I/O Extended<span class="sep"></span>Brisbane<span class="sep"></span>Jun 2025</p></div>
     </div>
     <div class="talk">
       <span class="shape-mini" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="#13B0E5" stroke-width="2"><rect x="4" y="4" width="16" height="16"/></svg></span>
-      <div><h4>AI-assisted development</h4><p>Mentoring &amp; talks for engineering teams</p></div>
+      <div><h3>AI-assisted development</h3><p>Mentoring &amp; talks for engineering teams</p></div>
     </div>
   </div>
 
@@ -1105,7 +1105,7 @@
 <footer class="bottom">
   <div class="inner">
     <div>
-      <h4>Build something <span class="blue">together?</span></h4>
+      <h3>Build something <span class="blue">together?</span></h3>
       <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, mentoring, or speaking. Email or a message on LinkedIn is fastest.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d">LinkedIn <span class="arr">↗</span></a>
@@ -1114,7 +1114,7 @@
       </div>
     </div>
     <div class="col">
-      <h5>Elsewhere</h5>
+      <h4>Elsewhere</h4>
       <ul>
         <li><a href="https://github.com/ksharma-xyz" rel="noopener">github ↗</a></li>
         <li><a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener">linkedin ↗</a></li>
@@ -1123,7 +1123,7 @@
       </ul>
     </div>
     <div class="col">
-      <h5>Projects</h5>
+      <h4>Projects</h4>
       <ul>
         <li><a href="https://krail.app" rel="noopener">→ krail.app</a></li>
         <li><a href="https://ksharma-xyz.github.io/Sumi/" rel="noopener">→ Sumi</a></li>
@@ -1146,7 +1146,7 @@
     if (!document.getElementById('page-' + page)) page = 'home';
     tabs.forEach(b => {
       const on = b.dataset.page === page;
-      b.setAttribute('aria-current', on ? 'true' : 'false');
+      if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
       // narrow screens scroll the tab strip: keep the active tab visible
       if (on && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
@@ -1171,24 +1171,24 @@
     if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var words = el.dataset.words.split(',');
     var i = 0;
+    // Transform only, never opacity: a half-faded word fails colour contrast
+    // (the sampled pixel is the blend, not the text colour), and an audit can
+    // land mid-animation. The word slides, and stays fully opaque throughout.
     setInterval(function(){
       i = (i + 1) % words.length;
-      el.style.transition = 'opacity .25s ease, transform .25s ease';
-      el.style.opacity = '0';
+      el.style.transition = 'transform .22s ease-in';
       el.style.transform = 'translateY(-10px)';
       setTimeout(function(){
         el.textContent = words[i];
         el.style.transition = 'none';
         el.style.transform = 'translateY(10px)';
-        el.style.opacity = '0';
         requestAnimationFrame(function(){
           requestAnimationFrame(function(){
-            el.style.transition = 'opacity .3s ease, transform .3s ease';
-            el.style.opacity = '1';
+            el.style.transition = 'transform .28s ease-out';
             el.style.transform = 'translateY(0)';
           });
         });
-      }, 260);
+      }, 230);
     }, 2400);
   })();
 

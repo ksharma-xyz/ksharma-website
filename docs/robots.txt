@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ksharma-xyz.github.io/ksharma-website/sitemap.xml
+Sitemap: https://ksharma.xyz/sitemap.xml
