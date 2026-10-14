@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Building Veduta: on-device models, a team of agents, and what broke | Karan Sharma</title>
+<meta name="description" content="Building Veduta: on-device models, a team of agents, and what broke. An engineering post by Karan Sharma." />
+<link rel="canonical" href="https://ksharma.xyz/blog/building-veduta-on-device-ai-agents/" />
+<meta name="theme-color" content="#13B0E5" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Karan Sharma" />
+<meta property="og:url" content="https://ksharma.xyz/blog/building-veduta-on-device-ai-agents/" />
+<meta property="og:title" content="Building Veduta: on-device models, a team of agents, and what broke" />
+<meta property="og:description" content="An engineering post by Karan Sharma." />
+<meta property="og:image" content="https://ksharma.xyz/assets/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ksharma.xyz/assets/og-cover.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building Veduta: on-device models, a team of agents, and what broke","author":{"@type":"Person","name":"Karan Sharma","url":"https://ksharma.xyz/"},"url":"https://ksharma.xyz/blog/building-veduta-on-device-ai-agents/","image":"https://ksharma.xyz/assets/og-cover.png"}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='1' y='1' width='30' height='30' rx='4' fill='%2313B0E5' stroke='%230A1620' stroke-width='2'/><text x='50%25' y='53%25' dominant-baseline='central' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' fill='%23ffffff'>KS</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+<link rel="stylesheet" href="../../assets/site.css" />
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <a href="../../" class="brand"><span class="glyph">KS</span><span>Karan Sharma</span></a>
+    <nav class="tabs"><a href="../../#blog" style="text-decoration:none"><button>All posts</button></a></nav>
+    <div class="header-cta"><a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d ghost" style="padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)">LinkedIn ↗</a></div>
+  </div>
+</header>
+
+<main class="post-wrap">
+  <div class="post-head">
+    <a class="post-back" href="../../#blog">&larr; All posts</a>
+    <div class="pin">Oct 2026 &middot; 11 min read</div>
+    <h1>Building Veduta: on-device models, a team of agents, and what broke</h1>
+  </div>
+  <article class="article">
+<p>Veduta is a small idea. You pick a photograph, and a few moments later you get a row of designs: your words set into the picture like a magazine cover, clear of faces, in a colour you can actually read. You swipe between them, drag the text where you want it, and export a still or a short clip.</p>
+<p>I did not write the app&#39;s code by hand. I wrote the specification and the skills, and a set of agents wrote the code. This post is about both halves: the on-device models that read the photograph, and <strong>ASTRAMAN</strong>, the system that built the app from a written spec. Most of it is about what did not work the first time.</p>
+<h2>Two projects, one app</h2>
+<p>There are really three pieces of software here.</p>
+<ul>
+<li><strong>Veduta</strong> is the app. Kotlin Multiplatform and Compose Multiplatform, Android and iOS, one codebase.</li>
+<li><strong>Vinyas</strong> is the engine underneath it. It reads the photograph, decides where type can go, sets it, checks the contrast, and renders the result. It is a Kotlin Multiplatform library of its own, with golden tests.</li>
+<li><strong>ASTRAMAN</strong> is the builder. It takes a requirements spec and produces a production KMP app, one phase at a time, with a review after every phase.</li>
+</ul>
+<h2>How ASTRAMAN builds an app</h2>
+<p>ASTRAMAN is a small team of agents, each a <code>claude</code> CLI process with its own system prompt (a <code>SKILL.md</code> file).</p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Job</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vishwakarma</td>
+<td>Reads the spec, writes the plan and the design system</td>
+<td>Opus (reasoning)</td>
+</tr>
+<tr>
+<td>Karma</td>
+<td>Builds one phase at a time and commits</td>
+<td>Sonnet (code)</td>
+</tr>
+<tr>
+<td>Fixer</td>
+<td>A light retry agent that repairs only what the reviewer flagged</td>
+<td>Sonnet</td>
+</tr>
+<tr>
+<td>Vivek</td>
+<td>Reviews every phase: compile, lint, tests, and the spec&#39;s acceptance criteria</td>
+<td>Sonnet</td>
+</tr>
+<tr>
+<td>Drishti</td>
+<td>Reads a finished build and suggests fixes to the agents&#39; own prompts</td>
+<td>Sonnet</td>
+</tr>
+</tbody></table>
+<p>A few decisions shaped everything else.</p>
+<p><strong>The spec is read by code, not by an agent.</strong> The input is a set of plain files: a PRD with numbered requirements, a technical requirements doc, a data model, business rules, one file per screen with Given/When/Then criteria, and design tokens. A validator checks it before anything is built, and a script turns each phase of the plan into a brief with its own definition of done. An agent never has to guess what &quot;done&quot; means for phase 41.</p>
+<p><strong>Skills are the single source of truth.</strong> Library versions, SDK levels and patterns live in about fifty KMP skills, one per concern (navigation, Koin, SQLDelight, dark mode, accessibility and so on). The planner never writes a version number into a plan, because a number copied into a plan drifts the day the skill moves on.</p>
+<p><strong>Deterministic work is not given to a model.</strong> Some skills produce the same files every time, so they ship a <code>scaffold.mjs</code> script instead. The project baseline, the component catalogue and the custom lint rules are generated by a script in seconds, for nothing. The skill&#39;s prose is only read if the script fails.</p>
+<p><strong>Opus for reasoning, Sonnet for code.</strong> The plan and the behaviour spec use the strongest model. The phases that write code use a fast one. Halfway through the Veduta build I moved the code writers to the newer Sonnet, and a phase went from about 30 minutes to about 13.</p>
+<h2>The Veduta build</h2>
+<p>Veduta&#39;s plan had 82 phases, from the empty project to release readiness. It used the real engine from phase 1, with no fake data behind the screens.</p>
+<p>Every phase passed review. Then I installed the app on a phone and used it.</p>
+<p>Within minutes I found a button that deadlocked, state from one photograph leaking into the next, a drag that lagged behind the finger, and a move that did not stick. The build log says it plainly: <em>the review checked code against the spec text, nobody ran the app end to end.</em></p>
+<p>That one line changed how I think about automated builds. A green review proves the code matches the words. It does not prove the app works. Device QA is now part of every build, not a step at the end.</p>
+<h2>Why the models run on the phone</h2>
+<p>Veduta&#39;s first rule is that no photograph ever leaves the phone. There is no backend, no account, and no analytics. It works offline from the first launch. On iOS the privacy label is &quot;Data Not Collected&quot;.</p>
+<p>So everything the engine knows about a photograph comes from models that run on the device.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Android</th>
+<th>iOS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Faces</td>
+<td>BlazeFace (short and full range) on LiteRT, tiled</td>
+<td>Apple Vision face rectangles, tiled</td>
+</tr>
+<tr>
+<td>People</td>
+<td>EfficientDet-Lite0</td>
+<td>Apple Vision human rectangles</td>
+</tr>
+<tr>
+<td>Subject mask</td>
+<td>DeepLab v3</td>
+<td>Apple Vision foreground instance mask</td>
+</tr>
+<tr>
+<td>Colour</td>
+<td>Palette and a luminance grid, computed in Kotlin</td>
+<td>Same</td>
+</tr>
+</tbody></table>
+<p>The four Android models are open source (Apache 2.0) and come to about 8 MB together. iOS uses only what the system already ships.</p>
+<p>The engine turns those results into a few grids: where the faces are, where the subject is, how bright each region is. Everything after that, placement, fitting, contrast and rendering, is plain arithmetic over those grids, and takes well under a quarter of a second per design.</p>
+<h2>Lesson 1: the language model was the slowest and weakest part</h2>
+<p>The first version had an on-device language model too: Apple&#39;s Foundation Models on iOS, with Gemini Nano considered for Android. Its job grew over time. First it wrote a line for the photograph, then five lines to choose from, and at one point we asked it where the type should go and what colour it should be.</p>
+<p>We measured that last idea on five photographs.</p>
+<ul>
+<li><strong>Placement:</strong> right once in five. It chose to put the type exactly where a person was holding a piece of coral, after being told never to cover the subject.</li>
+<li><strong>Colour:</strong> it answered &quot;dark&quot; for all five, including one that needed light type on dark leaves.</li>
+</ul>
+<p>A language model cannot measure a contrast ratio. The engine can, on the real pixels. So the rule became: <em>the model reports what it sees, the engine decides.</em></p>
+<p>Then the model got slower and less useful. Reading the photograph took between 0.2 and 1.4 seconds, but writing five drafts was budgeted at up to 18 seconds of a deck that could take 20 to 30. And on iOS, the system&#39;s safety filter refused an ordinary photo of a man holding a dumbbell in a gym (&quot;May contain sensitive content&quot;). The app spun for most of a minute and produced nothing.</p>
+<p>The honest feedback from a reviewer was blunt: the styles were great, the text suggestions were the worst part. So we removed the language model entirely. A full set of designs now has a budget of under two seconds, and people type their own words, which they wanted to do anyway.</p>
+<p>The lesson I keep coming back to: <strong>use a language model for what is in the picture, never for geometry or colour, and drop it when the wait is not worth what it gives you.</strong></p>
+<h2>Lesson 2: a golden test that says zero will pass anything</h2>
+<p>On iOS, a single Vision call over the whole frame finds nothing when a face is smaller than about 3% of the frame width. On two group photographs it missed all 14 faces.</p>
+<p>Our golden tests did not notice, because the goldens had been recorded from the same detector. The reference said zero faces, the detector found zero faces, and the test passed.</p>
+<p>When we built a reference by hand, 128 faces checked by a person, the old path found 38 of them, and only 3 of the 75 small ones. The fix was to run Vision on overlapping tiles at two scales, merge the boxes with weighted non-maximum suppression, and collapse duplicates. Both group photographs went to 7 out of 7.</p>
+<p><strong>Measure a detector against a reference a human checked, not against yesterday&#39;s output.</strong></p>
+<h2>Lesson 3: run a bake-off, and keep the loser</h2>
+<p>On Android we compared ML Kit&#39;s face detector with BlazeFace on 39 golden photographs, on a real phone.</p>
+<table>
+<thead>
+<tr>
+<th>Detector</th>
+<th>Faces found</th>
+<th>Box accuracy (median IoU)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ML Kit</td>
+<td>84% (32 of 38)</td>
+<td>0.62</td>
+</tr>
+<tr>
+<td>BlazeFace, tiled</td>
+<td>92% (35 of 38)</td>
+<td>0.78</td>
+</tr>
+<tr>
+<td>BlazeFace, half-step tiles</td>
+<td>97% (37 of 38)</td>
+<td>0.81</td>
+</tr>
+</tbody></table>
+<p>BlazeFace became the default. The half-step tiles cost about 25% more time, which was worth it.</p>
+<p>The subject mask had a harder lesson. ML Kit&#39;s subject segmentation gave better masks, but on real hardware it crashed the whole app process with a native segfault that no <code>try</code> can catch. The engine&#39;s first rule is that it never crashes the app, so DeepLab stays the default and ML Kit&#39;s segmenter is opt-in. Both backends are still in the code and can be switched. I was tempted to delete the loser, and I am glad I did not: the next model update might change the answer.</p>
+<h2>Lesson 4: profile before you optimise</h2>
+<p>Reading a photograph on Android took about 3 seconds. After one round of work it takes about 1 second, and a 12 MP frame went from 5.6 seconds to 1.4. The output is byte for byte the same.</p>
+<p>What made it faster was not the models.</p>
+<ul>
+<li>The face, people and mask detectors now run at the same time instead of one after another.</li>
+<li>BlazeFace&#39;s tile inputs are prepared before the interpreter needs them.</li>
+<li>The image resampler, ordinary Kotlin code, was <strong>more than half</strong> of the total time. Rewriting it was the biggest single win, guarded by a test that compares it with the old one on 600 random rectangles.</li>
+<li>Each detector is warmed up in the background when the engine starts, which took the first read after launch from 1.4 seconds to 0.9.</li>
+</ul>
+<p>The same habit helped ASTRAMAN. Before speeding up builds, we measured where the time went. About 81% of it was the model thinking, and only 19% was Gradle. Tuning Gradle could never have given the speedup I was hoping for.</p>
+<p>And one more rule from the app side: <strong>never make the UI wait for a model.</strong> Veduta shows the photograph from the system thumbnail straight away, and the designs fade in underneath as they arrive.</p>
+<h2>What did not work</h2>
+<p>Not everything was a win, and these are worth writing down.</p>
+<ul>
+<li><strong>Parallel agents.</strong> I tried running several build phases at once in separate git worktrees. It gave no real speedup, and the merges conflicted. A faster model per phase did far more than more agents at once.</li>
+<li><strong>Rules written as prose.</strong> When an agent made the same mistake twice, my first instinct was to add a sentence to its prompt. It came back anyway. What worked was turning it into code: a lint rule, a check, or a scaffold. When the 300-line commit limit became a check instead of an instruction, oversized commits went from about 30% to under 1%.</li>
+<li><strong>Trusting a summary.</strong> An agent once reported a test failure as &quot;pre-existing&quot;. It was not. Now I check claims like that before acting on them.</li>
+</ul>
+<h2>Building fast, testing once</h2>
+<p>The working rhythm that settled in is simple.</p>
+<ul>
+<li>Agents work in parallel on small, separate pieces, and only run fast checks: lint, compile for both platforms, and the unit tests of what they touched. A few minutes each.</li>
+<li>When the pieces are merged, one full run checks everything: every module&#39;s tests, iOS simulator tests, screenshot tests, and the Xcode build.</li>
+<li>Only after that run passes does anything get pushed, in one batch.</li>
+</ul>
+<p>Since the Veduta build finished, this rhythm has added adaptive layouts for foldables and iPad, in-app purchases, several texts on one design, and a text style picker. The style picker shows each style as a small &quot;Aa&quot; drawn by the engine itself, so what you tap is exactly what you get.</p>
+<h2>What a person still does</h2>
+<p>ASTRAMAN builds the app. It does not decide what the app is. These stayed with me:</p>
+<ul>
+<li>writing the spec and running the design rounds;</li>
+<li>product calls, like dropping the language model, or keeping phones portrait;</li>
+<li>testing on a real device, with sample photographs only;</li>
+<li>everything in the store consoles: products, prices, signing, legal text.</li>
+</ul>
+<p>I keep a log of every time I had to step in during a build. It is the most useful document in the project, because each entry is either a decision only a person should make, or a bug in ASTRAMAN that should be fixed in code so I never have to step in for it again.</p>
+<h2>What I learnt writing about it</h2>
+<p>I have been sharing this work on LinkedIn as it happens, and the posts taught me something too. The ones that landed were never the architecture diagrams. They were a real moment (a phone call that wiped my progress in a Sudoku game the agents built), or a familiar idea in an unfamiliar place: <em>I run unit tests on my skills. They are called evals.</em> A raw screenshot of a real dashboard did better than any graphic I designed. Real evidence beats polish, which is also the lesson of the whole build.</p>
+<h2>If you want to build apps this way</h2>
+<ul>
+<li>Write the spec as data with ids, and validate it with code before any agent sees it.</li>
+<li>Put versions and patterns in skills, never in plans.</li>
+<li>Give deterministic work to scripts, not models.</li>
+<li>Use the strongest model to plan and a fast one to write code.</li>
+<li>Turn every repeated mistake into a check.</li>
+<li>Review every phase, and still run the app on a phone before you believe the review.</li>
+<li>On device, keep models for perception and keep decisions in deterministic code you can test.</li>
+</ul>
+<p>Veduta is not in the stores yet. The remaining work is the part that needs a person: store products, signing, and the legal pages. When it ships, I will link it here.</p>
+
+    <div class="article-byline">
+      <span class="article-byline-glyph" aria-hidden="true">KS</span>
+      <div><strong>Karan Sharma</strong><span>Oct 2026</span></div>
+    </div>
+    <nav class="post-nav" aria-label="Post navigation">
+      <a href="../../blog/jetpack-compose-best-practices/" class="post-nav-link"><span class="post-nav-label">&larr; Previous</span><span class="post-nav-title">Best practices for designing Jetpack Compose APIs</span></a>
+      <div class="post-nav-share">
+        <button class="btn-3d ghost" onclick="sharePost()" style="box-shadow:3px 3px 0 var(--ink);font-size:13px;padding:8px 14px">Share &uarr;</button>
+      </div>
+      <span></span>
+    </nav>
+  </article>
+</main>
+
+<footer class="bottom">
+  <div class="inner" style="grid-template-columns:1fr">
+    <div>
+      <h4>Build something <span class="blue">together?</span></h4>
+      <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d">LinkedIn <span class="arr">&#8599;</span></a>
+        <a href="https://github.com/ksharma-xyz" rel="noopener" class="btn-3d ghost">GitHub <span class="arr">&#8599;</span></a>
+        <a href="https://ksharma.xyz" rel="noopener" class="btn-3d ghost">ksharma.xyz <span class="arr">&#8599;</span></a>
+      </div>
+    </div>
+    <div class="meta"><span>&copy; 2026 Karan Sharma &middot; Sydney</span><span>Built with plain HTML &middot; #13B0E5</span></div>
+  </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());
+function sharePost(){var u=location.href,t=document.title;if(navigator.share){navigator.share({title:t,url:u});}else{navigator.clipboard.writeText(u).then(function(){var b=document.querySelector('.post-nav-share button');var orig=b.textContent;b.textContent='Link copied!';setTimeout(function(){b.textContent=orig;},1800);});}}
+</script>
+</body>
+</html>
