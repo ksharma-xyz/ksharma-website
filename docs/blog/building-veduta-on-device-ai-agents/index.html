@@ -39,7 +39,7 @@
 <main class="post-wrap">
   <div class="post-head">
     <a class="post-back" href="../../#blog">&larr; All posts</a>
-    <div class="pin">Oct 2026 &middot; 11 min read</div>
+    <div class="pin">Oct 2026 &middot; 12 min read</div>
     <h1>Building Veduta: on-device models, a team of agents, and what broke</h1>
   </div>
   <article class="article">
@@ -187,6 +187,11 @@
 </ul>
 <p>The same habit helped ASTRAMAN. Before speeding up builds, we measured where the time went. About 81% of it was the model thinking, and only 19% was Gradle. Tuning Gradle could never have given the speedup I was hoping for.</p>
 <p>And one more rule from the app side: <strong>never make the UI wait for a model.</strong> Veduta shows the photograph from the system thumbnail straight away, and the designs fade in underneath as they arrive.</p>
+<h2>Lesson 5: a colour is only right where it was chosen</h2>
+<p>We added tap to write: tap an empty spot on the photograph and your words go there. Every test passed. On the simulator, I tapped, typed &quot;here&quot;, and nothing appeared.</p>
+<p>The text was there. The engine had placed it in its usual spot first, picked an ink that read well <em>there</em>, and then moved it to my tap. The ink came along. Near-black type on a dark patch of jungle is still type, it is just invisible.</p>
+<p>The tests checked that the text existed and sat at the right point. None of them looked at the pixels under it. The fix was to give the engine the point up front, so it places the text there and judges the ink on the spot it will actually live.</p>
+<p><strong>A decision made against the photograph is only valid for the place it was made.</strong> Move the text and you have to ask the photograph again.</p>
 <h2>What did not work</h2>
 <p>Not everything was a win, and these are worth writing down.</p>
 <ul>
@@ -202,6 +207,7 @@
 <li>Only after that run passes does anything get pushed, in one batch.</li>
 </ul>
 <p>Since the Veduta build finished, this rhythm has added adaptive layouts for foldables and iPad, in-app purchases, several texts on one design, and a text style picker. The style picker shows each style as a small &quot;Aa&quot; drawn by the engine itself, so what you tap is exactly what you get.</p>
+<p>Most of the later changes came from using the app, not from the spec. The location used to sit inside the headline; now it is its own text with a pin, which you can move or delete like any other. And the app no longer asks you to write a line before it shows you anything. Every tool is there from the first moment, and you can tap anywhere on the photograph to write.</p>
 <h2>What a person still does</h2>
 <p>ASTRAMAN builds the app. It does not decide what the app is. These stayed with me:</p>
 <ul>

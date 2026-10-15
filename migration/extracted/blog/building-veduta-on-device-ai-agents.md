@@ -121,6 +121,16 @@ The same habit helped ASTRAMAN. Before speeding up builds, we measured where the
 
 And one more rule from the app side: **never make the UI wait for a model.** Veduta shows the photograph from the system thumbnail straight away, and the designs fade in underneath as they arrive.
 
+## Lesson 5: a colour is only right where it was chosen
+
+We added tap to write: tap an empty spot on the photograph and your words go there. Every test passed. On the simulator, I tapped, typed "here", and nothing appeared.
+
+The text was there. The engine had placed it in its usual spot first, picked an ink that read well *there*, and then moved it to my tap. The ink came along. Near-black type on a dark patch of jungle is still type, it is just invisible.
+
+The tests checked that the text existed and sat at the right point. None of them looked at the pixels under it. The fix was to give the engine the point up front, so it places the text there and judges the ink on the spot it will actually live.
+
+**A decision made against the photograph is only valid for the place it was made.** Move the text and you have to ask the photograph again.
+
 ## What did not work
 
 Not everything was a win, and these are worth writing down.
@@ -138,6 +148,8 @@ The working rhythm that settled in is simple.
 - Only after that run passes does anything get pushed, in one batch.
 
 Since the Veduta build finished, this rhythm has added adaptive layouts for foldables and iPad, in-app purchases, several texts on one design, and a text style picker. The style picker shows each style as a small "Aa" drawn by the engine itself, so what you tap is exactly what you get.
+
+Most of the later changes came from using the app, not from the spec. The location used to sit inside the headline; now it is its own text with a pin, which you can move or delete like any other. And the app no longer asks you to write a line before it shows you anything. Every tool is there from the first moment, and you can tap anywhere on the photograph to write.
 
 ## What a person still does
 
