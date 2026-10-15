@@ -129,7 +129,7 @@ ${contentHtml}
 <footer class="bottom">
   <div class="inner" style="grid-template-columns:1fr">
     <div>
-      <h4>Build something <span class="blue">together?</span></h4>
+      <h2 class="cta-title">Build something <span class="blue">together?</span></h2>
       <p>Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, or speaking.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener" class="btn-3d">LinkedIn <span class="arr">&#8599;</span></a>
@@ -179,7 +179,7 @@ for (let i = 0; i < posts.length; i++) {
   if (fs.existsSync(srcImg)) {
     const dstImg = path.join(outDir, 'images');
     fs.mkdirSync(dstImg, { recursive: true });
-    for (const im of fs.readdirSync(srcImg)) fs.copyFileSync(path.join(srcImg, im), path.join(dstImg, im));
+    fs.cpSync(srcImg, dstImg, { recursive: true });
   }
   fs.writeFileSync(path.join(outDir, 'index.html'), page({ title, dateLabel, slug, contentHtml, readLabel, prevPost, nextPost }));
   console.log(`✓ blog/${slug}/  (${dateLabel}, ${readLabel})`);

@@ -931,13 +931,13 @@
   }
 
   /* ——— Blog post (article) ——— */
-  .post-wrap { max-width: 740px; margin: 0 auto; padding: 0 28px; }
+  .post-wrap { max-width: 960px; margin: 0 auto; padding: 0 28px; }
   .post-head { padding: 48px 0 22px; border-bottom: 2px solid var(--ink); }
   .post-back { font-family: var(--mono); font-size: 13px; color: var(--ink-3); display: inline-flex; gap: 6px; margin-bottom: 22px; }
   .post-back:hover { color: var(--b-500); }
   .post-head .pin { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--b-600); }
   .post-head h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.12; margin: 10px 0 0; }
-  .article { padding: 30px 0 8px; font-size: 17px; line-height: 1.7; color: var(--ink-2); }
+  .article { padding: 30px 0 8px; font-size: 18px; line-height: 1.7; color: var(--ink-2); }
   .article h1, .article h2, .article h3 { color: var(--ink); letter-spacing: -0.02em; line-height: 1.25; margin: 32px 0 12px; }
   .article h2 { font-size: 25px; } .article h3 { font-size: 19px; }
   .article p { margin: 0 0 18px; }
@@ -949,7 +949,26 @@
   .article blockquote { border-left: 3px solid var(--b-400); margin: 18px 0; padding: 4px 0 4px 18px; color: var(--ink-3); }
   .article ul, .article ol { margin: 0 0 18px; padding-left: 22px; }
   .article li { margin: 6px 0; }
-  .article .video-embed { position:relative; width:100%; aspect-ratio:16/9; border-radius:8px; overflow:hidden; margin:24px 0; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--b-400); }
+  .article table { width: 100%; border-collapse: collapse; margin: 0 0 22px; font-size: 15px; line-height: 1.45; font-variant-numeric: tabular-nums; display: block; overflow-x: auto; }
+.article th, .article td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.article th { font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); border-bottom: 2px solid var(--ink); }
+.article figure.photo { margin: 6px 0 24px; }
+.article figure.photo img { width: 100%; border-radius: 0; }
+.article figure.photo figcaption { font-family: var(--mono); font-size: 12px; line-height: 1.45; color: var(--ink-3); margin-top: 8px; }
+.article .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 4px 0 26px; }
+.article .stats > div { border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 var(--b-500); padding: 14px 14px 12px; }
+.article .stats b { display: block; font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.article .stats span { display: block; margin-top: 6px; font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--ink-3); }
+.article .shots { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; margin: 0 0 22px; }
+.article .shots figure { flex: 0 0 200px; margin: 0; scroll-snap-align: start; }
+.article .shots img { width: 200px; height: auto; display: block; border: 2px solid var(--ink); border-radius: 18px; }
+.article .shots figcaption { font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--ink-3); margin-top: 8px; }
+.article .chart-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 0 0 22px; }
+.article .chart-pair figure.chart { margin: 0; }
+.article figure.chart { margin: 8px 0 26px; padding: 14px 12px 10px; border: 2px solid var(--ink); background: var(--paper); overflow-x: auto; }
+.article figure.chart svg { display: block; height: auto; }
+.article figure.chart figcaption { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+.article .video-embed { position:relative; width:100%; aspect-ratio:16/9; border-radius:8px; overflow:hidden; margin:24px 0; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--b-400); }
   .article .video-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
   .article-byline { display:flex; align-items:center; gap:14px; padding:28px 0 0; border-top:2px solid var(--ink); margin-top:40px; }
   .article-byline-glyph { width:36px; height:36px; background:var(--b-400); border:2px solid var(--ink); border-radius:4px; box-shadow:2px 2px 0 var(--ink); display:inline-flex; align-items:center; justify-content:center; color:var(--ink); font-weight:800; font-size:13px; flex-shrink:0; }
@@ -1004,3 +1023,12 @@
   .article pre code.hljs { background: transparent; padding: 0; color: #E8EFF5; }
 
   .article .post-hero { display:block; max-width:340px; width:100%; margin:0 auto 8px; border:2px solid var(--ink); border-radius:10px; box-shadow:5px 5px 0 var(--b-400); height:auto; }
+/* Article blocks (numbers, screenshots, charts, photos) span the text column, start to end. */
+.article .stats, .article .shots, .article .chart-pair, .article figure.photo, .article figure.chart { width: 100%; box-sizing: border-box; }
+.article .shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; overflow: visible; }
+.article .shots figure { flex: none; }
+.article .shots img { width: 100%; }
+@media (max-width: 640px) { .article .shots { grid-template-columns: repeat(2, 1fr); } }
+/* Post template a11y: the footer CTA is an h2 sized like the old h4; the byline glyph keeps its own ink. */
+footer.bottom h2.cta-title { font-size: 1em; margin: 1.33em 0; }
+.article-byline .article-byline-glyph { color: var(--ink); font-family: var(--sans); font-size: 13px; }
