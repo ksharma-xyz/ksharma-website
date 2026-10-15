@@ -1,207 +1,209 @@
 ---
-title: "How a team of AI agents built Veduta end to end, using on-device models"
+title: "How AI agents built Veduta, an app that runs its AI on the phone"
 slug: building-veduta-on-device-ai-agents
 date: 2026-10
 type: blog
 ---
 Veduta is a small idea. You pick a photograph, and a few moments later you get a row of designs: your words set into the picture like a magazine cover, clear of faces, in a colour you can actually read. You swipe between them, drag the text where you want it, and export a still or a short clip.
 
-I did not write the app's code by hand. I wrote the specification and the skills, and a set of agents wrote the code. This post is about both halves: the on-device models that read the photograph, and **ASTRAMAN**, the system that built the app from a written spec. Most of it is about what did not work the first time.
+<div class="shots" tabindex="0" aria-label="Screenshots of Veduta, scroll sideways"><figure><img src="images/building-veduta-on-device-ai-agents/01-opened.webp" alt="Open a photo: every tool is there straight away" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Open a photo: every tool is there straight away</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/03-design1.webp" alt="Write a line: the first design" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Write a line: the first design</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/04-design2.webp" alt="Swipe: the same words, another design" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Swipe: the same words, another design</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/05-design3.webp" alt="Swipe again: a third design" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Swipe again: a third design</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/06-text-panel.webp" alt="The text panel, with a row of styles to pick from" width="480" height="1044" loading="lazy" decoding="async"><figcaption>The text panel, with a row of styles to pick from</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/07-place.webp" alt="Add the location: a pin and the name, its own text" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Add the location: a pin and the name, its own text</figcaption></figure></div>
 
-## Two projects, one app
+I did not write the app's code by hand. I wrote down what the app should do, and a team of AI agents wrote the code. Those agents run in the cloud, on Claude. The app itself uses small AI models that run on the phone, so your photographs never leave it.
 
-There are really three pieces of software here.
+This post covers both: how the agents built the app, and what I learnt putting AI models inside it. Most of it is about what went wrong the first time.
 
-- **Veduta** is the app. Kotlin Multiplatform and Compose Multiplatform, Android and iOS, one codebase.
-- **Vinyas** is the engine underneath it. It reads the photograph, decides where type can go, sets it, checks the contrast, and renders the result. It is a Kotlin Multiplatform library of its own, with golden tests.
-- **ASTRAMAN** is the builder. It takes a requirements spec and produces a production KMP app, one phase at a time, with a review after every phase.
+## What I built: an app, an engine, and a builder
 
-## How ASTRAMAN builds an app
+There are three pieces of software here.
 
-ASTRAMAN is a small team of agents, each a `claude` CLI process with its own system prompt (a `SKILL.md` file).
+- **Veduta** is the app, for Android and iOS, written once in Kotlin Multiplatform.
+- **Vinyas** is the engine inside the app. It looks at the photograph, decides where the words can go, sets them in a typeface, checks they are readable, and draws the result.
+- **ASTRAMAN** is the builder. It takes a written description of an app and turns it into a working app, one small step at a time, with a review after every step.
 
-| Agent | Job | Model |
+## How ASTRAMAN turns a written description into an app
+
+ASTRAMAN is a small team of AI agents. Each one is Claude with its own instructions and its own job.
+
+| Agent | What it does | Model |
 |---|---|---|
-| Vishwakarma | Reads the spec, writes the plan and the design system | Opus (reasoning) |
-| Karma | Builds one phase at a time and commits | Sonnet (code) |
-| Fixer | A light retry agent that repairs only what the reviewer flagged | Sonnet |
-| Vivek | Reviews every phase: compile, lint, tests, and the spec's acceptance criteria | Sonnet |
-| Drishti | Reads a finished build and suggests fixes to the agents' own prompts | Sonnet |
+| Vishwakarma | Reads the description and plans the build, step by step | Opus, the strongest |
+| Karma | Writes the code for one step and saves it | Sonnet, the fastest |
+| Fixer | Fixes only what the reviewer found | Sonnet |
+| Vivek | Checks every step: does it build, do the tests pass, does it do what the description says | Sonnet |
+| Drishti | Reads a finished build and suggests how the agents could do better | Sonnet |
 
-A few decisions shaped everything else.
+Four decisions made the biggest difference.
 
-**The spec is read by code, not by an agent.** The input is a set of plain files: a PRD with numbered requirements, a technical requirements doc, a data model, business rules, one file per screen with Given/When/Then criteria, and design tokens. A validator checks it before anything is built, and a script turns each phase of the plan into a brief with its own definition of done. An agent never has to guess what "done" means for phase 41.
+**Code checks the description, not an agent.** The description is a set of plain files: numbered requirements, one file per screen with "when I do this, that happens" rules, colours and sizes. A script checks them before anything is built, and writes each step's own checklist of what "done" means. No agent ever has to guess.
 
-**Skills are the single source of truth.** Library versions, SDK levels and patterns live in about fifty KMP skills, one per concern (navigation, Koin, SQLDelight, dark mode, accessibility and so on). The planner never writes a version number into a plan, because a number copied into a plan drifts the day the skill moves on.
+**Each skill is written down once.** About fifty short guides, called skills, cover things like navigation, the database, dark mode and accessibility. Library versions live only there. The plan never copies a version number, because a copied number goes stale the day the guide is updated.
 
-**Deterministic work is not given to a model.** Some skills produce the same files every time, so they ship a `scaffold.mjs` script instead. The project baseline, the component catalogue and the custom lint rules are generated by a script in seconds, for nothing. The skill's prose is only read if the script fails.
+**Scripts do the repeatable work.** Some steps produce the same files every time, like the empty project or the custom style checks. A script writes those in seconds, for free. The AI only steps in if the script fails.
 
-**Opus for reasoning, Sonnet for code.** The plan and the behaviour spec use the strongest model. The phases that write code use a fast one. Halfway through the Veduta build I moved the code writers to the newer Sonnet. The builder's median time per phase halved, from about 13 minutes to about 6.
+**The strongest model plans, a fast one writes code.** Halfway through the Veduta build I moved the code writer to a newer, faster Sonnet. Its typical time per step halved, from about 13 minutes to about 6.
 
-## The Veduta build
+## Building Veduta: 82 steps, all reviewed, and still broken on the phone
 
-Veduta's plan had 82 phases, from the empty project to release readiness. It used the real engine from phase 1, with no fake data behind the screens.
+Veduta's plan had 82 steps, from an empty project to ready for the store. It used the real engine from the first step, with no fake data behind the screens.
 
-Every phase passed review. Then I installed the app on a phone and used it.
+Every step passed review. Then I installed the app on a phone and used it.
 
-Within minutes I found a button that deadlocked, state from one photograph leaking into the next, a drag that lagged behind the finger, and a move that did not stick. The build log says it plainly: *the review checked code against the spec text, nobody ran the app end to end.*
+Within minutes I found a button that froze, settings from one photograph showing up on the next, a drag that lagged behind my finger, and a move that did not stick. The build log puts it plainly: *the review checked the code against the description; nobody used the app.*
 
-That one line changed how I think about automated builds. A green review proves the code matches the words. It does not prove the app works. Device QA is now part of every build, not a step at the end.
+That changed how I think about automated builds. A passing review proves the code matches the words. It does not prove the app works. Testing on a real phone is now part of every build.
 
-## The numbers
+## What the build cost in time, tokens and money
 
-ASTRAMAN logs every agent run: how long it took, how much of that was Gradle, the tokens in and out, and what it would cost at API prices. These are from that log, for three apps it built.
+ASTRAMAN records every agent run: how long it took, how long it waited for Gradle (the tool that compiles an Android app), how much text the model read and wrote, and what that would cost on the API. The model counts text in tokens, roughly three quarters of a word each. Here are the numbers for three apps it built.
 
-<figure class="chart"><svg viewBox="0 0 640 202" width="100%" role="img" aria-label="Agent time per build, in hours: the model thinking, and Gradle" style="max-width:640px;font-family:var(--mono,ui-monospace,monospace);font-size:13px"><text x="140" y="44" text-anchor="end" fill="var(--ink,#0E1A20)">Sudoku3</text><text x="140" y="59" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">46 phases</text><rect x="150.0" y="30" width="260.0" height="24" fill="var(--b-800,#0B5C78)"/><rect x="410.0" y="30" width="58.6" height="24" fill="var(--b-500,#13B0E5)"/><text x="476.6" y="47" fill="var(--ink,#0E1A20)">22.3h</text><text x="140" y="88" text-anchor="end" fill="var(--ink,#0E1A20)">sudoku4</text><text x="140" y="103" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">50 phases</text><rect x="150.0" y="74" width="192.9" height="24" fill="var(--b-800,#0B5C78)"/><rect x="342.9" y="74" width="27.1" height="24" fill="var(--b-500,#13B0E5)"/><text x="378.0" y="91" fill="var(--ink,#0E1A20)">15.4h</text><text x="140" y="132" text-anchor="end" fill="var(--ink,#0E1A20)">Veduta</text><text x="140" y="147" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">81 phases</text><rect x="150.0" y="118" width="332.9" height="24" fill="var(--b-800,#0B5C78)"/><rect x="482.9" y="118" width="62.9" height="24" fill="var(--b-500,#13B0E5)"/><text x="553.7" y="135" fill="var(--ink,#0E1A20)">27.7h</text><rect x="150" y="178" width="12" height="12" fill="var(--b-800,#0B5C78)"/><text x="168" y="188" fill="var(--ink-3,#5A6B73)" font-size="12">model and tools</text><rect x="350" y="178" width="12" height="12" fill="var(--b-500,#13B0E5)"/><text x="368" y="188" fill="var(--ink-3,#5A6B73)" font-size="12">Gradle</text></svg><figcaption>Agent time per build, in hours: the model thinking, and Gradle</figcaption></figure>
+<figure class="chart"><svg viewBox="0 0 640 202" width="100%" role="img" aria-label="Hours the agents worked on each app: thinking and writing code (dark), waiting for Gradle (light)" style="max-width:640px;font-family:var(--mono,ui-monospace,monospace);font-size:13px"><text x="140" y="44" text-anchor="end" fill="var(--ink,#0E1A20)">Sudoku3</text><text x="140" y="59" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">46 steps</text><rect x="150.0" y="30" width="260.0" height="24" fill="var(--b-800,#0B5C78)"/><rect x="410.0" y="30" width="58.6" height="24" fill="var(--b-500,#13B0E5)"/><text x="476.6" y="47" fill="var(--ink,#0E1A20)">22.3h</text><text x="140" y="88" text-anchor="end" fill="var(--ink,#0E1A20)">sudoku4</text><text x="140" y="103" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">50 steps</text><rect x="150.0" y="74" width="192.9" height="24" fill="var(--b-800,#0B5C78)"/><rect x="342.9" y="74" width="27.1" height="24" fill="var(--b-500,#13B0E5)"/><text x="378.0" y="91" fill="var(--ink,#0E1A20)">15.4h</text><text x="140" y="132" text-anchor="end" fill="var(--ink,#0E1A20)">Veduta</text><text x="140" y="147" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">81 steps</text><rect x="150.0" y="118" width="332.9" height="24" fill="var(--b-800,#0B5C78)"/><rect x="482.9" y="118" width="62.9" height="24" fill="var(--b-500,#13B0E5)"/><text x="553.7" y="135" fill="var(--ink,#0E1A20)">27.7h</text><rect x="150" y="178" width="12" height="12" fill="var(--b-800,#0B5C78)"/><text x="168" y="188" fill="var(--ink-3,#5A6B73)" font-size="12">thinking and writing</text><rect x="350" y="178" width="12" height="12" fill="var(--b-500,#13B0E5)"/><text x="368" y="188" fill="var(--ink-3,#5A6B73)" font-size="12">Gradle</text></svg><figcaption>Hours the agents worked on each app: thinking and writing code (dark), waiting for Gradle (light)</figcaption></figure>
 
-<figure class="chart"><svg viewBox="0 0 640 246" width="100%" role="img" aria-label="Where Veduta's 81 phases spent their budget (API prices, US$)" style="max-width:640px;font-family:var(--mono,ui-monospace,monospace);font-size:13px"><text x="140" y="44" text-anchor="end" fill="var(--ink,#0E1A20)">Builder</text><text x="140" y="59" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">Karma</text><rect x="150.0" y="30" width="374.7" height="24" fill="var(--b-800,#0B5C78)"/><text x="532.7" y="47" fill="var(--ink,#0E1A20)">US$281</text><text x="140" y="88" text-anchor="end" fill="var(--ink,#0E1A20)">Reviewer</text><text x="140" y="103" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">Vivek</text><rect x="150.0" y="74" width="320.0" height="24" fill="var(--b-800,#0B5C78)"/><text x="478.0" y="91" fill="var(--ink,#0E1A20)">US$240</text><text x="140" y="132" text-anchor="end" fill="var(--ink,#0E1A20)">Fixer</text><text x="140" y="147" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">retries</text><rect x="150.0" y="118" width="20.0" height="24" fill="var(--b-800,#0B5C78)"/><text x="178.0" y="135" fill="var(--ink,#0E1A20)">US$15</text><text x="140" y="176" text-anchor="end" fill="var(--ink,#0E1A20)">Planner</text><text x="140" y="191" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">Vishwakarma</text><rect x="150.0" y="162" width="6.7" height="24" fill="var(--b-800,#0B5C78)"/><text x="164.7" y="179" fill="var(--ink,#0E1A20)">US$5</text><rect x="150" y="222" width="12" height="12" fill="var(--b-800,#0B5C78)"/><text x="168" y="232" fill="var(--ink-3,#5A6B73)" font-size="12">US$ at API prices</text></svg><figcaption>Where Veduta's 81 phases spent their budget (API prices, US$)</figcaption></figure>
+<figure class="chart"><svg viewBox="0 0 640 246" width="100%" role="img" aria-label="What Veduta's build cost, by agent, at API prices" style="max-width:640px;font-family:var(--mono,ui-monospace,monospace);font-size:13px"><text x="140" y="44" text-anchor="end" fill="var(--ink,#0E1A20)">Code writer</text><text x="140" y="59" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">Karma</text><rect x="150.0" y="30" width="374.7" height="24" fill="var(--b-800,#0B5C78)"/><text x="532.7" y="47" fill="var(--ink,#0E1A20)">US$281</text><text x="140" y="88" text-anchor="end" fill="var(--ink,#0E1A20)">Reviewer</text><text x="140" y="103" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">Vivek</text><rect x="150.0" y="74" width="320.0" height="24" fill="var(--b-800,#0B5C78)"/><text x="478.0" y="91" fill="var(--ink,#0E1A20)">US$240</text><text x="140" y="132" text-anchor="end" fill="var(--ink,#0E1A20)">Fixer</text><text x="140" y="147" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">retries</text><rect x="150.0" y="118" width="20.0" height="24" fill="var(--b-800,#0B5C78)"/><text x="178.0" y="135" fill="var(--ink,#0E1A20)">US$15</text><text x="140" y="176" text-anchor="end" fill="var(--ink,#0E1A20)">Planner</text><text x="140" y="191" text-anchor="end" fill="var(--ink-3,#5A6B73)" font-size="11">Vishwakarma</text><rect x="150.0" y="162" width="6.7" height="24" fill="var(--b-800,#0B5C78)"/><text x="164.7" y="179" fill="var(--ink,#0E1A20)">US$5</text><rect x="150" y="222" width="12" height="12" fill="var(--b-800,#0B5C78)"/><text x="168" y="232" fill="var(--ink-3,#5A6B73)" font-size="12">US$ at API prices</text></svg><figcaption>What Veduta's build cost, by agent, at API prices</figcaption></figure>
 
-<figure class="chart"><svg viewBox="0 0 640 310" width="100%" role="img" aria-label="Builder moved to a faster model at phase 30 (medians per phase)" style="max-width:640px;font-family:var(--mono,ui-monospace,monospace);font-size:13px"><text x="140" y="44" text-anchor="end" fill="var(--ink,#0E1A20)">Builder minutes</text><rect x="150" y="24" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="40" fill="var(--ink,#0E1A20)">12.8 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="52" width="157.3" height="22" fill="var(--b-500,#13B0E5)"/><text x="315.3" y="68" fill="var(--ink,#0E1A20)">6.1 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text><text x="140" y="114" text-anchor="end" fill="var(--ink,#0E1A20)">Builder cost</text><rect x="150" y="94" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="110" fill="var(--ink,#0E1A20)">$4.29 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="122" width="139.2" height="22" fill="var(--b-500,#13B0E5)"/><text x="297.2" y="138" fill="var(--ink,#0E1A20)">$1.81 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text><text x="140" y="184" text-anchor="end" fill="var(--ink,#0E1A20)">Whole phase</text><rect x="150" y="164" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="180" fill="var(--ink,#0E1A20)">19.5 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="192" width="238.6" height="22" fill="var(--b-500,#13B0E5)"/><text x="396.6" y="208" fill="var(--ink,#0E1A20)">14.1 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text><text x="140" y="254" text-anchor="end" fill="var(--ink,#0E1A20)">Whole phase cost</text><rect x="150" y="234" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="250" fill="var(--ink,#0E1A20)">$7.25 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="262" width="214.8" height="22" fill="var(--b-500,#13B0E5)"/><text x="372.8" y="278" fill="var(--ink,#0E1A20)">$4.72 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text></svg><figcaption>Builder moved to a faster model at phase 30 (medians per phase)</figcaption></figure>
+<figure class="chart"><svg viewBox="0 0 640 310" width="100%" role="img" aria-label="The code writer before and after moving to a faster model (a typical step)" style="max-width:640px;font-family:var(--mono,ui-monospace,monospace);font-size:13px"><text x="140" y="44" text-anchor="end" fill="var(--ink,#0E1A20)">Writer, minutes</text><rect x="150" y="24" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="40" fill="var(--ink,#0E1A20)">12.8 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="52" width="157.3" height="22" fill="var(--b-500,#13B0E5)"/><text x="315.3" y="68" fill="var(--ink,#0E1A20)">6.1 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text><text x="140" y="114" text-anchor="end" fill="var(--ink,#0E1A20)">Writer, cost</text><rect x="150" y="94" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="110" fill="var(--ink,#0E1A20)">$4.29 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="122" width="139.2" height="22" fill="var(--b-500,#13B0E5)"/><text x="297.2" y="138" fill="var(--ink,#0E1A20)">$1.81 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text><text x="140" y="184" text-anchor="end" fill="var(--ink,#0E1A20)">Whole step</text><rect x="150" y="164" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="180" fill="var(--ink,#0E1A20)">19.5 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="192" width="238.6" height="22" fill="var(--b-500,#13B0E5)"/><text x="396.6" y="208" fill="var(--ink,#0E1A20)">14.1 min <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text><text x="140" y="254" text-anchor="end" fill="var(--ink,#0E1A20)">Whole step, cost</text><rect x="150" y="234" width="330.0" height="22" fill="var(--ink-3,#5A6B73)"/><text x="488.0" y="250" fill="var(--ink,#0E1A20)">$7.25 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">before</tspan></text><rect x="150" y="262" width="214.8" height="22" fill="var(--b-500,#13B0E5)"/><text x="372.8" y="278" fill="var(--ink,#0E1A20)">$4.72 <tspan fill="var(--ink-3,#5A6B73)" font-size="11">after</tspan></text></svg><figcaption>The code writer before and after moving to a faster model (a typical step)</figcaption></figure>
 
-| Veduta, 81 phases | |
+| Veduta, 81 steps | |
 |---|---|
-| Agent time | 27.7 hours, over five days with pauses for usage limits |
-| Of which Gradle | 4.4 hours (16%) |
-| Output tokens | 7.6 million |
-| Tokens read from cache | 1.57 billion |
-| Fresh input tokens | about 17 thousand |
-| Cost at API prices | about US$541, about US$6.70 a phase |
+| Time the agents worked | 27.7 hours, spread over five days with pauses for usage limits |
+| Of that, waiting for Gradle | 4.4 hours (16%) |
+| Text the models wrote | 7.6 million tokens |
+| Text the models re-read from memory | 1.57 billion tokens |
+| New text the models read | about 17 thousand tokens |
+| Cost at API prices | about US$541, or about US$6.70 a step |
 
 A few things stand out.
 
-- **Review costs almost as much as building.** The reviewer spent US$240 against the builder's US$281. That sounds expensive until you remember what it buys: every phase checked against its acceptance criteria before the next one starts.
-- **The model is the time, not the build tool.** Gradle was about 16% of agent time. Every speedup that mattered came from the model side: a faster model, less context, scripts instead of prompts.
-- **Almost everything the agents read is cached.** For every fresh input token, about ninety thousand came from the prompt cache: the skills, the spec and the code from earlier phases, read again and again. That is what keeps a long build affordable.
-- **A faster model was the cheapest speedup.** Moving the builder to the newer Sonnet at phase 30 cut its median time per phase by half and its median cost by more than half.
+- **Checking costs almost as much as building.** The reviewer cost US$240 and the code writer US$281. That is the price of every step being checked before the next one starts, and it is worth it.
+- **The time goes to the AI, not the compiler.** Waiting for Gradle was only 16% of the time. Every speed-up that mattered came from the AI side: a faster model, less to read, scripts instead of prompts.
+- **The agents mostly re-read what they have seen before.** For every new token, about ninety thousand came from the model's short-term memory (the cache): the skills, the description and the code from earlier steps. That is what keeps a long build affordable.
+- **A faster model was the cheapest win.** Switching the code writer at step 30 halved its typical time per step and more than halved its cost.
 
-The costs are API-equivalent: what the same tokens would cost on the API. I ran these builds on a subscription.
+The costs are what the same work would cost on the API. I ran these builds on a subscription.
 
-## Why the models run on the phone
+## Why Veduta keeps every photo on the phone
 
-Veduta's first rule is that no photograph ever leaves the phone. There is no backend, no account, and no analytics. It works offline from the first launch. On iOS the privacy label is "Data Not Collected".
+Veduta's first rule: no photograph ever leaves the phone. There is no server, no account and no tracking. It works offline from the first launch. Its App Store privacy label will be "Data Not Collected".
 
-So everything the engine knows about a photograph comes from models that run on the device.
+So everything the app knows about a photograph comes from small AI models that run on the phone itself.
 
-| | Android | iOS |
+| What it finds | Android | iOS |
 |---|---|---|
-| Faces | BlazeFace (short and full range) on LiteRT, tiled | Apple Vision face rectangles, tiled |
-| People | EfficientDet-Lite0 | Apple Vision human rectangles |
-| Subject mask | DeepLab v3 | Apple Vision foreground instance mask |
-| Colour | Palette and a luminance grid, computed in Kotlin | Same |
+| Faces | BlazeFace | Apple's Vision framework |
+| People | EfficientDet-Lite0 | Apple's Vision framework |
+| The main subject | DeepLab | Apple's Vision framework |
+| Light and dark areas | Plain code, no AI | Plain code, no AI |
 
-The four Android models are open source (Apache 2.0) and come to about 8 MB together. iOS uses only what the system already ships.
+The Android models are open source and come to about 8 MB together. iOS uses what Apple already ships with the phone.
 
-The engine turns those results into a few grids: where the faces are, where the subject is, how bright each region is. Everything after that, placement, fitting, contrast and rendering, is plain arithmetic over those grids, and takes well under a quarter of a second per design.
+The models only answer "where are the faces, where is the subject, which areas are light or dark". Everything after that, where the words go, how big they are, which colour reads best, is ordinary code. It takes well under a quarter of a second per design.
 
-## Lesson 1: the language model was the slowest and weakest part
+## Lesson 1: We removed the AI that wrote captions
 
-The first version had an on-device language model too: Apple's Foundation Models on iOS, with Gemini Nano considered for Android. Its job grew over time. First it wrote a line for the photograph, then five lines to choose from, and at one point we asked it where the type should go and what colour it should be.
+The first version also had a language model on the phone: Apple's on-device model on iOS, with Google's Gemini Nano considered for Android. At first it wrote a caption for the photo. Then five captions to choose from. Then we asked it where the words should go and what colour they should be.
 
-We measured that last idea on five photographs.
+We tested that last idea on five photographs.
 
-- **Placement:** right once in five. It chose to put the type exactly where a person was holding a piece of coral, after being told never to cover the subject.
-- **Colour:** it answered "dark" for all five, including one that needed light type on dark leaves.
+- **Where to put the words:** right once in five. It put them right where a person was holding a piece of coral, after being told never to cover the subject.
+- **What colour:** it said "dark" for all five, including one that needed light words on dark leaves.
 
-A language model cannot measure a contrast ratio. The engine can, on the real pixels. So the rule became: *the model reports what it sees, the engine decides.*
+A language model cannot measure how readable a colour is on the real pixels. Ordinary code can. So the rule became: *the AI says what it sees, the code decides.*
 
-Then the model got slower and less useful. Reading the photograph took between 0.2 and 1.4 seconds, but writing five drafts was budgeted at up to 18 seconds of a deck that could take 20 to 30. And on iOS, the system's safety filter refused an ordinary photo of a man holding a dumbbell in a gym ("May contain sensitive content"). The app spun for most of a minute and produced nothing.
+Then the captions got slower and no more useful. Looking at the photo took up to 1.4 seconds, but writing five captions could take another 18 seconds. Worse, Apple's built-in safety filter refused an ordinary photo of a man lifting a dumbbell in a gym ("May contain sensitive content"), so the app spun for most of a minute and showed nothing.
 
-The honest feedback from a reviewer was blunt: the styles were great, the text suggestions were the worst part. So we removed the language model entirely. A full set of designs now has a budget of under two seconds, and people type their own words, which they wanted to do anyway.
+A reviewer put it bluntly: the designs were great, the captions were the worst part. So we removed the language model. A full set of designs now appears in under two seconds, and people write their own words, which they wanted to do anyway.
 
-The lesson I keep coming back to: **use a language model for what is in the picture, never for geometry or colour, and drop it when the wait is not worth what it gives you.**
+**Use AI to describe what is in the picture. Use ordinary code for anything you can measure.**
 
-## Lesson 2: a golden test that says zero will pass anything
+## Lesson 2: Our face tests passed because they expected nothing
 
-On iOS, a single Vision call over the whole frame finds nothing when a face is smaller than about 3% of the frame width. On two group photographs it missed all 14 faces.
+Some of our tests compare the engine's answer with a saved copy of the right answer for each photo. On iOS, those saved answers had been recorded from the face detector itself.
 
-Our golden tests did not notice, because the goldens had been recorded from the same detector. The reference said zero faces, the detector found zero faces, and the test passed.
+The problem: when a face is small, under about 3% of the photo's width, Apple's detector misses it if you hand it the whole photo at once. On two group photos it found none of the 14 faces. The saved answer said "no faces", the detector said "no faces", and the test passed.
 
-When we built a reference by hand, 128 faces checked by a person, the old path found 38 of them, and only 3 of the 75 small ones. The fix was to run Vision on overlapping tiles at two scales, merge the boxes with weighted non-maximum suppression, and collapse duplicates. Both group photographs went to 7 out of 7.
+So I had a person mark every face by hand: 128 of them. Against that, the detector found 38, and only 3 of the 75 small ones. The fix was to cut the photo into overlapping squares, look for faces in each, and merge the results. Both group photos went to 7 out of 7.
 
-**Measure a detector against a reference a human checked, not against yesterday's output.**
+**Check a detector against answers a person has checked, not against what it said last time.**
 
-## Lesson 3: run a bake-off, and keep the loser
+## Lesson 3: We compared ML Kit with BlazeFace, and kept both
 
-On Android we compared ML Kit's face detector with BlazeFace on 39 golden photographs, on a real phone.
+On Android there are two common ways to find faces: Google's ML Kit, and a small open model called BlazeFace. We ran both on the same 39 photos on a real phone.
 
-| Detector | Faces found | Box accuracy (median IoU) |
-|---|---|---|
-| ML Kit | 84% (32 of 38) | 0.62 |
-| BlazeFace, tiled | 92% (35 of 38) | 0.78 |
-| BlazeFace, half-step tiles | 97% (37 of 38) | 0.81 |
+| Face detector | Faces found |
+|---|---|
+| ML Kit | 84% (32 of 38) |
+| BlazeFace, photo cut into squares | 92% (35 of 38) |
+| BlazeFace, smaller overlapping squares | 97% (37 of 38) |
 
-BlazeFace became the default. The half-step tiles cost about 25% more time, which was worth it.
+BlazeFace won. The smaller squares cost about 25% more time, which was worth it.
 
-The subject mask had a harder lesson. ML Kit's subject segmentation gave better masks, but on real hardware it crashed the whole app process with a native segfault that no `try` can catch. The engine's first rule is that it never crashes the app, so DeepLab stays the default and ML Kit's segmenter is opt-in. Both backends are still in the code and can be switched. I was tempted to delete the loser, and I am glad I did not: the next model update might change the answer.
+Finding the main subject was a harder call. ML Kit drew better outlines, but on a real phone it crashed the whole app, in a way the app cannot catch and recover from. The engine's first rule is that it never crashes the app, so the open DeepLab model is the default and ML Kit is off unless you switch it on.
 
-## Lesson 4: profile before you optimise
+I kept both options in the code. A future update to either model could change the answer, and switching back is one line.
 
-Reading a photograph on Android took about 3 seconds. After one round of work it takes about 1 second, and a 12 MP frame went from 5.6 seconds to 1.4. The output is byte for byte the same.
+## Lesson 4: The slow part was our own code, not the AI models
 
-What made it faster was not the models.
+Reading a photo on Android took about 3 seconds. Now it takes about 1, and a large 12-megapixel photo went from 5.6 seconds to 1.4. The results are exactly the same as before.
 
-- The face, people and mask detectors now run at the same time instead of one after another.
-- BlazeFace's tile inputs are prepared before the interpreter needs them.
-- The image resampler, ordinary Kotlin code, was **more than half** of the total time. Rewriting it was the biggest single win, guarded by a test that compares it with the old one on 600 random rectangles.
-- Each detector is warmed up in the background when the engine starts, which took the first read after launch from 1.4 seconds to 0.9.
+None of the speed-up came from the AI models.
 
-The same habit helped ASTRAMAN. Before speeding up builds, we measured where the time went. About 81% of it was the model thinking, and only 19% was Gradle. Tuning Gradle could never have given the speedup I was hoping for.
+- The three models now look at the photo at the same time, instead of one after another.
+- The squares for the face detector are cut before it asks for them.
+- The code that shrinks the photo before the models see it, plain Kotlin, was **more than half** of the total time. Rewriting it was the biggest win.
+- Each model starts warming up when the app opens, so the first photo after launch dropped from 1.4 seconds to 0.9.
 
-And one more rule from the app side: **never make the UI wait for a model.** Veduta shows the photograph from the system thumbnail straight away, and the designs fade in underneath as they arrive.
+ASTRAMAN taught the same thing. Before trying to speed up builds, I measured where the time went: about 81% was the AI thinking and only 19% was compiling. Speeding up the compiler could never have helped much.
 
-## Lesson 5: a colour is only right where it was chosen
+One more rule from the app: **never make the screen wait for a model.** Veduta shows your photo straight away and the designs fade in underneath as they are ready.
 
-We added tap to write: tap an empty spot on the photograph and your words go there. Every test passed. On the simulator, I tapped, typed "here", and nothing appeared.
+## Lesson 5: Moving a text can make it invisible
 
-The text was there. The engine had placed it in its usual spot first, picked an ink that read well *there*, and then moved it to my tap. The ink came along. Near-black type on a dark patch of jungle is still type, it is just invisible.
+We added tap to write: tap an empty spot on the photo and your words go there. Every test passed. On the iPhone simulator, I tapped, typed "here", and nothing appeared.
 
-The tests checked that the text existed and sat at the right point. None of them looked at the pixels under it. The fix was to give the engine the point up front, so it places the text there and judges the ink on the spot it will actually live.
+The words were there. The engine had first placed them in its usual spot, picked a colour that read well *there*, and then moved them to my tap. The colour came along. Near-black words on a dark patch of jungle are still words. You just cannot see them.
 
-**A decision made against the photograph is only valid for the place it was made.** Move the text and you have to ask the photograph again.
+The tests checked that the text existed and sat where I tapped. None of them looked at the photo underneath. The fix was to tell the engine where the words go from the start, so it picks the colour for the spot they will actually sit on.
 
-## What did not work
+**A colour that reads well in one place can vanish in another. Move the words, check the colour again.**
 
-Not everything was a win, and these are worth writing down.
+## What I tried that did not work
 
-- **Parallel agents.** I tried running several build phases at once in separate git worktrees. It gave no real speedup, and the merges conflicted. A faster model per phase did far more than more agents at once.
-- **Rules written as prose.** When an agent made the same mistake twice, my first instinct was to add a sentence to its prompt. It came back anyway. What worked was turning it into code: a lint rule, a check, or a scaffold. When the 300-line commit limit became a check instead of an instruction, oversized commits went from about 30% to under 1%.
-- **Trusting a summary.** An agent once reported a test failure as "pre-existing". It was not. Now I check claims like that before acting on them.
+- **Running several agents at once.** I tried building several steps in parallel. It was no faster, and their changes clashed when merged. A faster model for each step did far more.
+- **Telling the agents in words.** When an agent made the same mistake twice, I first added a sentence to its instructions. The mistake came back. What worked was a check in code that fails the build. When "keep each commit under 300 lines" became a check instead of a sentence, oversized commits went from about 30% to under 1%.
+- **Taking an agent's word for it.** An agent once said a failing test was "already broken before my change". It was not. Now I check claims like that myself.
 
-## Building fast, testing once
+## How we work now: build in small pieces, test everything once
 
-The working rhythm that settled in is simple.
+- Agents work on small, separate pieces at the same time, and only run the quick checks: style checks, does it compile for both phones, and the tests for what they touched. A few minutes each.
+- When the pieces are merged, one full run checks everything: every test, the iPhone simulator tests, the screenshot tests, and the full iOS build.
+- Only when that passes does anything get published, all at once.
 
-- Agents work in parallel on small, separate pieces, and only run fast checks: lint, compile for both platforms, and the unit tests of what they touched. A few minutes each.
-- When the pieces are merged, one full run checks everything: every module's tests, iOS simulator tests, screenshot tests, and the Xcode build.
-- Only after that run passes does anything get pushed, in one batch.
+Since the 82 steps finished, this way of working has added layouts for foldables and iPads, in-app purchases, several texts on one design, and a row of text styles. Each style shows as a small "Aa" drawn by the engine itself, so what you tap is exactly what you get.
 
-Since the Veduta build finished, this rhythm has added adaptive layouts for foldables and iPad, in-app purchases, several texts on one design, and a text style picker. The style picker shows each style as a small "Aa" drawn by the engine itself, so what you tap is exactly what you get.
+Most of these changes came from using the app, not from the description. The location used to sit inside the headline. Now it is its own text with a pin, which you can move or delete like any other. And the app no longer makes you write a line first. Every tool is there from the start, and you can tap anywhere on the photo to write.
 
-Most of the later changes came from using the app, not from the spec. The location used to sit inside the headline; now it is its own text with a pin, which you can move or delete like any other. And the app no longer asks you to write a line before it shows you anything. Every tool is there from the first moment, and you can tap anywhere on the photograph to write.
+## What I still do myself
 
-## What a person still does
+ASTRAMAN builds the app. It does not decide what the app should be. These stay with me:
 
-ASTRAMAN builds the app. It does not decide what the app is. These stayed with me:
+- writing the description and working through the design rounds;
+- product calls, like removing the captions or keeping phones in portrait;
+- testing on a real phone, with sample photos only;
+- everything in the app stores: products, prices, signing and legal text.
 
-- writing the spec and running the design rounds;
-- product calls, like dropping the language model, or keeping phones portrait;
-- testing on a real device, with sample photographs only;
-- everything in the store consoles: products, prices, signing, legal text.
+I keep a note of every time I had to step in during a build. It is the most useful file in the project. Each entry is either a call only a person should make, or a gap in ASTRAMAN that I should fix in code so I never have to step in for it again.
 
-I keep a log of every time I had to step in during a build. It is the most useful document in the project, because each entry is either a decision only a person should make, or a bug in ASTRAMAN that should be fixed in code so I never have to step in for it again.
+## What sharing this on LinkedIn taught me
 
-## What I learnt writing about it
-
-I have been sharing this work on LinkedIn as it happens, and the posts taught me something too. The ones that landed were never the architecture diagrams. They were a real moment (a phone call that wiped my progress in a Sudoku game the agents built), or a familiar idea in an unfamiliar place: *I run unit tests on my skills. They are called evals.* A raw screenshot of a real dashboard did better than any graphic I designed. Real evidence beats polish, which is also the lesson of the whole build.
+I have been posting about this work as it happens. The posts that people responded to were never the diagrams. They were a real moment, like a phone call that wiped my progress in a Sudoku game the agents built, or a familiar idea in a new place: *I run unit tests on my skills. They are called evals.* A plain screenshot of a real dashboard did better than any graphic I designed. Real evidence beats polish, which is also the lesson of the whole build.
 
 ## If you want to build apps this way
 
-- Write the spec as data with ids, and validate it with code before any agent sees it.
-- Put versions and patterns in skills, never in plans.
-- Give deterministic work to scripts, not models.
-- Use the strongest model to plan and a fast one to write code.
-- Turn every repeated mistake into a check.
-- Review every phase, and still run the app on a phone before you believe the review.
-- On device, keep models for perception and keep decisions in deterministic code you can test.
+- Write down what the app should do as structured files, and check them with code before any agent reads them.
+- Keep versions and how-tos in one place, never copied into plans.
+- Let scripts do anything that comes out the same every time.
+- Plan with the strongest model, write code with a fast one.
+- When a mistake repeats, add a check, not a sentence.
+- Review every step, and still use the app on a real phone before you trust the review.
+- Inside the app, let AI describe the picture and let ordinary code make the decisions.
 
-Veduta is not in the stores yet. The remaining work is the part that needs a person: store products, signing, and the legal pages. When it ships, I will link it here.
+Veduta is not in the stores yet. What is left needs a person: store listings, signing and the legal pages. When it ships, I will link it here.

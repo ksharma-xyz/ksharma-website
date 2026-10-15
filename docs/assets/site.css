@@ -952,6 +952,10 @@
   .article table { width: 100%; border-collapse: collapse; margin: 0 0 22px; font-size: 15px; line-height: 1.45; font-variant-numeric: tabular-nums; display: block; overflow-x: auto; }
 .article th, .article td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .article th { font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); border-bottom: 2px solid var(--ink); }
+.article .shots { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; margin: 0 0 22px; }
+.article .shots figure { flex: 0 0 200px; margin: 0; scroll-snap-align: start; }
+.article .shots img { width: 200px; height: auto; display: block; border: 2px solid var(--ink); border-radius: 18px; }
+.article .shots figcaption { font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--ink-3); margin-top: 8px; }
 .article figure.chart { margin: 8px 0 26px; padding: 14px 12px 10px; border: 2px solid var(--ink); background: var(--paper); overflow-x: auto; }
 .article figure.chart svg { display: block; height: auto; }
 .article figure.chart figcaption { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-top: 6px; }
