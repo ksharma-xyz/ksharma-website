@@ -956,6 +956,8 @@
 .article .shots figure { flex: 0 0 200px; margin: 0; scroll-snap-align: start; }
 .article .shots img { width: 200px; height: auto; display: block; border: 2px solid var(--ink); border-radius: 18px; }
 .article .shots figcaption { font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--ink-3); margin-top: 8px; }
+.article .chart-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 0 0 22px; }
+.article .chart-pair figure.chart { margin: 0; }
 .article figure.chart { margin: 8px 0 26px; padding: 14px 12px 10px; border: 2px solid var(--ink); background: var(--paper); overflow-x: auto; }
 .article figure.chart svg { display: block; height: auto; }
 .article figure.chart figcaption { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-top: 6px; }
