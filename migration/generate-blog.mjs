@@ -179,7 +179,7 @@ for (let i = 0; i < posts.length; i++) {
   if (fs.existsSync(srcImg)) {
     const dstImg = path.join(outDir, 'images');
     fs.mkdirSync(dstImg, { recursive: true });
-    for (const im of fs.readdirSync(srcImg)) fs.copyFileSync(path.join(srcImg, im), path.join(dstImg, im));
+    fs.cpSync(srcImg, dstImg, { recursive: true });
   }
   fs.writeFileSync(path.join(outDir, 'index.html'), page({ title, dateLabel, slug, contentHtml, readLabel, prevPost, nextPost }));
   console.log(`✓ blog/${slug}/  (${dateLabel}, ${readLabel})`);

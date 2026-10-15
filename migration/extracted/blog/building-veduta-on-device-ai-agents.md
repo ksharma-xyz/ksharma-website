@@ -1,14 +1,21 @@
 ---
-title: "82 reviewed steps, and the app still broke: building Veduta with AI agents and on-device AI"
+title: "How AI agents built Veduta in 82 reviewed steps, and what on-device AI taught me"
 slug: building-veduta-on-device-ai-agents
 date: 2026-10
 type: blog
 ---
-A team of AI agents built my app in 82 steps. Every step passed review. Within minutes of using it on a phone, I found four bugs. This post is about that gap, and about what I learnt putting small AI models inside the app itself.
+<div class="stats" role="list">
+<div role="listitem"><b>82</b><span>build steps, each reviewed by an agent</span></div>
+<div role="listitem"><b>27.7 h</b><span>of agent time, over five days</span></div>
+<div role="listitem"><b>US$541</b><span>in model usage, at API prices</span></div>
+<div role="listitem"><b>0</b><span>photos sent off the phone</span></div>
+</div>
+
+A team of AI agents built my app in 82 steps, each one reviewed before the next began. Then I put it on a phone and used it, which is where most of the learning happened. This post covers how the agents built it, what it cost, and what I learnt putting small AI models inside the app itself.
 
 Veduta is a small idea. You pick a photograph, and a few moments later you get a row of designs: your words set into the picture like a magazine cover, clear of faces, in a colour you can actually read. You swipe between them, drag the text where you want it, and export a still or a short clip.
 
-<div class="shots" tabindex="0" aria-label="Screenshots of Veduta, scroll sideways"><figure><img src="images/building-veduta-on-device-ai-agents/01-opened.webp" alt="Open a photo: every tool is there straight away" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Open a photo: every tool is there straight away</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/04-design2.webp" alt="Write a line: one of the designs" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Write a line: one of the designs</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/05-design3.webp" alt="Swipe: the same words, another design" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Swipe: the same words, another design</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/07-place.webp" alt="Add the location: a pin and the name, its own text" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Add the location: a pin and the name, its own text</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/08-colour.webp" alt="Pick a colour: the choices come from the photo itself" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Pick a colour: the choices come from the photo itself</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/09-coloured.webp" alt="The same design in plum" width="480" height="1044" loading="lazy" decoding="async"><figcaption>The same design in plum</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/11-collage-text.webp" alt="Three photos in one collage, with a line across them" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Three photos in one collage, with a line across them</figcaption></figure></div>
+<div class="shots" tabindex="0" aria-label="Screenshots of Veduta, scroll sideways"><figure><img src="images/building-veduta-on-device-ai-agents/01-opened.webp" alt="Open a photo: every tool is there straight away" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Open a photo: every tool is there straight away</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/21-magenta.webp" alt="Write a line: one design, in magenta" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Write a line: one design, in magenta</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/22-coral.webp" alt="Swipe: the same words, another design, in coral" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Swipe: the same words, another design, in coral</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/23-teal.webp" alt="Swipe again: a third design, in deep teal" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Swipe again: a third design, in deep teal</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/20-colour-sheet.webp" alt="Colours to pick from, drawn from the photo itself" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Colours to pick from, drawn from the photo itself</figcaption></figure><figure><img src="images/building-veduta-on-device-ai-agents/11-collage-text.webp" alt="Three photos in one collage, with a line across them" width="480" height="1044" loading="lazy" decoding="async"><figcaption>Three photos in one collage, with a line across them</figcaption></figure></div>
 
 I did not type the app's code. I wrote down what it should do, read the plans and the reviews, and tested every build on a phone. A team of AI agents wrote the code. Those agents run in the cloud, on Claude. The app itself uses small AI models that run on the phone, so your photographs never leave it.
 
@@ -46,15 +53,15 @@ Four decisions made the biggest difference.
 
 **The strongest model plans, a fast one writes code.** Halfway through the Veduta build I moved the code writer to a newer, faster Sonnet. The code writer's typical (median) time per step halved, from about 13 minutes to about 6.
 
-## Building Veduta: 82 steps, all reviewed, and still broken on the phone
+## Building Veduta in 82 reviewed steps, then testing it on a real phone
 
-Veduta's plan had 82 steps, from an empty project to ready for the store. (The cost log below has 81: one step ran before logging was switched on.) It used the real engine from the first step, with no fake data behind the screens.
+Veduta's plan had 82 steps, from an empty project to ready for the store. (The cost log below has 81: one step left no entry in it.) It used the real engine from the first step, with no fake data behind the screens.
 
-Every step passed review. Then I installed the app on a phone and used it.
+Every step passed review: it built, its tests passed, and it did what the description said. The next check was the one no review can do: installing the app on a phone and using it.
 
-Within minutes I found a button that froze, settings from one photograph showing up on the next, a drag that lagged behind my finger, and a move that did not stick. The build log puts it plainly: *the review checked the code against the description; nobody used the app.*
+That found four things worth fixing in the first few minutes: a button that froze, settings from one photograph showing up on the next, a drag that lagged behind my finger, and a move that did not stick. Each was quick to fix once seen. The reviews had checked the code against the description; only using the app showed how it felt.
 
-That changed how I think about automated builds. A passing review proves the code matches the words. It does not prove the app works. Testing on a real phone is now part of every build. It keeps paying off: just this week, every test passed for a new tap-to-write feature, and on the phone the words came out near-black on a dark patch of jungle, there but invisible. Nobody had looked at the screen.
+So a review and a phone are two different checks, and every build now gets both. Reviews keep the code honest; the phone keeps the app pleasant to use. It keeps paying off: this week a new tap-to-write feature passed every test, and on the phone the words came out near-black on a dark patch of jungle, hard to see. One look at the screen caught it, and the fix went in the same day.
 
 ## What the build cost in time, tokens and money
 
@@ -79,7 +86,7 @@ A few things stand out.
 - **The agents mostly re-read what they have seen before.** For every new token, about ninety thousand came from the model's short-term memory (the cache): the skills, the description and the code from earlier steps. That is what keeps a long build affordable.
 - **A faster model was the simplest speed-up.** Switching the code writer at step 30 halved its median time per step and cut its median cost from US$4.29 to US$1.81. The whole step, review included, went from US$7.25 to US$4.72.
 
-The costs are what Claude Code reported for each run, at API list prices. I ran the builds on a Claude subscription, which is why there are pauses for usage limits. The token counts do not include text written into the cache, which the log does not record. And none of this counts my own time: writing the description, the design rounds, reading reviews and testing on a phone.
+The costs are what Claude Code reported for each run, at API list prices. I ran the builds on a Claude subscription, which is why there are pauses for usage limits. The token counts do not include text written into the cache, which the log does not record. Two things are not in these numbers. The design work, done with Claude Design over three rounds, used well over a million more tokens that I did not measure. And none of it counts my own time: writing the description, the design rounds, reading reviews and testing on a phone.
 
 ## Why Veduta keeps every photo on the phone
 
@@ -107,7 +114,7 @@ We tested that last idea on five photographs.
 - **Where to put the words:** right once in five. It put them right where a person was holding a piece of coral, after being told never to cover the subject.
 - **What colour:** it said "dark" for all five, including one that needed light words on dark leaves.
 
-<div class="chart-pair"><figure class="chart"><svg viewBox="0 0 300 260" width="100%" role="img" aria-label="Longest wait for a full set of designs (seconds; the captions alone took up to 18)" style="max-width:300px" font-family="var(--mono,ui-monospace,monospace)" font-size="12"><line x1="8" y1="208" x2="292" y2="208" stroke="var(--rule,#D6E0E5)"/><rect x="56.0" y="49.2" width="46.0" height="158.8" fill="var(--b-800,#0B5C78)"/><text x="79.0" y="43.2" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="12">up to 30 s</text><text x="79.0" y="225" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="11">With captions</text><text x="79.0" y="239" text-anchor="middle" fill="var(--ink-3,#5A6B73)" font-size="10">before</text><rect x="198.0" y="197.4" width="46.0" height="10.6" fill="var(--b-800,#0B5C78)"/><text x="221.0" y="191.4" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="12">under 2 s</text><text x="221.0" y="225" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="11">Without</text><text x="221.0" y="239" text-anchor="middle" fill="var(--ink-3,#5A6B73)" font-size="10">now</text></svg><figcaption>Longest wait for a full set of designs (seconds; the captions alone took up to 18)</figcaption></figure><figure class="chart"><svg viewBox="0 0 300 150" width="100%" role="img" aria-label="The language model, tested on five photos" style="max-width:300px" font-family="var(--mono,ui-monospace,monospace)" font-size="12"><text x="8" y="26" fill="var(--ink,#0E1A20)" font-size="12">Where to put the words</text><circle cx="20" cy="46" r="10" fill="var(--b-500,#13B0E5)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="50" cy="46" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="80" cy="46" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="110" cy="46" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="140" cy="46" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><text x="170" y="50" fill="var(--ink-3,#5A6B73)" font-size="11">1 of 5 right</text><text x="8" y="86" fill="var(--ink,#0E1A20)" font-size="12">What colour</text><circle cx="20" cy="106" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="50" cy="106" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="80" cy="106" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="110" cy="106" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="140" cy="106" r="10" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><text x="170" y="110" fill="var(--ink-3,#5A6B73)" font-size="11">said 'dark' 5 of 5 times</text></svg><figcaption>The language model, tested on five photos</figcaption></figure></div>
+<div class="chart-pair"><figure class="chart"><svg viewBox="0 0 300 260" width="100%" role="img" aria-label="Longest wait for a full set of designs (seconds; the captions alone took up to 18)" style="max-width:300px" font-family="var(--mono,ui-monospace,monospace)" font-size="12"><line x1="8" y1="208" x2="292" y2="208" stroke="var(--rule,#D6E0E5)"/><rect x="56.0" y="49.2" width="46.0" height="158.8" fill="var(--b-800,#0B5C78)"/><text x="79.0" y="43.2" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="12">up to 30 s</text><text x="79.0" y="225" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="11">With captions</text><text x="79.0" y="239" text-anchor="middle" fill="var(--ink-3,#5A6B73)" font-size="10">before</text><rect x="198.0" y="197.4" width="46.0" height="10.6" fill="var(--b-800,#0B5C78)"/><text x="221.0" y="191.4" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="12">under 2 s</text><text x="221.0" y="225" text-anchor="middle" fill="var(--ink,#0E1A20)" font-size="11">Without</text><text x="221.0" y="239" text-anchor="middle" fill="var(--ink-3,#5A6B73)" font-size="10">now</text></svg><figcaption>Longest wait for a full set of designs (seconds; the captions alone took up to 18)</figcaption></figure><figure class="chart"><svg viewBox="0 0 300 190" width="100%" role="img" aria-label="The language model, tested on five photos" style="max-width:300px" font-family="var(--mono,ui-monospace,monospace)" font-size="12"><text x="8" y="22" fill="var(--ink,#0E1A20)" font-size="12">Where to put the words</text><circle cx="22" cy="46" r="12" fill="var(--b-500,#13B0E5)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="56" cy="46" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="90" cy="46" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="124" cy="46" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="158" cy="46" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><text x="8" y="80" fill="var(--ink-3,#5A6B73)" font-size="11">1 of 5 right</text><text x="8" y="104" fill="var(--ink,#0E1A20)" font-size="12">What colour</text><circle cx="22" cy="128" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="56" cy="128" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="90" cy="128" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="124" cy="128" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><circle cx="158" cy="128" r="12" fill="var(--paper,#FFFFFF)" stroke="var(--ink,#0E1A20)" stroke-width="2"/><text x="8" y="162" fill="var(--ink-3,#5A6B73)" font-size="11">0 of 5 right: it said "dark" every time</text></svg><figcaption>The language model, tested on five photos</figcaption></figure></div>
 
 A language model cannot measure how readable a colour is on the real pixels. Ordinary code can. So the rule became: *the AI says what it sees, the code decides.*
 
@@ -117,29 +124,41 @@ An early tester put it bluntly: the designs were great, the captions were the wo
 
 **Use AI to describe what is in the picture. Use ordinary code for anything you can measure.**
 
-## Lesson 2: Our face tests passed because they expected nothing
+## Lesson 2: Cutting the photo into squares helped the iPhone find small faces
 
-Some of our tests compare the engine's answer with a saved copy of the right answer for each photo. On iOS, those saved answers had been recorded from the face detector itself.
+Veduta has to know where the faces are, so it never puts words over them. On iOS it asks Apple's Vision framework.
 
-The problem: when a face is small, under about 3% of the photo's width, Apple's detector misses it if you hand it the whole photo at once. On two group photos it found none of the 14 faces. The saved answer said "no faces", the detector said "no faces", and the test passed.
+When a face is small, under about 3% of the photo's width, Vision misses it if you hand it the whole photo at once. On a photo of a football game in a park, it found none of the seven players' faces:
 
-So I marked every face by hand: 128 of them, across the 39 test photos. Against that, the detector found 38, and only 3 of the 75 small ones. The fix was to cut the photo into overlapping squares, look for faces in each, and merge the results. On the two group photos it went from 0 of 14 faces to 14 of 14.
+<figure class="photo"><img src="images/building-veduta-on-device-ai-agents/detectors/ios-g18-village-football.webp" alt="The same park photo twice. Left: Vision on the whole photo finds no faces. Right: Vision on overlapping squares finds all seven." loading="lazy" decoding="async"><figcaption>Left: the whole photo at once, 0 of 7 faces. Right: the photo cut into overlapping squares, 7 of 7. Test photos are AI-generated; no real people.</figcaption></figure>
+
+Our tests had not noticed. They compared the engine's answer with a saved answer for each photo, and those saved answers had been recorded from the same detector. Both said "no faces", so the test passed.
+
+So I marked every face in the 39 test photos by hand, 128 in all. Against that, whole-photo Vision found 38, and only 3 of the 75 small ones. The fix was to cut the photo into overlapping squares, look for faces in each, and merge the results. On the two group photos it went from 0 of 14 faces to 14 of 14.
+
+<figure class="photo"><img src="images/building-veduta-on-device-ai-agents/detectors/ios-g13-pool-party-kids.webp" alt="A pool party photo twice. Left: whole photo, no faces found. Right: overlapping squares, all seven found." loading="lazy" decoding="async"><figcaption>A pool party: 0 of 7 faces with the whole photo, 7 of 7 with squares.</figcaption></figure>
 
 **Check a detector against answers a person has checked, not against what it said last time.**
 
 ## Lesson 3: We compared ML Kit with BlazeFace, and kept both
 
-On Android there are two common ways to find faces: Google's ML Kit, and a small open model called BlazeFace. We ran both on the same 39 test photos. A face counts as found when the box overlaps the real face by at least half.
+On Android there are two common ways to find faces: Google's ML Kit, and a small open model called BlazeFace. Here they are on a busy flower market, with the hand-marked faces in the bottom-right panel:
 
-| Face detector | Faces found |
-|---|---|
-| ML Kit (on a Pixel 10 Pro) | 84% (32 of 38) |
-| BlazeFace, photo cut into squares (Pixel 10 Pro) | 92% (35 of 38) |
-| BlazeFace, smaller overlapping squares (emulator) | 97% (37 of 38) |
+<figure class="photo"><img src="images/building-veduta-on-device-ai-agents/detectors/android-g31-flower-market.webp" alt="A flower market photo in four panels: ML Kit finds 5 of 13 faces with 22 boxes, BlazeFace 8 of 13, BlazeFace with smaller squares 9 of 13, and the hand-marked reference shows 13 faces." loading="lazy" decoding="async"><figcaption>ML Kit (orange) finds 5 of 13 faces but draws 22 boxes, many on flowers and stalls. BlazeFace (blue) finds 8, and with smaller overlapping squares (green) 9, with almost no stray boxes. White: the faces a person marked.</figcaption></figure>
 
-BlazeFace found more faces. The smaller squares took about 25% longer, which was worth it. One caveat: these 38 faces are the old saved answers, from before the hand-marked set of 128. Re-running Android against the 128 is next.
+Across five crowded test photos, against the hand-marked faces (a face counts as found when a box covers at least half of it; run on an Android emulator):
 
-Finding the main subject was a harder call. ML Kit drew better outlines, but on a real Pixel it crashed the whole app with a native crash (a segmentation fault), which the app cannot catch and recover from. The engine's first rule is that it never crashes the app, so the open DeepLab model is the default and ML Kit is off unless you switch it on.
+| Face detector | Faces found | Boxes drawn |
+|---|---|---|
+| ML Kit | 32 of 47 | 82 |
+| BlazeFace, photo cut into squares | 32 of 47 | 37 |
+| BlazeFace, smaller overlapping squares | 38 of 47 | 49 |
+
+It is not a clean sweep. On a pool party and a ferris wheel at dusk, ML Kit found more faces, though on the ferris wheel it drew 34 boxes for 11 faces. Stray boxes matter here, because every box is a place the words must avoid. BlazeFace with the smaller squares found the most faces with the fewest false alarms, so it is the default. The smaller squares take about 25% longer, which is worth it.
+
+<figure class="photo"><img src="images/building-veduta-on-device-ai-agents/detectors/android-g32-ferris-wheel-dusk.webp" alt="A ferris wheel at dusk in four panels: ML Kit finds all 11 faces but draws 34 boxes; BlazeFace finds 8 and 10." loading="lazy" decoding="async"><figcaption>Where ML Kit wins: all 11 faces at the ferris wheel, but 34 boxes to get there.</figcaption></figure>
+
+Finding the main subject was a harder call. ML Kit drew better outlines, but on a real Pixel it crashed the whole app with a native crash, which the app cannot catch and recover from. The engine's first rule is that it never crashes the app, so the open DeepLab model is the default and ML Kit is off unless you switch it on.
 
 I kept both options in the code. A future update to either model could change the answer, and switching back is one line.
 
