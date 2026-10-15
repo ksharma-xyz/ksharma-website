@@ -931,13 +931,13 @@
   }
 
   /* ——— Blog post (article) ——— */
-  .post-wrap { max-width: 740px; margin: 0 auto; padding: 0 28px; }
+  .post-wrap { max-width: 960px; margin: 0 auto; padding: 0 28px; }
   .post-head { padding: 48px 0 22px; border-bottom: 2px solid var(--ink); }
   .post-back { font-family: var(--mono); font-size: 13px; color: var(--ink-3); display: inline-flex; gap: 6px; margin-bottom: 22px; }
   .post-back:hover { color: var(--b-500); }
   .post-head .pin { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--b-600); }
   .post-head h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.12; margin: 10px 0 0; }
-  .article { padding: 30px 0 8px; font-size: 17px; line-height: 1.7; color: var(--ink-2); }
+  .article { padding: 30px 0 8px; font-size: 18px; line-height: 1.7; color: var(--ink-2); }
   .article h1, .article h2, .article h3 { color: var(--ink); letter-spacing: -0.02em; line-height: 1.25; margin: 32px 0 12px; }
   .article h2 { font-size: 25px; } .article h3 { font-size: 19px; }
   .article p { margin: 0 0 18px; }
@@ -1023,9 +1023,9 @@
   .article pre code.hljs { background: transparent; padding: 0; color: #E8EFF5; }
 
   .article .post-hero { display:block; max-width:340px; width:100%; margin:0 auto 8px; border:2px solid var(--ink); border-radius:10px; box-shadow:5px 5px 0 var(--b-400); height:auto; }
-/* Wide blocks in an article: break out of the 740px reading column, up to 1040px. */
-.article .stats, .article .shots, .article .chart-pair, .article figure.photo {
-  width: min(1040px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
-.article .shots { justify-content: center; }
-.article .shots figure { flex: 0 0 220px; }
-.article .shots img { width: 220px; }
+/* Article blocks (numbers, screenshots, charts, photos) span the text column, start to end. */
+.article .stats, .article .shots, .article .chart-pair, .article figure.photo, .article figure.chart { width: 100%; box-sizing: border-box; }
+.article .shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; overflow: visible; }
+.article .shots figure { flex: none; }
+.article .shots img { width: 100%; }
+@media (max-width: 640px) { .article .shots { grid-template-columns: repeat(2, 1fr); } }
