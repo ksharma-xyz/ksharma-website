@@ -957,7 +957,7 @@
 .article figure.photo figcaption { font-family: var(--mono); font-size: 12px; line-height: 1.45; color: var(--ink-3); margin-top: 8px; }
 .article .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 4px 0 26px; }
 .article .stats > div { border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 var(--b-500); padding: 14px 14px 12px; }
-.article .stats b { display: block; font-size: 34px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.article .stats b { display: block; font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .article .stats span { display: block; margin-top: 6px; font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--ink-3); }
 .article .shots { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; margin: 0 0 22px; }
 .article .shots figure { flex: 0 0 200px; margin: 0; scroll-snap-align: start; }
@@ -1023,3 +1023,9 @@
   .article pre code.hljs { background: transparent; padding: 0; color: #E8EFF5; }
 
   .article .post-hero { display:block; max-width:340px; width:100%; margin:0 auto 8px; border:2px solid var(--ink); border-radius:10px; box-shadow:5px 5px 0 var(--b-400); height:auto; }
+/* Wide blocks in an article: break out of the 740px reading column, up to 1040px. */
+.article .stats, .article .shots, .article .chart-pair, .article figure.photo {
+  width: min(1040px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
+.article .shots { justify-content: center; }
+.article .shots figure { flex: 0 0 220px; }
+.article .shots img { width: 220px; }
