@@ -1,5 +1,5 @@
 ---
-title: "Building Veduta: on-device models, a team of agents, and what broke"
+title: "How a team of AI agents built Veduta end to end, using on-device models"
 slug: building-veduta-on-device-ai-agents
 date: 2026-10
 type: blog
