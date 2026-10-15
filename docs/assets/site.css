@@ -1029,3 +1029,6 @@
 .article .shots figure { flex: none; }
 .article .shots img { width: 100%; }
 @media (max-width: 640px) { .article .shots { grid-template-columns: repeat(2, 1fr); } }
+/* Post template a11y: the footer CTA is an h2 sized like the old h4; the byline glyph keeps its own ink. */
+footer.bottom h2.cta-title { font-size: 1em; margin: 1.33em 0; }
+.article-byline .article-byline-glyph { color: var(--ink); font-family: var(--sans); font-size: 13px; }
