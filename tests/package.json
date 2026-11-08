@@ -1,0 +1,14 @@
+{
+  "name": "ux-laws-tests",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Laws of UX + accessibility checks for a static site served from ../docs",
+  "scripts": {
+    "test": "playwright test",
+    "report": "playwright show-report report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.0"
+  }
+}
