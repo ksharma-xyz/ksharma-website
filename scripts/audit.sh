@@ -4,19 +4,21 @@
 #
 #   ./scripts/audit.sh            # audit the local docs/ folder
 #   ./scripts/audit.sh live       # audit https://ksharma.xyz/ instead
+#   AUDIT_PATH=/work/ ./scripts/audit.sh   # audit one page (default /)
+#   PORT=8102 ./scripts/audit.sh  # serve on another port
 #
 # Thresholds match .github/workflows/lighthouse.yml.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PORT=8899
+PORT="${PORT:-8899}"
 OUT="$(mktemp -d)"
 
 if [ "${1:-}" = "live" ]; then
-  URL="https://ksharma.xyz/"
+  URL="https://ksharma.xyz${AUDIT_PATH:-/}"
   echo "Auditing the live site: $URL"
 else
-  URL="http://localhost:$PORT/"
+  URL="http://localhost:$PORT${AUDIT_PATH:-/}"
   echo "Serving $ROOT/docs on $URL"
   python3 -m http.server "$PORT" --directory "$ROOT/docs" >/dev/null 2>&1 &
   SERVER_PID=$!
