@@ -585,3 +585,5 @@ a.card:hover .post-feature .thumb img { transform: scale(1.03); }
 .lede-block { margin-top: var(--s-4); }
 .footer-meta { align-items: center; }
 @media (max-width: 640px) { .hero .portrait-card { max-width: 240px; } }
+.card > .rows > li:first-child > .row-link { padding-top: var(--s-2); }
+.card > .rows > li:last-child > .row-link { padding-bottom: var(--s-2); }

@@ -74,9 +74,9 @@
 <p>Securely storing customer information is really critical to an organisation&#39;s success. The customers will be storing some really sensitive information such as passwords, financial data etc. Implementing encryption will prevent unauthorised access to the data and also help with compliance and regulations.</p>
 <p>Implementing cryptography can be complex though and traditional libraries often require extensive coding knowledge about the mathematics behind cryptographic algorithms.</p>
 <p>This is exactly where the use case of Google Tink comes into picture. It is a user-friendly, open-source cryptography library which can be used for android app development along with a couple other languages.</p>
-<h3>What is Google Tink</h3>
+<h2>What is Google Tink</h2>
 <p>Tink is a multi-language, cross-platform, open source library that provides secure and easy-to-use cryptographic APIs, and was created and is being maintained by cryptographers and security engineers at Google.</p>
-<h3>Advantages of using Tink</h3>
+<h2>Advantages of using Tink</h2>
 <p>Tink offers several compelling advantages:</p>
 <ul>
 <li><strong>Ease of Use:</strong> Tink&#39;s intuitive APIs make encryption and decryption very easy to implement, even for developers with limited cryptography experience.</li>
@@ -84,11 +84,11 @@
 <li><strong>Versatility:</strong> Tink supports a wide range of encryption algorithms, including symmetric (AES), asymmetric (RSA), and hybrid (combining both).</li>
 <li><strong>Security-Focused Design:</strong> Tink prioritizes security best practices, guiding developers towards safer implementations.</li>
 </ul>
-<h3>Integrating Tink in Android</h3>
+<h2>Integrating Tink in Android</h2>
 <p>Adding Tink to your project is straightforward. Include the dependency in your app-level Gradle file:</p>
 <pre><code class="language-kotlin">implementation(&quot;com.google.crypto.tink:tink-android:1.10.0&quot;)
 </code></pre>
-<h3>Android Keystore</h3>
+<h2>Android Keystore</h2>
 <p>&quot;The Android Keystore system lets you store cryptographic keys in a container to make them more difficult to extract from the device. Once keys are in the keystore, you can use them for cryptographic operations, with the key material remaining non-exportable. Also, the keystore system lets you restrict when and how keys can be used, such as requiring user authentication for key use or restricting keys to use only in certain cryptographic modes.&quot; - <a href="https://developer.android.com/privacy-and-security/keystore">developer.android.com</a></p>
 <p>We can use Android Keystore to manage (create, store and retrieve) the cryptographic keys securely and is actually one of the safest and easiest ways to securely manage the keys.</p>
 <p>Let&#39;s have a look at some code on how to encrypt and decrypt using Tink. You can have a look at the complete code in the <a href="https://github.com/ksharma-xyz/TinkAndroidSample">Github repo</a>.</p>
@@ -111,13 +111,13 @@ object TinkCryptoManager {
     }
 }
 </code></pre>
-<h3>Use Cases for Tink Android</h3>
+<h2>Use Cases for Tink Android</h2>
 <p><strong>Encrypting SharedPreferences:</strong></p>
 <p>SharedPreferences are quite commonly used to store small key value data in Android. We can use Tink to implement a secure way to save the app data.</p>
 <p>It is also quite interesting to note that the library <a href="https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences">EncryptedSharedPreferences</a> uses Google Tink underneath, so we could use it directly in this case.</p>
 <p><strong>Encrypting Files:</strong></p>
 <p>Tink can also be used to encrypt files or large streams of data. <a href="https://developers.google.com/tink/encrypt-data">Read more</a></p>
-<h3>Watch</h3>
+<h2>Watch</h2>
 <div class="video-embed">
   <iframe
     title="Cryptography with Google Tink on Android"
@@ -127,7 +127,7 @@ object TinkCryptoManager {
     allowfullscreen
     loading="lazy">
   </iframe>
-</div><h3>References</h3>
+</div><h2>References</h2>
 <ul>
 <li><a href="https://developers.google.com/tink">Documentation</a></li>
 <li><a href="https://github.com/tink-crypto">GitHub</a></li>

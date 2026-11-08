@@ -76,7 +76,7 @@
 </blockquote>
 <p>Imagine your organization is developing applications for iOS, Android, Desktop, and Web platforms. Each of these platforms will need to display similar data, which often requires complex data structures and frequent updates. Maintaining consistency across all platforms can be challenging and time-consuming. This is where we can use Protocol Buffers (Protobuf or Proto) to build robust infrastructure for the engineering teams.</p>
 <p><a href="https://protobuf.dev/">Protobuf</a> was developed by Google. It is a language-neutral, platform-neutral, extensible mechanism for serializing structured data. It allows you to define the structure of your data once and use it across various platforms and languages, ensuring consistency and efficiency. The data structure is defined in a file type called .proto. From this proto file, we can automatically generate code for different languages such as C++, C#, Python, Java, Kotlin, Objective C and even Swift. This means strongly typed data structures defined by the backend engineering team can be used by both iOS (Obj. C / Swift) and Android (Java / Kotlin) platforms.</p>
-<h3>Advantages of using Protobuf</h3>
+<h2>Advantages of using Protobuf</h2>
 <p>Let’s look at some benefits of using Protobuf over REST API’s (json).</p>
 <ul>
 <li>Efficient network layer Protobuf&#39;s help ensure your app requests resources from the server efficiently, with clear definitions provided by compact and efficient message formats. Smaller message sizes mean faster transmission times, which inherently improves network performance, reliability and also reduces engineering maintenance effort.</li>
@@ -95,7 +95,7 @@
 <li>Language Independence: Protobufs act as a bridge between different platforms and teams. They ensure data consistency across the organization, regardless of the programming language engineering teams choose. This empowers teams to work independently with their preferred languages while still maintaining seamless communication and compatibility. The valuable time otherwise spent on ensuring compatibility and communication among teams is now freed for teams to focus on innovation and building even better solutions.</li>
 </ul>
 <p>For e.g. in Android development, we used to build apps using Java and now everyone uses Kotlin, it’s relatively easier to migrate when using protos. Similarly for iOS if you’re migrating from Objective C to Swift, it is relatively easier too.</p>
-<h3><a href="https://square.github.io/wire/">Wire</a></h3>
+<h2><a href="https://square.github.io/wire/">Wire</a></h2>
 <p>In this post we will focus on Android Development and see how to generate Kotlin code from Protobuf files and automate the process using GitHub Actions. We will use a library called Wire, which is developed by Square.</p>
 <p>For each message type defined in the schema, Wire generates an immutable model class and its builder. The generated code looks like code you’d write by hand: it’s documented, formatted, and simple. Let’s see how to do this. For detailed documentation refer:<a href="https://square.github.io/wire/wire_compiler/">https://square.github.io/wire/wire_compiler/</a></p>
 <p>Protobuf File A sample protobuf file user.proto defining an id, name and age which are strongly typed values as string and integer respectively.</p>
@@ -355,7 +355,7 @@ public class User(
   }
 }
 </code></pre>
-<h3>Automating Kotlin file generation using Github Actions</h3>
+<h2>Automating Kotlin file generation using Github Actions</h2>
 <p>We can create a GitHub actions workflow to automate Kotlin file generation whenever a pull request is raised to add a new proto file. We will need to commit these changes to the repository somehow, otherwise the files generated on CI server will be lost. We will push the generated Kotlin files to a separate repository and create a PR automatically using Github actions. We have a repository for the backend engineers, where all the protos are stored. We will create a new repository for the mobile engineers to consume, which will have only the generated Kotlin files. This way backend eng. team(s) can work independently of the mobile app teams. Here is the GitHub actions workflow yaml file to do this.</p>
 <p><img src="images/fig-1.webp" alt=""></p>
 <p>Workflow yaml file</p>
