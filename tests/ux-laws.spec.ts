@@ -298,6 +298,120 @@ test.describe("Doherty Threshold", () => {
     if (!m.hasLcp) test.info().annotations.push({ type: 'note', description: 'no LCP entry reported' });
     check('Doherty Threshold', v);
   });
+
+  // Hover must be a quiet colour change: nothing on the page may move.
+  perPage('Doherty Threshold: hover never moves content', async (page) => {
+    test.setTimeout(180_000);
+    await page.waitForTimeout(1500); // let the one-off load sequence finish
+    const count = await page.evaluate(() => {
+      const ux = (window as any).__ux;
+      const els = Array.from(document.querySelectorAll('a.card, .btn, .theme-toggle')).filter((e) => ux.vis(e));
+      els.forEach((e, i) => e.setAttribute('data-ux-hover', String(i)));
+      return els.length;
+    });
+    const v: string[] = [];
+    for (let i = 0; i < Math.min(count, 80); i++) {
+      const loc = page.locator(`[data-ux-hover="${i}"]`);
+      await loc.scrollIntoViewIfNeeded();
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(50);
+      const measure = () =>
+        loc.evaluate((el) => {
+          const parts = [el, ...Array.from(el.querySelectorAll('img, h2, h3, h4, p, svg'))];
+          return parts.map((n) => {
+            const r = n.getBoundingClientRect();
+            return [r.left, r.top, r.width, r.height];
+          });
+        });
+      const before = await measure();
+      const box = await loc.boundingBox();
+      if (!box) continue;
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.waitForTimeout(300);
+      const after = await measure();
+      const moved = before.some((b, k) => b.some((x, j) => Math.abs(x - after[k][j]) > 0.5));
+      if (moved) {
+        const name = await loc.evaluate((el) => (window as any).__ux.sel(el));
+        v.push(`${name} moves on hover (it or something inside it changed position or size)`);
+      }
+    }
+    await page.mouse.move(0, 0);
+    check('Doherty Threshold', v);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* No link to the site's own source                                   */
+/* ------------------------------------------------------------------ */
+
+test.describe("No link to the site's own source", () => {
+  perPage("No link to the site's own source: no repo link and no 'Source for this site'", async (page, _url, res) => {
+    const raw = await res.text();
+    const v: string[] = [];
+    const links = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('a[href*="ksharma-xyz/ksharma-website"]')).map((a) => (window as any).__ux.sel(a)),
+    );
+    for (const l of links) v.push(`${l} links to the site's source repo`);
+    if (/Source for this site/i.test(raw)) v.push('served HTML contains "Source for this site"');
+    const dom = await page.evaluate(() => document.body.innerText);
+    if (/Source for this site/i.test(dom)) v.push('rendered page shows "Source for this site"');
+    check("No link to the site's own source", v);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* Numbers never wrap                                                 */
+/* ------------------------------------------------------------------ */
+
+test.describe('Numbers never wrap', () => {
+  perPage('Numbers never wrap: stat values, prices, dates and read times sit on one line', async (page) => {
+    await page.waitForTimeout(500);
+    const v = await page.evaluate(() => {
+      const ux = (window as any).__ux;
+      const out: string[] = [];
+      const lineCount = (el: Element) => {
+        const r = document.createRange();
+        r.selectNodeContents(el);
+        const tops = new Set<number>();
+        for (const rect of Array.from(r.getClientRects())) if (rect.width > 0) tops.add(Math.round(rect.bottom));
+        return tops.size;
+      };
+      for (const el of Array.from(document.querySelectorAll('.stats b, .num, .row-meta, .post-meta time'))) {
+        if (!ux.vis(el)) continue;
+        const n = lineCount(el);
+        if (n > 1) out.push(`${ux.sel(el)} wraps onto ${n} lines`);
+      }
+      return out;
+    });
+    check('Numbers never wrap', v);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* Stretch layout                                                     */
+/* ------------------------------------------------------------------ */
+
+// Owner rule: always stretch. No text block may be capped narrower than its container.
+test.describe('Stretch layout', () => {
+  perPage('Stretch layout: no text block has a max-width narrower than its container', async (page) => {
+    const v = await page.evaluate(() => {
+      const ux = (window as any).__ux;
+      const out: string[] = [];
+      for (const el of Array.from(document.querySelectorAll('main p, main li, main figcaption, main blockquote, main h1, main h2, main dd'))) {
+        if (!ux.vis(el)) continue;
+        const mw = getComputedStyle(el).maxWidth;
+        if (mw === 'none' || mw.endsWith('%')) continue;
+        const parent = el.parentElement;
+        if (!parent) continue;
+        const pcs = getComputedStyle(parent);
+        const inner = parent.clientWidth - parseFloat(pcs.paddingLeft) - parseFloat(pcs.paddingRight);
+        const cap = parseFloat(mw);
+        if (cap < inner - 1) out.push(`${ux.sel(el)} is capped at max-width ${mw}, its container is ${Math.round(inner)}px wide`);
+      }
+      return out;
+    });
+    check('Stretch layout', v);
+  });
 });
 
 /* ------------------------------------------------------------------ */
@@ -341,6 +455,84 @@ test.describe('Law of Common Region', () => {
       return out;
     }, CARD_SEL);
     check('Law of Common Region', v);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* Law of Uniform Connectedness                                       */
+/* ------------------------------------------------------------------ */
+
+// Items in one action row read as a group only if they line up: same vertical centre,
+// same height for buttons, and text sitting on one baseline.
+function scanActionRows() {
+  const ux = (window as any).__ux;
+  const out: string[] = [];
+  const isItem = (c: Element) => c.matches('.btn, a, button') && ux.vis(c) && c.getClientRects().length === 1;
+  const firstLineBottom = (el: Element): number | null => {
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) => ((n.textContent || '').trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP),
+    });
+    const t = w.nextNode();
+    if (!t) return null;
+    const r = document.createRange();
+    r.selectNodeContents(t);
+    const rects = r.getClientRects();
+    return rects.length ? rects[0].bottom : null;
+  };
+  for (const parent of Array.from(document.body.querySelectorAll('*'))) {
+    const kids = Array.from(parent.children).filter(isItem);
+    if (kids.length < 2) continue;
+    // group into visual lines by vertical overlap
+    const lines: Element[][] = [];
+    for (const k of kids.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)) {
+      const r = k.getBoundingClientRect();
+      const line = lines.find((l) => {
+        const f = l[0].getBoundingClientRect();
+        return r.top < f.bottom && r.bottom > f.top;
+      });
+      if (line) line.push(k);
+      else lines.push([k]);
+    }
+    for (const line of lines) {
+      if (line.length < 2) continue;
+      const ref = line[0];
+      const rr = ref.getBoundingClientRect();
+      const refC = rr.top + rr.height / 2;
+      const refBtn = line.find((e) => e.matches('.btn'));
+      const refBase = line.find((e) => !e.matches('.card, .card--feature, .card--inner'));
+      const refBaseline = refBase ? firstLineBottom(refBase) : null;
+      for (const el of line.slice(1)) {
+        const r = el.getBoundingClientRect();
+        const c = r.top + r.height / 2;
+        if (Math.abs(c - refC) > 1) out.push(`${ux.sel(el)} centre is ${(c - refC).toFixed(1)}px off ${ux.sel(ref)} in the same row`);
+        if (refBtn && el !== refBtn && el.matches('.btn')) {
+          const h0 = refBtn.getBoundingClientRect().height;
+          if (Math.abs(r.height - h0) > 0.5) out.push(`${ux.sel(el)} is ${r.height.toFixed(1)}px tall, ${ux.sel(refBtn)} is ${h0.toFixed(1)}px in the same row`);
+        }
+      }
+      // Baselines: compared for controls and links, not for whole-card links (cards are regions).
+      if (refBase && refBaseline !== null) {
+        for (const el of line) {
+          if (el === refBase || el.matches('.card, .card--feature, .card--inner')) continue;
+          const b = firstLineBottom(el);
+          if (b !== null && Math.abs(b - refBaseline) > 1) out.push(`${ux.sel(el)} text baseline is ${(b - refBaseline).toFixed(1)}px off ${ux.sel(refBase)} in the same row`);
+        }
+      }
+    }
+  }
+  return out;
+}
+
+test.describe('Law of Uniform Connectedness: action rows align', () => {
+  perPage('Law of Uniform Connectedness: items in a row share one centre line, and buttons one height', async (page) => {
+    await page.waitForTimeout(1000); // after the load sequence
+    const v = (await page.evaluate(scanActionRows)).filter((m) => !m.includes('text baseline'));
+    check('Law of Uniform Connectedness', v);
+  });
+  perPage('Law of Uniform Connectedness: text baselines align across siblings in a row', async (page) => {
+    await page.waitForTimeout(1000);
+    const v = (await page.evaluate(scanActionRows)).filter((m) => m.includes('text baseline'));
+    check('Law of Uniform Connectedness', v);
   });
 });
 
