@@ -6,3 +6,6 @@ docs/handoff/
 
 # Project guidance / copy guidelines — local only, never publish
 CLAUDE.md
+
+# Switzer webfont: ITF Free Font License forbids publishing the files in a public repo (see docs/assets/fonts/README.md)
+docs/assets/fonts/*.woff2

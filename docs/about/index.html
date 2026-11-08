@@ -3,12 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+  // Theme before first paint: ?theme=light|dark, else the saved choice, else the OS setting.
+  (function () {
+    var t = null;
+    try {
+      var q = new URLSearchParams(location.search).get('theme');
+      if (q === 'light' || q === 'dark') { t = q; localStorage.setItem('theme', q); }
+      else t = localStorage.getItem('theme');
+    } catch (e) {}
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <title>About Karan Sharma | Staff Software Engineer, Sydney</title>
 <meta name="description" content="About Karan Sharma: Staff Software Engineer in Sydney with ten years building secure mobile products, maker of KRAIL, Sumi and Huezoo, and a Google I/O Extended speaker.">
 <meta name="author" content="Karan Sharma">
 <link rel="canonical" href="https://ksharma.xyz/about/">
 <meta name="theme-color" content="#FBFCFE" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0E1020" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Karan Sharma">
 <meta property="og:url" content="https://ksharma.xyz/about/">
@@ -23,8 +35,7 @@
 <meta name="twitter:description" content="About Karan Sharma: Staff Software Engineer in Sydney with ten years building secure mobile products, maker of KRAIL, Sumi and Huezoo, and a Google I/O Extended speaker.">
 <meta name="twitter:image" content="https://ksharma.xyz/assets/og-cover.png">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<link rel="preload" href="/assets/fonts/fraunces-soft-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Switzer-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">
 {
@@ -97,6 +108,12 @@
         <li><a href="/about/" aria-current="page">About</a></li>
       </ul>
     </nav>
+    <div class="header-end">
+      <button class="theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -111,9 +128,8 @@
         <p>I studied computer science at Punjab Technical University in India, and started my career in Bangalore before moving to Sydney.</p>
       </div>
     </div>
-    <figure class="card portrait-card rise" style="--i:1">
+    <figure class="portrait rise" style="--i:1">
       <img src="/assets/shots/portrait.webp" alt="Karan Sharma in a blue blazer, on a boat on Sydney Harbour at night" width="480" height="640" fetchpriority="high">
-      <figcaption>Sydney, Australia</figcaption>
     </figure>
   </div>
 
@@ -150,15 +166,16 @@
         <h3>Speaking</h3>
         <p>Compose Multiplatform to the City, at Google I/O Extended in Brisbane.</p>
         <p class="meta"><span class="num">Jun 2025</span></p>
+        <svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
       </a>
       <div class="card span-4 rise">
         <h3>Profiles</h3>
-        <ul class="links">
-          <li><a href="https://github.com/ksharma-xyz" rel="me noopener">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn</a></li>
-          <li><a href="https://stackoverflow.com/users/1505493/karan-sharma" rel="me noopener">Stack Overflow</a></li>
-          <li><a href="https://androiddev.social/@karansharma" rel="me noopener">Mastodon</a></li>
-        </ul>
+        <div class="actions actions--tight">
+            <a class="btn btn-secondary" href="https://github.com/ksharma-xyz" rel="me noopener"><svg class="brand-i" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+            <a class="btn btn-secondary" href="https://stackoverflow.com/users/1505493/karan-sharma" rel="me noopener">Stack Overflow <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+            <a class="btn btn-secondary" href="https://androiddev.social/@karansharma" rel="me noopener">Mastodon <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+          </div>
       </div>
     </div>
   </section>
@@ -168,11 +185,10 @@
       <div class="hello">
         <div>
           <h2 id="contact-title">Say hello</h2>
-          <p class="prose hello-text">Happy to talk about Kotlin Multiplatform, mobile platforms, AI tooling, mentoring or speaking. My full history is on the <a href="/work/#career">work page</a>, or as a <a href="/assets/karan-sharma-cv.pdf" download>CV in PDF</a>.</p>
         </div>
         <div class="actions">
           <a class="btn btn-primary" href="mailto:hey@krail.app">Email hey@krail.app</a>
-          <a class="btn" href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener">Message on LinkedIn</a>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener">Message on LinkedIn <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
         </div>
       </div>
     </div>
@@ -183,14 +199,33 @@
   <div class="wrap">
     <div class="footer-row">
       <h2 class="footer-title">Get in touch</h2>
-      <ul class="links">
-        <li><a href="mailto:hey@krail.app">hey@krail.app</a></li>
-        <li><a href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn</a></li>
-        <li><a href="https://github.com/ksharma-xyz" rel="me noopener">GitHub</a></li>
-      </ul>
+      <div class="footer-links">
+        <a href="mailto:hey@krail.app">hey@krail.app</a>
+        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn</a>
+        <a href="https://github.com/ksharma-xyz" rel="me noopener">GitHub</a>
+      </div>
     </div>
-    <p class="footer-meta"><span>&copy; 2026 Karan Sharma, Sydney</span><a href="https://github.com/ksharma-xyz/ksharma-website" rel="noopener">Source for this site</a></p>
+    <p class="footer-meta"><span>&copy; 2026 Karan Sharma, Sydney</span></p>
   </div>
 </footer>
+<script>
+  // Header theme toggle: flips light/dark and remembers the choice.
+  (function () {
+    var b = document.querySelector('.theme-toggle');
+    if (!b) return;
+    var root = document.documentElement;
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    function isDark() { var t = root.getAttribute('data-theme'); return t ? t === 'dark' : mq.matches; }
+    function label() { b.setAttribute('aria-label', isDark() ? 'Switch to light theme' : 'Switch to dark theme'); }
+    b.hidden = false; label();
+    if (mq.addEventListener) mq.addEventListener('change', label);
+    b.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      label();
+    });
+  })();
+</script>
 </body>
 </html>

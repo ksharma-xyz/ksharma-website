@@ -10,10 +10,10 @@ const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
 
 const themes = {
   light: { paper: '#FBFCFE', ink: '#161A2B', muted: '#545B73', wash: '#F0F2F9', rule: '#DEE2EF', line: '#7A8099',
-           signal: '#3149C9', accent: '#3149C9', accentHover: '#2639A6', onAccent: '#FFFFFF', codeBg: '#161A2B',
+           signal: '#3149C9', accent: '#3149C9', accentHover: '#2639A6', onAccent: '#FFFFFF', codeBg: '#1C1C1C',
            chartA: '#8EA2FF', chartB: '#2A3AA0' },
-  dark:  { paper: '#0E1020', ink: '#E6E8F2', muted: '#A0A6BE', wash: '#161A2E', rule: '#262B45', line: '#6B7290',
-           signal: '#8EA2FF', accent: '#A9B8FF', accentHover: '#C3CEFF', onAccent: '#0E1020', codeBg: '#161A2E',
+  dark:  { paper: '#121212', ink: '#EDEDED', muted: '#A3A3A3', wash: '#1C1C1C', rule: '#2C2C2C', line: '#737373',
+           signal: '#8EA2FF', accent: '#A9B8FF', accentHover: '#C3CEFF', onAccent: '#121212', codeBg: '#1C1C1C', tintFixed: '#242424',
            chartA: '#8EA2FF', chartB: '#2A3AA0' }, // charts keep a light figure surface in both themes
 };
 const code = { text: '#E6E8F2', keyword: '#C3B5FF', string: '#A8E0B5', comment: '#A3AAC2', number: '#FFC78A',
@@ -25,8 +25,8 @@ const row = (theme, fg, bg, f, b, min) => {
   console.log(`${ok ? 'pass' : 'FAIL'}  ${theme.padEnd(5)}  ${fg.padEnd(14)} ${f}  on ${bg.padEnd(10)} ${b}  ${r.toFixed(2).padStart(5)}:1  (needs ${min})`);
 };
 for (const [name, t] of Object.entries(themes)) {
-  t.tint = mix(t.signal, t.paper, 0.09);
-  console.log(`\n${name}: tint = ${t.tint} (9% signal into paper)`);
+  t.tint = t.tintFixed || mix(t.signal, t.paper, 0.09);
+  console.log(`\n${name}: tint = ${t.tint} ${t.tintFixed ? '(neutral grey)' : '(9% signal into paper)'}`);
   for (const bg of ['paper', 'wash', 'tint']) {
     row(name, 'ink', bg, t.ink, t[bg], 4.5);
     row(name, 'muted', bg, t.muted, t[bg], 4.5);
