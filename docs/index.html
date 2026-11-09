@@ -6,7 +6,7 @@
 <script>
   // Old single-page links (/#apps, /#blog ...) now live on their own pages.
   (function () {
-    var to = { apps: '/work/#apps', ai: '/work/#ai', portfolio: '/work/#career', blog: '/writing/', photos: '/photos/' };
+    var to = { apps: '/work/#apps', ai: '/work/#ai', portfolio: '/work/#career', blog: '/blog/', photos: '/photos/' };
     var h = location.hash.slice(1);
     if (to[h]) location.replace(to[h]);
   })();
@@ -27,8 +27,8 @@
 <meta name="description" content="Karan Sharma is a Staff Software Engineer in Sydney. He builds Android and iOS apps in Kotlin Multiplatform, and the AI tools that help build them. Maker of KRAIL, Sumi and Huezoo.">
 <meta name="author" content="Karan Sharma">
 <link rel="canonical" href="https://ksharma.xyz/">
-<meta name="theme-color" content="#FBFCFE" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Karan Sharma">
 <meta property="og:url" content="https://ksharma.xyz/">
@@ -44,6 +44,7 @@
 <meta name="twitter:image" content="https://ksharma.xyz/assets/og-cover.png">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="preload" href="/assets/fonts/Switzer-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">
 {
@@ -103,162 +104,100 @@
 </script>
 </head>
 <body>
+<canvas id="rain" aria-hidden="true"></canvas>
 <a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-gh" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 16 16"><path d="M2 4h12v8H2zM2.5 4.5 8 9l5.5-4.5"/></symbol>
+</svg>
 
-<header class="site-header">
-  <div class="wrap header-row">
-    <a class="brand" href="/">Karan Sharma</a>
-    <nav class="site-nav" aria-label="Primary">
-      <ul>
-        <li><a href="/work/">Work</a></li>
-        <li><a href="/writing/">Writing</a></li>
-        <li><a href="/photos/">Photos</a></li>
-        <li><a href="/about/">About</a></li>
-      </ul>
-    </nav>
-    <div class="header-end">
-      <button class="theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
-        <svg class="i-moon" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7Z"/></svg>
-        <svg class="i-sun" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
+<header class="wrap site-header">
+    <a class="logo" href="/"><span class="blk" aria-hidden="true"></span>Karan Sharma</a>
+    <nav class="nav" aria-label="Primary"><a href="/work/">Work</a><a href="/blog/">Blog</a><a href="/photos/">Photos</a><a href="/about/">About</a></nav>
+    <button class="icon-btn theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
+      <svg class="i-moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7Z"/></svg>
+      <svg class="i-sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
+    </button>
+  </header>
 
 <main id="main" class="wrap">
-<section class="hero" aria-labelledby="hero-title">
-    <div class="rise">
-      <p class="kicker"><strong>Karan Sharma</strong>, Staff Software Engineer in Sydney</p>
-      <h1 id="hero-title">I build Android and iOS apps, and the AI tools that help build them.</h1>
-      <p class="lede">At Commonwealth Bank I build the CommBiz business banking app and lead AI strategy and tooling for mobile engineering. Outside work I make KRAIL, Sumi and Huezoo in Kotlin Multiplatform.</p>
+  <section data-ux-fluid class="hero rise" aria-labelledby="h-name">
+    <div class="frame">
+      <img class="portrait" src="/assets/shots/portrait.webp" alt="Karan Sharma in a blue blazer, on a boat on Sydney Harbour at night" width="340" height="550" fetchpriority="high">
+    </div>
+    <div class="copy">
+      <h1 id="h-name" aria-label="Building software that works for a diverse user base."><span aria-hidden="true"><span class="verb"><span id="name">Building</span><span class="caret"></span></span><br><span class="rest">software that works<br>for a diverse <span style="white-space:nowrap">user base.</span></span></span></h1>
       <div class="actions">
-        <a class="btn btn-secondary" href="/work/">See the work <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
-        <a class="btn btn-secondary" href="/about/">More about me <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
-      </div>
-    </div>
-    <figure class="portrait rise" style="--i:1">
-      <img src="/assets/shots/portrait.webp" alt="Karan Sharma in a blue blazer, on a boat on Sydney Harbour at night" width="480" height="640" fetchpriority="high">
-    </figure>
-  </section>
-
-  <section class="section" aria-labelledby="make-title">
-    <div class="section-head">
-      <h2 id="make-title">Things I make</h2>
-      <a class="btn btn-secondary" href="/work/">All work <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
-    </div>
-
-    <div class="grid">
-      <article class="card card--feature rise" aria-labelledby="krail-title">
-        <div class="krail">
-          <div>
-            <h3 id="krail-title">KRAIL</h3>
-            <p class="body">Sydney's public transport is complicated enough. KRAIL brings real-time trains, buses, ferries, metro and light rail into one clean, accessible app. It is built in Kotlin Multiplatform, and I <a href="/blog/google-io-extended-2025-compose-multiplatform-to-city/">presented it at Google I/O Extended Brisbane 2025</a>.</p>
-            <div class="actions">
-              <a class="btn btn-primary" href="https://krail.app" rel="noopener">Visit krail.app <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
-              <a class="btn btn-secondary" href="https://apps.apple.com/au/app/krail-app/id6738934832" rel="noopener"><svg class="brand-i" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg> App Store</a>
-              <a class="btn btn-secondary" href="https://play.google.com/store/apps/details?id=xyz.ksharma.krail" rel="noopener"><svg class="brand-i" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594zM1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924zm12.207 10.065l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973zm0 2.067l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z"/></svg> Google Play</a>
-              <a class="btn btn-secondary" href="https://github.com/ksharma-xyz/KRAIL" rel="noopener"><svg class="brand-i" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
-            </div>
-          </div>
-          <div class="shots">
-            <img src="/assets/shots/krail-1-400.webp" alt="KRAIL home screen with saved trips" width="400" height="870" loading="lazy" decoding="async">
-            <img src="/assets/shots/krail-2-400.webp" alt="KRAIL live departure board" width="400" height="870" loading="lazy" decoding="async">
-            <img src="/assets/shots/krail-3-400.webp" alt="KRAIL home screen in dark mode" width="400" height="870" loading="lazy" decoding="async">
-          </div>
-        </div>
-      </article>
-
-      <a class="card app-card span-4 md-6 rise" href="https://ksharma-xyz.github.io/Sumi/" rel="noopener">
-        <div class="card-top">
-          <img class="app-icon" src="/assets/shots/sumi-icon.webp" alt="" width="56" height="56" loading="lazy">
-        </div>
-        <h3>Sumi</h3>
-        <p>A daily Sudoku built around stillness. Ink on paper, five difficulty levels and streaks. No ads, no noise, just the puzzle.</p>
-        <div class="peek"><img src="/assets/shots/sumi-1.webp" alt="" width="460" height="996" loading="lazy" decoding="async"></div>
-        <svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
-      </a>
-
-      <a class="card app-card span-4 md-6 rise" href="https://ksharma-xyz.github.io/HueZoo/" rel="noopener">
-        <div class="card-top">
-          <img class="app-icon" src="/assets/shots/huezoo-icon.webp" alt="" width="56" height="56" loading="lazy">
-        </div>
-        <h3>Huezoo</h3>
-        <p>A colour perception game built on Delta-E science. Spot the outlier among near-identical hues. It starts forgiving and gets quietly brutal.</p>
-        <div class="peek"><img src="/assets/shots/huezoo-1.webp" alt="" width="460" height="996" loading="lazy" decoding="async"></div>
-        <svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
-      </a>
-
-      <a class="card app-card span-4 rise" href="/work/#ai">
-        <h3>AI tooling</h3>
-        <p>Claude Code skills, MCP servers and agents that handle the repetitive parts of a Kotlin Multiplatform build.</p>
-        <ul class="inner-list">
-          <li class="card card--inner"><strong>ASTRAMAN</strong><p>Agents that plan, write and review each build</p></li>
-          <li class="card card--inner"><strong>A library of skills</strong><p>The setup every app repeats, written down once</p></li>
-          <li class="card card--inner"><strong>At Commonwealth Bank</strong><p>MCP servers and agents for the mobile teams</p></li>
-        </ul>
-        <svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="writing-title">
-    <div class="section-head">
-      <h2 id="writing-title">Writing</h2>
-      <a class="btn btn-secondary" href="/writing/">All posts <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
-    </div>
-
-    <div class="grid">
-      <a class="card span-7 rise" href="/blog/building-veduta-on-device-ai-agents/">
-        <div class="post-feature">
-          <div class="thumb"><img src="/blog/building-veduta-on-device-ai-agents/images/30-collage.webp" alt="" width="480" height="1044" loading="lazy" decoding="async"></div>
-          <div>
-            <h3>How AI agents built Veduta in 82 reviewed steps, and what on-device AI taught me</h3>
-            <p class="excerpt">A team of AI agents built my app in 82 steps, each one reviewed before the next began. How they built it, what it cost, and what I learnt putting small AI models inside the app itself.</p>
-            <p class="meta"><span class="num">Oct 2026</span>, <span class="num">19</span> min read</p>
-          </div>
-        </div>
-        <svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
-      </a>
-
-      <div class="card rows-card span-5 rise">
-        <h3 class="rows-head">Recent posts</h3>
-        <ul class="rows">
-          <li><a class="row-link" href="/blog/jetpack-compose-best-practices/"><span class="row-title">Best practices for designing Jetpack Compose APIs</span><span class="row-meta num">Aug 2025</span></a></li>
-          <li><a class="row-link" href="/blog/google-io-extended-2025-compose-multiplatform-to-city/"><span class="row-title">Google I/O Extended 2025 (Brisbane): Compose Multiplatform to the City</span><span class="row-meta num">Jun 2025</span></a></li>
-          <li><a class="row-link" href="/blog/protobuf-generate-kotlin-code/"><span class="row-title">Sugar, Spice, and Protobuf: cross-platform collaboration</span><span class="row-meta num">Jul 2024</span></a></li>
-          <li><a class="row-link" href="/blog/graphite-improve-dev-velocity-using-git/"><span class="row-title">Ship faster with Graphite: improve dev velocity</span><span class="row-meta num">Jun 2024</span></a></li>
-        </ul>
+        <a class="btn btn-primary" href="/work/#apps">Browse my apps</a>
+        <a class="btn" href="/work/#ai">My work in AI</a>
+        <a class="btn" href="/blog/">Blog</a>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="hello-title">
-    <div class="card rise">
-      <div class="hello">
-        <div>
-          <h2 id="hello-title">Say hello</h2>
-        </div>
+  <section class="section rise" aria-labelledby="h-make">
+    <div class="section-head"><h2 id="h-make">Open source</h2><a class="btn btn-sm" href="/work/">All work</a></div>
+    <article data-ux-fluid class="card card--feature krail" aria-labelledby="h-krail">
+      <div class="text">
+        <h3 id="h-krail" class="display">KRAIL</h3>
+        <p>Sydney's public transport is complicated enough. KRAIL brings real-time trains, buses, ferries, metro and light rail into one clean, accessible app. It is built in Kotlin Multiplatform, and I <a href="/blog/google-io-extended-2025-compose-multiplatform-to-city/">presented it at Google I/O Extended Brisbane 2025</a>.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="mailto:hey@krail.app">Email hey@krail.app</a>
-          <a class="btn btn-secondary" href="https://www.linkedin.com/in/ksharma-xyz/" rel="noopener">Message on LinkedIn <svg class="chev-r" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+          <a class="btn btn-primary" href="https://krail.app" rel="noopener">Visit krail.app <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+          <a class="btn" href="https://github.com/ksharma-xyz/KRAIL" rel="noopener"><svg class="gh" aria-hidden="true"><use href="#i-gh"/></svg>GitHub <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
         </div>
       </div>
+      <div class="shots">
+        <img src="/assets/shots/krail-1-400.webp" alt="KRAIL home screen with saved trips" width="400" height="870" loading="lazy" decoding="async">
+        <img src="/assets/shots/krail-2-400.webp" alt="KRAIL live departure board" width="400" height="870" loading="lazy" decoding="async">
+        <img src="/assets/shots/krail-3-400.webp" alt="KRAIL home screen in dark mode" width="400" height="870" loading="lazy" decoding="async">
+      </div>
+    </article>
+    <div class="grid">
+      <a class="card" href="/work/#apps"><div class="app-head"><img class="app-icon" src="/assets/shots/sumi-icon.webp" alt="" width="56" height="56" loading="lazy"><h3>Sumi</h3></div><p>A daily Sudoku built around stillness. Ink on paper, five difficulty levels and streaks. No ads, no noise, just the puzzle.</p></a>
+      <a class="card" href="/work/#apps"><div class="app-head"><img class="app-icon" src="/assets/shots/huezoo-icon.webp" alt="" width="56" height="56" loading="lazy"><h3>Huezoo</h3></div><p>A colour perception game built on Delta-E science. Spot the outlier among near-identical hues. It starts forgiving and gets quietly brutal.</p></a>
+    </div>
+  </section>
+
+  <section class="section rise" aria-labelledby="h-ai">
+    <div class="section-head"><h2 id="h-ai">AI tooling</h2><a class="btn btn-sm" href="/work/#ai">All AI tooling</a></div>
+    <a class="card" href="/work/#ai">
+      <div class="tool-list">
+        <div class="card card--inner"><b>ASTRAMAN</b><span>Agents that plan, write and review each build</span></div>
+        <div class="card card--inner"><b>A library of skills</b><span>The setup every app repeats, written down once</span></div>
+        <div class="card card--inner"><b>At Commonwealth Bank</b><span>MCP servers and agents for the mobile teams</span></div>
+      </div>
+    </a>
+  </section>
+
+  <section class="section rise" aria-labelledby="h-blog">
+    <div class="section-head"><h2 id="h-blog">Blog</h2><a class="btn btn-sm" href="/blog/">All posts</a></div>
+    <a data-ux-fluid class="card card--wide post-feature" href="/blog/building-veduta-on-device-ai-agents/">
+        <div class="thumb"><img src="/blog/building-veduta-on-device-ai-agents/images/30-collage.webp" alt="" width="480" height="1044" loading="lazy" decoding="async"></div>
+        <div class="text">
+          <h3>Veduta: an app built by AI agents to my standards in five days</h3>
+          <p>A team of AI agents built my app in 82 steps, each one reviewed before the next began. How they built it, what it cost, and what I learnt putting small AI models inside the app itself.</p>
+          <p class="meta num">Oct 2026, 19 min read</p>
+        </div>
+      </a>
+    <div class="rows">
+        <a class="row" href="/blog/jetpack-compose-best-practices/"><span class="t">Best practices for designing Jetpack Compose APIs</span><span class="d num">Aug 2025</span></a>
+        <a class="row" href="/blog/google-io-extended-2025-compose-multiplatform-to-city/"><span class="t">Google I/O Extended 2025 (Brisbane): Compose Multiplatform to the City</span><span class="d num">Jun 2025</span></a>
+        <a class="row" href="/blog/protobuf-generate-kotlin-code/"><span class="t">Sugar, Spice, and Protobuf: cross-platform collaboration</span><span class="d num">Jul 2024</span></a>
+        <a class="row" href="/blog/graphite-improve-dev-velocity-using-git/"><span class="t">Ship faster with Graphite: improve dev velocity</span><span class="d num">Jun 2024</span></a>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-row">
-      <h2 class="footer-title">Get in touch</h2>
-      <div class="footer-links">
-        <a href="mailto:hey@krail.app">hey@krail.app</a>
-        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn</a>
-        <a href="https://github.com/ksharma-xyz" rel="me noopener">GitHub</a>
-      </div>
+<footer class="wrap site-footer">
+  <div class="row-f">
+    <h2>Get in touch</h2>
+    <div class="actions">
+      <a class="btn btn-sm" href="mailto:hey@krail.app"><svg class="mail" aria-hidden="true"><use href="#i-mail"/></svg>hey@krail.app</a>
+      <a class="btn btn-sm" href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+      <a class="btn btn-sm" href="https://github.com/ksharma-xyz" rel="me noopener"><svg class="gh" aria-hidden="true"><use href="#i-gh"/></svg>GitHub <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
-    <p class="footer-meta"><span>&copy; 2026 Karan Sharma, Sydney</span></p>
   </div>
+  <p class="copy-note num">&copy; 2026 Karan Sharma, Sydney</p>
 </footer>
 <script>
   // Header theme toggle: flips light/dark and remembers the choice.
@@ -276,8 +215,76 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
       label();
+      document.dispatchEvent(new Event('themechange'));
     });
   })();
+</script>
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  var glyphs = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ0123456789';
+
+  /* Headline: the verb decodes left to right, then cycles every 2.6s. Static "Building" with reduced motion. */
+  var nameEl = document.getElementById('name');
+  var verbs = ['Building', 'Designing', 'Shipping'], vi = 0, cycleTimer = 0, finalName = verbs[0];
+  function scramble() {
+    var start = performance.now(), dur = 600;
+    (function tick(now) {
+      var p = Math.min(1, (now - start) / dur), out = '';
+      for (var i = 0; i < finalName.length; i++) out += (i / finalName.length < p) ? finalName[i] : glyphs[(Math.random() * glyphs.length) | 0];
+      nameEl.textContent = out;
+      if (p < 1) requestAnimationFrame(tick); else nameEl.textContent = finalName;
+    })(start);
+  }
+  function startCycle() {
+    clearInterval(cycleTimer);
+    if (reduce.matches || document.hidden) return;
+    cycleTimer = setInterval(function () { vi = (vi + 1) % verbs.length; finalName = verbs[vi]; scramble(); }, 2600);
+  }
+
+  /* Digital rain behind the page: decoration, faint enough that text keeps its contrast. */
+  var cv = document.getElementById('rain'), ctx = cv.getContext('2d'), root = document.documentElement;
+  var cols = [], fs = 16, raf = 0, last = 0, rgb = '0,255,65', alpha = 0.22, bgCol = '#000000', headCol = '#DBF7E3';
+  function readColours() {
+    var cs = getComputedStyle(root);
+    rgb = cs.getPropertyValue('--rain').trim() || rgb;
+    alpha = parseFloat(cs.getPropertyValue('--rain-alpha')) || alpha;
+    bgCol = cs.getPropertyValue('--bg').trim() || bgCol;
+    headCol = cs.getPropertyValue('--ink').trim() || headCol;
+    sizeRain();
+  }
+  function sizeRain() {
+    var r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = Math.max(1, r.width * dpr); cv.height = Math.max(1, r.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.ceil(r.width / fs);
+    cols = []; for (var i = 0; i < n; i++) cols.push(Math.random() * -r.height / fs);
+    ctx.fillStyle = bgCol; ctx.fillRect(0, 0, r.width, r.height);
+    if (reduce.matches) { for (var k = 0; k < 40; k++) step(); }
+  }
+  function step() {
+    var w = cv.width, h = cv.height / Math.min(2, devicePixelRatio || 1);
+    ctx.fillStyle = bgCol; ctx.globalAlpha = 0.12; ctx.fillRect(0, 0, w, h); ctx.globalAlpha = 1;
+    ctx.font = '500 ' + fs + 'px "JetBrains Mono", monospace';
+    for (var i = 0; i < cols.length; i++) {
+      var y = cols[i] * fs, ch = glyphs[(Math.random() * glyphs.length) | 0];
+      ctx.fillStyle = 'rgba(' + rgb + ',' + alpha + ')';
+      ctx.fillText(ch, i * fs, y - fs);
+      ctx.fillStyle = headCol; ctx.globalAlpha = alpha; ctx.fillText(ch, i * fs, y); ctx.globalAlpha = 1;
+      cols[i] = (y > h && Math.random() > 0.975) ? 0 : cols[i] + 1;
+    }
+  }
+  function loop(t) { raf = requestAnimationFrame(loop); if (t - last < 55) return; last = t; step(); }
+  function startRain() { cancelAnimationFrame(raf); raf = 0; if (!reduce.matches && !document.hidden) raf = requestAnimationFrame(loop); }
+  function stopAll() { cancelAnimationFrame(raf); raf = 0; clearInterval(cycleTimer); }
+
+  readColours(); startRain(); startCycle();
+  addEventListener('resize', readColours);
+  document.addEventListener('themechange', readColours);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener && matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColours);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stopAll(); else { startRain(); startCycle(); } });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(readColours);
+})();
 </script>
 </body>
 </html>

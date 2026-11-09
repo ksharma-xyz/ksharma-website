@@ -19,8 +19,8 @@
 <meta name="description" content="How I used Compose Multiplatform to build KRAIL, a Sydney public transport app for Android and iOS. From my talk at Google I/O Extended 2025 in Brisbane.">
 <meta name="author" content="Karan Sharma">
 <link rel="canonical" href="https://ksharma.xyz/blog/google-io-extended-2025-compose-multiplatform-to-city/">
-<meta name="theme-color" content="#FBFCFE" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Karan Sharma">
 <meta property="og:url" content="https://ksharma.xyz/blog/google-io-extended-2025-compose-multiplatform-to-city/">
@@ -29,6 +29,7 @@
 <meta property="og:image" content="https://ksharma.xyz/assets/og-cover.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_AU">
 <meta property="article:published_time" content="2025-06">
 <meta property="article:author" content="Karan Sharma">
 <meta name="twitter:card" content="summary_large_image">
@@ -37,6 +38,7 @@
 <meta name="twitter:image" content="https://ksharma.xyz/assets/og-cover.png">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="preload" href="/assets/fonts/Switzer-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">
 {
@@ -59,41 +61,28 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-gh" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 16 16"><path d="M2 4h12v8H2zM2.5 4.5 8 9l5.5-4.5"/></symbol>
+</svg>
 
-<header class="site-header">
-  <div class="wrap header-row">
-    <a class="brand" href="/">Karan Sharma</a>
-    <nav class="site-nav" aria-label="Primary">
-      <ul>
-        <li><a href="/work/">Work</a></li>
-        <li><a href="/writing/" aria-current="true">Writing</a></li>
-        <li><a href="/photos/">Photos</a></li>
-        <li><a href="/about/">About</a></li>
-      </ul>
-    </nav>
-    <div class="header-end">
-      <button class="theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
-        <svg class="i-moon" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7Z"/></svg>
-        <svg class="i-sun" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
+<header class="wrap site-header">
+    <a class="logo" href="/"><span class="blk" aria-hidden="true"></span>Karan Sharma</a>
+    <nav class="nav" aria-label="Primary"><a href="/work/">Work</a><a href="/blog/" aria-current="true">Blog</a><a href="/photos/">Photos</a><a href="/about/">About</a></nav>
+    <button class="icon-btn theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
+      <svg class="i-moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7Z"/></svg>
+      <svg class="i-sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
+    </button>
+  </header>
 
 <main id="main" class="wrap">
-  <div class="post-head">
-    <a class="btn btn-secondary back" href="/writing/"><svg class="chev-l" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8 10 12.5"/></svg> All writing</a>
+  <article class="post">
+    <div class="actions"><a class="btn btn-sm" href="/blog/">All posts</a></div>
     <h1>Google I/O Extended 2025 (Brisbane): Compose Multiplatform to the City</h1>
-    <p class="post-meta"><time class="num" datetime="2025-06">Jun 2025</time>, <span class="num">5</span> min read</p>
-  </div>
-  <article class="article">
+    <p class="meta num"><time datetime="2025-06">Jun 2025</time>, 5 min read</p>
+    <div class="prose">
 <!-- post-content:start -->
 <p>Hello from Sydney! In this post, I&#39;ll walk you through how I used Compose Multiplatform to build a real world, cross-platform public transport app called KRAIL for Android and iOS. This project was part of my talk at Google I/O Extended 2025 (Brisbane).</p>
-<p>KRAIL App is available on both Google Play and Apple App Store.</p>
-<ul>
-<li><a href="https://play.google.com/store/apps/details?id=xyz.ksharma.krail">Android (Google Play)</a></li>
-<li><a href="https://apps.apple.com/us/app/krail-app/id6738934832">iOS (App Store)</a></li>
-</ul>
 <h2>Goal</h2>
 <p>I wanted to build an app that:</p>
 <ul>
@@ -104,7 +93,7 @@
 <li>Collects analytics and logs crashes.</li>
 </ul>
 <h2>Why Compose Multiplatform?</h2>
-<p><a href="https://github.com/JetBrains/compose-multiplatform">JetBrains Compose Multiplatform</a> is a modern framework that allows you to write declarative UI once in Kotlin and run it on Android, iOS, desktop, and even web. The shared code lives in the commonMain module, while platform-specific code goes in androidMain and iosMain.</p>
+<p><a href="https://github.com/JetBrains/compose-multiplatform">JetBrains Compose Multiplatform<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a> is a modern framework that allows you to write declarative UI once in Kotlin and run it on Android, iOS, desktop, and even web. The shared code lives in the commonMain module, while platform-specific code goes in androidMain and iosMain.</p>
 <p>This project used:</p>
 <ul>
 <li>Kotlin/JVM for Android</li>
@@ -193,7 +182,7 @@ query.insertOrReplaceTrip(
 <h2>Crash Monitoring &amp; Analytics</h2>
 <p>To improve reliability and product insights:</p>
 <ul>
-<li>Firebase Crashlytics for Android and iOS using <a href="https://github.com/GitLiveApp/firebase-kotlin-sdk">GitLive</a></li>
+<li>Firebase Crashlytics for Android and iOS using <a href="https://github.com/GitLiveApp/firebase-kotlin-sdk">GitLive<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a></li>
 </ul>
 <p>We also tracked:</p>
 <ul>
@@ -209,7 +198,7 @@ query.insertOrReplaceTrip(
 <li>iOS (saved trips, theme switching)</li>
 <li>Desktop (reusing the same Compose code!)</li>
 </ul>
-<p>The app KRAIL is open-source and available <a href="https://github.com/ksharma-xyz/KRAIL">on GitHub</a>.</p>
+<p>The app KRAIL is open-source and available <a href="https://github.com/ksharma-xyz/KRAIL">on GitHub<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>.</p>
 <h2>Talk Recording</h2>
 <!-- Replace YOUR_YOUTUBE_VIDEO_ID with the actual YouTube video ID (e.g. dQw4w9WgXcQ) -->
 <div class="video-embed">
@@ -219,62 +208,35 @@ query.insertOrReplaceTrip(
     allowfullscreen
     loading="lazy">
   </iframe>
-</div><h2>Slides</h2>
-<!-- Replace YOUR_SLIDES_EMBED_URL with the Google Slides publish/embed URL
-     (File > Share > Publish to web > Embed) -->
-<div class="video-embed">
-  <iframe
-    title="Talk slides: Compose Multiplatform to the City"
-    src="YOUR_SLIDES_EMBED_URL"
-    allowfullscreen
-    loading="lazy">
-  </iframe>
 </div><h2>Conclusion</h2>
 <p>Compose Multiplatform has evolved quickly, and it&#39;s ready for real-world apps. With strong tooling, predictable compilation, and first-class multiplatform libraries like Ktor and SQLDelight, it&#39;s an exciting time to build UIs for every screen using just Kotlin.</p>
 <p>Whether you&#39;re a solo dev or scaling for teams, you can now design, code, and ship delightful cross-platform apps with one shared mindset and language.</p>
 <!-- post-content:end -->
-  </article>
-  <div class="post-end">
-    <div class="byline">
-      <div><strong>Karan Sharma</strong><span>Staff Software Engineer, Sydney</span></div>
-      <button class="btn btn-secondary" type="button" data-share hidden>Share this post</button>
     </div>
-    <nav class="post-nav" aria-label="More posts">
-      <a class="card prev" href="/blog/protobuf-generate-kotlin-code/"><span class="label">Older post</span><span class="title">Sugar, Spice, and Protobuf: cross-platform collaboration</span><svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
-      <a class="card next" href="/blog/jetpack-compose-best-practices/"><span class="label">Newer post</span><span class="title">Best practices for designing Jetpack Compose APIs</span><svg class="card-chev" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+    <nav class="grid" aria-label="More posts">
+      <h2 class="visually-hidden">More posts</h2>
+      <a class="card" href="/blog/protobuf-generate-kotlin-code/"><h3>Sugar, Spice, and Protobuf: cross-platform collaboration</h3></a>
+      <a class="card" href="/blog/jetpack-compose-best-practices/"><h3>Best practices for designing Jetpack Compose APIs</h3></a>
     </nav>
-  </div>
+  </article>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-row">
-      <h2 class="footer-title">Get in touch</h2>
-      <div class="footer-links">
-        <a href="mailto:hey@krail.app">hey@krail.app</a>
-        <a href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn</a>
-        <a href="https://github.com/ksharma-xyz" rel="me noopener">GitHub</a>
-      </div>
+<footer class="wrap site-footer">
+  <div class="row-f">
+    <h2>Get in touch</h2>
+    <div class="actions">
+      <a class="btn btn-sm" href="mailto:hey@krail.app"><svg class="mail" aria-hidden="true"><use href="#i-mail"/></svg>hey@krail.app</a>
+      <a class="btn btn-sm" href="https://www.linkedin.com/in/ksharma-xyz/" rel="me noopener">LinkedIn <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+      <a class="btn btn-sm" href="https://github.com/ksharma-xyz" rel="me noopener"><svg class="gh" aria-hidden="true"><use href="#i-gh"/></svg>GitHub <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
     </div>
-    <p class="footer-meta"><span>&copy; 2026 Karan Sharma, Sydney</span></p>
   </div>
+  <p class="copy-note num">&copy; 2026 Karan Sharma, Sydney</p>
 </footer>
 <script>
 (function () {
   // Wide code blocks and tables scroll sideways: make them reachable by keyboard.
-  document.querySelectorAll('.article pre, .article table').forEach(function (el) {
+  document.querySelectorAll('.prose pre, .prose table').forEach(function (el) {
     if (el.scrollWidth > el.clientWidth) { el.tabIndex = 0; el.setAttribute('role', 'region'); el.setAttribute('aria-label', el.tagName === 'PRE' ? 'Code sample' : 'Table'); }
-  });
-  var b = document.querySelector('[data-share]');
-  if (!b || !(navigator.share || navigator.clipboard)) return;
-  b.hidden = false;
-  b.addEventListener('click', function () {
-    var data = { title: document.title, url: location.href };
-    if (navigator.share) { navigator.share(data).catch(function () {}); return; }
-    navigator.clipboard.writeText(location.href).then(function () {
-      b.textContent = 'Link copied';
-      setTimeout(function () { b.textContent = 'Share this post'; }, 1800);
-    });
   });
 })();
 </script>
@@ -298,6 +260,7 @@ query.insertOrReplaceTrip(
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
       label();
+      document.dispatchEvent(new Event('themechange'));
     });
   })();
 </script>

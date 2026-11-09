@@ -1,0 +1,147 @@
+[
+ {
+  "when": "2024 to now",
+  "logo": "/assets/orgs/96/commonwealthbankaustralia.webp",
+  "w": 96,
+  "h": 96,
+  "company": "Commonwealth Bank",
+  "title": "Staff Software Engineer",
+  "city": "Sydney",
+  "bullets": [
+   "Built the CommBiz mobile app from scratch. Defined the architecture, tech stack and engineering standards for CBA's flagship business banking app.",
+   "Build for iOS as well as Android, and work on the shared foundations both platforms sit on.",
+   "Lead AI strategy and AI readiness for mobile engineering. Built internal MCP servers, agents and skills (including a design-system MCP) that automate Figma-to-code, UI generation, repetitive dev work and end-to-end testing.",
+   "Designed and built foundational mobile infrastructure used across squads: session management, dependency injection, core networking, encrypted storage, performance monitoring, analytics and end-to-end testing frameworks.",
+   "Developed core business banking features end to end, such as account management and secure multi-step authorisation flows for high-value payments, with push-notification based authentication.",
+   "Lead technical direction for the Android team across architecture, code review and engineering practices. Recently started contributing to backend repositories to improve mobile and backend contracts.",
+   "Wrote a Jetpack Compose linting system that enforces architectural and design-system standards across teams, reducing review cycles.",
+   "Train engineers across the org on AI-assisted development. Contribute to the internal design system and accessibility tooling used by all Android teams."
+  ]
+ },
+ {
+  "when": "2022 to 2024",
+  "logo": "/assets/orgs/96/cash-app.webp",
+  "w": 96,
+  "h": 96,
+  "company": "Cash App",
+  "title": "Senior Software Engineer, Block",
+  "city": "Sydney",
+  "bullets": [
+   "Led end-to-end delivery of the Cross-Border Payments feature, using server-driven UI with Kotlin and Jetpack Compose, working closely with design and product on complex payments flows.",
+   "Built accessible, WCAG 2.1 compliant design systems, driving the migration from legacy view-based UI to Jetpack Compose (toolbars, buttons, and custom layouts like the keypad and amount views).",
+   "Proposed and built a Storybook demo app for the design system, as a single source of truth.",
+   "Helped grow accessibility culture with a11y tooling, documentation and testing frameworks used by teams across the org.",
+   "Contributed to hiring and team culture through interviews, talks and events, and represented the team at the Mobile Summit in San Francisco."
+  ]
+ },
+ {
+  "when": "2021 to 2022",
+  "logo": "/assets/orgs/96/money-by-afterpay.webp",
+  "w": 96,
+  "h": 96,
+  "company": "Afterpay",
+  "title": "Senior Software Engineer",
+  "city": "Sydney",
+  "bullets": [
+   "Built the app onboarding and KYC navigation framework.",
+   "Built the design system and UI components with the design team, including adaptive layouts for small and large screens.",
+   "Built reusable, complex UI elements in Jetpack Compose: parallax effects, calendars and overflow layouts.",
+   "Set up networking and state management with Kotlin Flows and Coroutines."
+  ]
+ },
+ {
+  "when": "2020 to 2021",
+  "logo": "/assets/orgs/96/telstra.webp",
+  "w": 85,
+  "h": 96,
+  "company": "Telstra",
+  "title": "Senior Android Developer",
+  "city": "Sydney",
+  "bullets": [
+   "Rebuilt the Payments tab and improved its load performance by refactoring and building UI frameworks for the team.",
+   "Led the migration from deprecated Kotlin synthetics to Jetpack View Binding.",
+   "Contributed to the design system and mentored the team on building reusable components.",
+   "Presented on Jetpack Compose and Coroutines in team huddles.",
+   "Built accessible custom views (TalkBack, Voice Control, Keyboard Control) and helped reach an AA rating, working toward AAA per WCAG 2.1."
+  ]
+ },
+ {
+  "when": "2020",
+  "logo": "/assets/orgs/96/qantas.webp",
+  "w": 96,
+  "h": 96,
+  "company": "Qantas",
+  "title": "Android Engineer",
+  "city": "Sydney",
+  "bullets": [
+   "Built the native chat feature using MVP architecture, RxJava and WebSockets for real-time communication.",
+   "Contributed reusable components to the design-system library for the chat app's UI."
+  ]
+ },
+ {
+  "when": "2019 to 2020",
+  "logo": "/assets/orgs/96/zip-pay.webp",
+  "w": 96,
+  "h": 36,
+  "company": "Zip",
+  "title": "Android Developer",
+  "city": "Sydney",
+  "bullets": [
+   "Built the in-store payments feature using Kotlin and RxJava.",
+   "Built the UI with the Anko declarative framework.",
+   "Worked with design and product to deliver feature work."
+  ]
+ },
+ {
+  "when": "2019",
+  "logo": "/assets/orgs/96/my-beepr.webp",
+  "w": 96,
+  "h": 96,
+  "company": "myBeepr",
+  "title": "Android Engineer, Healthcare",
+  "city": "Sydney",
+  "bullets": [
+   "Worked on the myBeepr clinical communications app for healthcare teams on Android."
+  ]
+ },
+ {
+  "when": "2018 to 2019",
+  "logo": "/assets/orgs/96/qualcomm.webp",
+  "w": 96,
+  "h": 18,
+  "company": "Qualcomm",
+  "title": "Software Engineer",
+  "city": "Bangalore",
+  "bullets": [
+   "Developed and tested OTA upgrades for Qualcomm chipset devices (msm8909, msm8916, sdm660, msm8998, sdm835, sdm845, msm8953, msm8937).",
+   "Worked with clients such as Razer, Square and Reliance to launch phones with the latest Android OS."
+  ]
+ },
+ {
+  "when": "2017",
+  "logo": "/assets/orgs/96/micromax.webp",
+  "w": 96,
+  "h": 54,
+  "company": "Micromax",
+  "title": "Android Engineer",
+  "city": "Bangalore",
+  "bullets": [
+   "Built Android system apps for entry-level handsets."
+  ]
+ },
+ {
+  "when": "2015 to 2017",
+  "logo": "/assets/orgs/96/portea.webp",
+  "w": 96,
+  "h": 81,
+  "company": "Portea Medical",
+  "title": "Android Developer",
+  "city": "Bangalore",
+  "bullets": [
+   "Built the app from scratch: social login, multiple-account linking and account switching.",
+   "Built the patient booking and medicine-ordering flow, using Google Location libraries to show assigned clinicians on a map in real time. Built the UI with Material Design.",
+   "Tracked clinician location and abnormal device activity.",
+   "Created a Maven repository and published the library as an AAR."
+  ]
+ }
+]

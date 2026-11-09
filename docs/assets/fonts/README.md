@@ -12,3 +12,8 @@ back to the system UI font, which still looks fine.
 
 To swap the font, change the `@font-face` block and the `--font` token at the top of
 `assets/site.css`, and the `preload` link in each page's `<head>`.
+
+**JetBrains Mono** (JetBrains, SIL Open Font License 1.1, see `JetBrainsMono-OFL.txt`) is
+self-hosted as `JetBrainsMono-Variable.woff2`, the variable font subset to Latin
+(weights 100 to 800). It is OFL, so unlike Switzer it is committed. It is used only for
+small text: logo, nav, buttons, dates, meta, chips and code.

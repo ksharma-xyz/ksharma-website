@@ -1,0 +1,345 @@
+{
+ "index": {
+  "title": "Karan Sharma, Staff Software Engineer in Sydney",
+  "description": "Karan Sharma is a Staff Software Engineer in Sydney. He builds Android and iOS apps in Kotlin Multiplatform, and the AI tools that help build them. Maker of KRAIL, Sumi and Huezoo.",
+  "ogTitle": "Karan Sharma, Staff Software Engineer in Sydney",
+  "ogDescription": "Android and iOS apps in Kotlin Multiplatform, and the AI tools that help build them. Maker of KRAIL, Sumi and Huezoo.",
+  "ld": {
+   "@context": "https://schema.org",
+   "@graph": [
+    {
+     "@type": "WebSite",
+     "@id": "https://ksharma.xyz/#website",
+     "url": "https://ksharma.xyz/",
+     "name": "Karan Sharma",
+     "inLanguage": "en-AU",
+     "publisher": {
+      "@id": "https://ksharma.xyz/#person"
+     }
+    },
+    {
+     "@type": "Person",
+     "@id": "https://ksharma.xyz/#person",
+     "name": "Karan Sharma",
+     "jobTitle": "Staff Software Engineer",
+     "worksFor": {
+      "@type": "Organization",
+      "name": "Commonwealth Bank"
+     },
+     "url": "https://ksharma.xyz/",
+     "image": "https://ksharma.xyz/assets/shots/portrait.webp",
+     "email": "mailto:hey@krail.app",
+     "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Sydney",
+      "addressRegion": "NSW",
+      "addressCountry": "AU"
+     },
+     "knowsAbout": [
+      "Kotlin",
+      "Kotlin Multiplatform",
+      "Jetpack Compose",
+      "Compose Multiplatform",
+      "Android",
+      "iOS",
+      "AI tooling",
+      "AI agents",
+      "Model Context Protocol",
+      "Claude Code",
+      "Mobile security",
+      "Accessibility"
+     ],
+     "sameAs": [
+      "https://github.com/ksharma-xyz",
+      "https://www.linkedin.com/in/ksharma-xyz/",
+      "https://stackoverflow.com/users/1505493/karan-sharma",
+      "https://androiddev.social/@karansharma"
+     ]
+    }
+   ]
+  }
+ },
+ "work": {
+  "title": "Work: apps, AI tooling and career | Karan Sharma",
+  "description": "Apps, AI tooling and ten years of mobile engineering. KRAIL, Sumi and Huezoo in Kotlin Multiplatform, the ASTRAMAN agents, and roles at Commonwealth Bank, Cash App, Afterpay and Telstra.",
+  "ogTitle": "Work: apps, AI tooling and career | Karan Sharma",
+  "ogDescription": "Apps, AI tooling and ten years of mobile engineering. KRAIL, Sumi and Huezoo in Kotlin Multiplatform, the ASTRAMAN agents, and roles at Commonwealth Bank, Cash App, Afterpay and Telstra.",
+  "ld": {
+   "@context": "https://schema.org",
+   "@graph": [
+    {
+     "@type": "CollectionPage",
+     "name": "Work",
+     "url": "https://ksharma.xyz/work/",
+     "about": {
+      "@type": "Person",
+      "@id": "https://ksharma.xyz/#person",
+      "name": "Karan Sharma",
+      "url": "https://ksharma.xyz/"
+     },
+     "hasPart": [
+      {
+       "@type": "MobileApplication",
+       "name": "KRAIL",
+       "url": "https://krail.app",
+       "operatingSystem": "iOS, Android",
+       "applicationCategory": "TravelApplication",
+       "description": "Sydney public transport for iOS and Android.",
+       "author": {
+        "@type": "Person",
+        "@id": "https://ksharma.xyz/#person",
+        "name": "Karan Sharma",
+        "url": "https://ksharma.xyz/"
+       }
+      },
+      {
+       "@type": "MobileApplication",
+       "name": "Sumi",
+       "url": "https://ksharma-xyz.github.io/Sumi/",
+       "operatingSystem": "iOS, Android",
+       "applicationCategory": "GameApplication",
+       "description": "Zen Sudoku for iOS and Android.",
+       "author": {
+        "@type": "Person",
+        "@id": "https://ksharma.xyz/#person",
+        "name": "Karan Sharma",
+        "url": "https://ksharma.xyz/"
+       }
+      },
+      {
+       "@type": "MobileApplication",
+       "name": "Huezoo",
+       "url": "https://ksharma-xyz.github.io/HueZoo/",
+       "operatingSystem": "iOS, Android",
+       "applicationCategory": "GameApplication",
+       "description": "A colour perception game for iOS and Android.",
+       "author": {
+        "@type": "Person",
+        "@id": "https://ksharma.xyz/#person",
+        "name": "Karan Sharma",
+        "url": "https://ksharma.xyz/"
+       }
+      }
+     ]
+    },
+    {
+     "@type": "BreadcrumbList",
+     "itemListElement": [
+      {
+       "@type": "ListItem",
+       "position": 1,
+       "name": "Home",
+       "item": "https://ksharma.xyz/"
+      },
+      {
+       "@type": "ListItem",
+       "position": 2,
+       "name": "Work",
+       "item": "https://ksharma.xyz/work/"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "about": {
+  "title": "About Karan Sharma | Staff Software Engineer, Sydney",
+  "description": "About Karan Sharma: Staff Software Engineer in Sydney with ten years building secure mobile products, maker of KRAIL, Sumi and Huezoo, and a Google I/O Extended speaker.",
+  "ogTitle": "About Karan Sharma | Staff Software Engineer, Sydney",
+  "ogDescription": "About Karan Sharma: Staff Software Engineer in Sydney with ten years building secure mobile products, maker of KRAIL, Sumi and Huezoo, and a Google I/O Extended speaker.",
+  "ld": {
+   "@context": "https://schema.org",
+   "@graph": [
+    {
+     "@type": "ProfilePage",
+     "url": "https://ksharma.xyz/about/",
+     "mainEntity": {
+      "@type": "Person",
+      "@id": "https://ksharma.xyz/#person",
+      "name": "Karan Sharma",
+      "jobTitle": "Staff Software Engineer",
+      "url": "https://ksharma.xyz/",
+      "image": "https://ksharma.xyz/assets/shots/portrait.webp",
+      "worksFor": {
+       "@type": "Organization",
+       "name": "Commonwealth Bank"
+      },
+      "alumniOf": {
+       "@type": "CollegeOrUniversity",
+       "name": "Punjab Technical University"
+      },
+      "address": {
+       "@type": "PostalAddress",
+       "addressLocality": "Sydney",
+       "addressRegion": "NSW",
+       "addressCountry": "AU"
+      },
+      "sameAs": [
+       "https://github.com/ksharma-xyz",
+       "https://www.linkedin.com/in/ksharma-xyz/",
+       "https://stackoverflow.com/users/1505493/karan-sharma",
+       "https://androiddev.social/@karansharma"
+      ]
+     }
+    },
+    {
+     "@type": "BreadcrumbList",
+     "itemListElement": [
+      {
+       "@type": "ListItem",
+       "position": 1,
+       "name": "Home",
+       "item": "https://ksharma.xyz/"
+      },
+      {
+       "@type": "ListItem",
+       "position": 2,
+       "name": "About",
+       "item": "https://ksharma.xyz/about/"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "photos": {
+  "title": "Photos | Karan Sharma",
+  "description": "A few photographs by Karan Sharma from places he has wandered through: Sydney, San Francisco and quiet beaches.",
+  "ogTitle": "Photos | Karan Sharma",
+  "ogDescription": "A few photographs by Karan Sharma from places he has wandered through: Sydney, San Francisco and quiet beaches.",
+  "ld": {
+   "@context": "https://schema.org",
+   "@graph": [
+    {
+     "@type": "ImageGallery",
+     "name": "Photos",
+     "url": "https://ksharma.xyz/photos/",
+     "author": {
+      "@type": "Person",
+      "@id": "https://ksharma.xyz/#person",
+      "name": "Karan Sharma",
+      "url": "https://ksharma.xyz/"
+     }
+    },
+    {
+     "@type": "BreadcrumbList",
+     "itemListElement": [
+      {
+       "@type": "ListItem",
+       "position": 1,
+       "name": "Home",
+       "item": "https://ksharma.xyz/"
+      },
+      {
+       "@type": "ListItem",
+       "position": 2,
+       "name": "Photos",
+       "item": "https://ksharma.xyz/photos/"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "writing": {
+  "title": "Writing | Karan Sharma",
+  "description": "Engineering posts by Karan Sharma on Kotlin, Jetpack Compose, Compose Multiplatform, mobile security, accessibility, developer tooling and AI agents.",
+  "ogTitle": "Writing | Karan Sharma",
+  "ogDescription": "Engineering posts by Karan Sharma on Kotlin, Jetpack Compose, Compose Multiplatform, mobile security, accessibility, developer tooling and AI agents.",
+  "ld": {
+   "@context": "https://schema.org",
+   "@graph": [
+    {
+     "@type": "Blog",
+     "name": "Writing by Karan Sharma",
+     "url": "https://ksharma.xyz/writing/",
+     "author": {
+      "@type": "Person",
+      "@id": "https://ksharma.xyz/#person",
+      "name": "Karan Sharma",
+      "url": "https://ksharma.xyz/"
+     },
+     "blogPost": [
+      {
+       "@type": "BlogPosting",
+       "headline": "How AI agents built Veduta in 82 reviewed steps, and what on-device AI taught me",
+       "url": "https://ksharma.xyz/blog/building-veduta-on-device-ai-agents/",
+       "datePublished": "2026-10"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Best practices for designing Jetpack Compose APIs",
+       "url": "https://ksharma.xyz/blog/jetpack-compose-best-practices/",
+       "datePublished": "2025-08"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Google I/O Extended 2025 (Brisbane): Compose Multiplatform to the City",
+       "url": "https://ksharma.xyz/blog/google-io-extended-2025-compose-multiplatform-to-city/",
+       "datePublished": "2025-06"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Sugar, Spice, and Protobuf: cross-platform collaboration",
+       "url": "https://ksharma.xyz/blog/protobuf-generate-kotlin-code/",
+       "datePublished": "2024-07"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Ship faster with Graphite: improve dev velocity",
+       "url": "https://ksharma.xyz/blog/graphite-improve-dev-velocity-using-git/",
+       "datePublished": "2024-06"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Android: adb shortcuts for productivity",
+       "url": "https://ksharma.xyz/blog/android-adb-shortcuts-for-productivity/",
+       "datePublished": "2024-06"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Cryptography with Google Tink on Android",
+       "url": "https://ksharma.xyz/blog/encryption-google-tink-android/",
+       "datePublished": "2024-05"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Protect data by blocking screenshots in Jetpack Compose",
+       "url": "https://ksharma.xyz/blog/jetpack-compose-security-disable-screenshots-recordings/",
+       "datePublished": "2024-04"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Accessible Weather App in Jetpack Compose",
+       "url": "https://ksharma.xyz/blog/a11y-weather-app-android/",
+       "datePublished": "2023-02"
+      },
+      {
+       "@type": "BlogPosting",
+       "headline": "Accessibility: List Item Design in Jetpack Compose",
+       "url": "https://ksharma.xyz/blog/accessibility-list-item-android-jetpack-compose/",
+       "datePublished": "2023-01"
+      }
+     ]
+    },
+    {
+     "@type": "BreadcrumbList",
+     "itemListElement": [
+      {
+       "@type": "ListItem",
+       "position": 1,
+       "name": "Home",
+       "item": "https://ksharma.xyz/"
+      },
+      {
+       "@type": "ListItem",
+       "position": 2,
+       "name": "Writing",
+       "item": "https://ksharma.xyz/writing/"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
