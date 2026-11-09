@@ -13,6 +13,7 @@
       else t = localStorage.getItem('theme');
     } catch (e) {}
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
   })();
 </script>
 <title>Accessibility: List Item Design in Jetpack Compose | Karan Sharma</title>
@@ -75,7 +76,7 @@
     </button>
   </header>
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <article class="post">
     <div class="actions"><a class="btn btn-sm" href="/blog/">All posts</a></div>
     <h1>Accessibility: List Item Design in Jetpack Compose</h1>
@@ -83,8 +84,8 @@
     <div class="prose">
 <!-- post-content:start -->
 <p>Today, we will create an accessible list item component in android using Jetpack Compose. We will support RTL Languages and Dark Mode as well using Material Design.</p>
-<p><img src="images/fig-1.webp" alt="" width="266" height="51"></p>
-<p><img src="images/fig-2.webp" alt="" width="266" height="51"></p>
+<p><img src="images/fig-1.webp" alt="" width="266" height="51" style="width:266px"></p>
+<p><img src="images/fig-2.webp" alt="" width="266" height="51" style="width:266px"></p>
 <p>In most mobile applications, there is a common list element layout which has a left icon, a title, a subtitle and a right icon. This UI element is generally a part of a list. Sounds very common isn’t it ? And it is very easy to create one. For example, let&#39;s imagine the following design layout received as part of Figma layout. The developers may usually interpret the layout in their own terms.</p>
 <p>There are following open questions a developer must ask to understand the behaviour of layout in following conditions:</p>
 <ul>
@@ -163,9 +164,26 @@
 <script>
 (function () {
   // Wide code blocks and tables scroll sideways: make them reachable by keyboard.
-  document.querySelectorAll('.prose pre, .prose table').forEach(function (el) {
-    if (el.scrollWidth > el.clientWidth) { el.tabIndex = 0; el.setAttribute('role', 'region'); el.setAttribute('aria-label', el.tagName === 'PRE' ? 'Code sample' : 'Table'); }
+  document.querySelectorAll('.prose [data-carousel]').forEach(function (track) {
+    var wrap = document.createElement('div'); wrap.className = 'carousel-wrap';
+    track.parentNode.insertBefore(wrap, track); wrap.appendChild(track);
+    var btns = document.createElement('div'); btns.className = 'carousel-btns';
+    var ico = function (d) { return '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="' + d + '"/></svg>'; };
+    function mk(name, d) { var b = document.createElement('button'); b.type = 'button'; b.className = 'icon-btn'; b.setAttribute('aria-label', name); b.innerHTML = ico(d); btns.appendChild(b); return b; }
+    var prev = mk('Previous screenshot', 'M12 4 6 10l6 6'), next = mk('Next screenshot', 'M8 4l6 6-6 6');
+    wrap.appendChild(btns);
+    function step() { var f = track.querySelector('figure'); return f ? f.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 24) : 260; }
+    function update() { btns.hidden = track.scrollWidth <= track.clientWidth + 1; prev.disabled = track.scrollLeft <= 1; next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1; }
+    prev.addEventListener('click', function () { track.scrollBy({ left: -step() }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: step() }); });
+    track.addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
   });
+  function reachable() {
+    document.querySelectorAll('.prose pre, .prose table').forEach(function (el) {
+      if (el.scrollWidth > el.clientWidth) { el.tabIndex = 0; el.setAttribute('role', 'region'); el.setAttribute('aria-label', el.tagName === 'PRE' ? 'Code sample' : 'Table'); }
+    });
+  }
+  reachable(); addEventListener('resize', reachable);
 })();
 </script>
 <script>
@@ -181,10 +199,23 @@
     if (mq.addEventListener) mq.addEventListener('change', label);
     b.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      label();
-      document.dispatchEvent(new Event('themechange'));
+      function apply() {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        label();
+        document.dispatchEvent(new Event('themechange'));
+      }
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+      if (document.startViewTransition) { try { document.startViewTransition(apply); return; } catch (e) {} }
+      root.classList.add('theme-anim'); apply();
+      setTimeout(function () { root.classList.remove('theme-anim'); }, 320);
+    });
+  })();
+  // Images fade in once loaded (CSS hides html.js img:not(.loaded)).
+  (function () {
+    function done(i) { i.classList.add('loaded'); }
+    document.querySelectorAll('img').forEach(function (i) {
+      if (i.complete) done(i); else { i.addEventListener('load', function () { done(i); }); i.addEventListener('error', function () { done(i); }); }
     });
   })();
 </script>

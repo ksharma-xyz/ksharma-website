@@ -1040,7 +1040,7 @@ test.describe('Arrow rule', () => {
           void label;
         } else {
           for (const i of icons) {
-            if (!i.matches('svg.gh, svg.mail, svg.i-moon, svg.i-sun, svg.chev') ) out.push(`${ux.sel(a)} (internal) contains an icon ${ux.sel(i)}`);
+            if (!i.matches('svg.gh, svg.mail, svg.i-moon, svg.i-sun, svg.chev') && !a.closest('.carousel-btns')) out.push(`${ux.sel(a)} (internal) contains an icon ${ux.sel(i)}`);
             if (i.matches('svg.ext')) out.push(`${ux.sel(a)} is internal but carries the external icon`);
           }
           if (a.matches('a') && a.querySelector('svg.chev')) out.push(`${ux.sel(a)} (internal) contains a chevron`);
@@ -1194,6 +1194,294 @@ test.describe('Career logos', () => {
       return out;
     });
     check('Career logos', v);
+  });
+});
+
+test.describe('Post images and carousels', () => {
+  for (const post of blogPaths()) {
+    test(`Post images: no taller than 60vh or wider than 960px at 1440x900 [${post}]`, async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await visit(page, post);
+      await page.evaluate(async () => {
+        const imgs = Array.from(document.querySelectorAll('.prose img')) as HTMLImageElement[];
+        imgs.forEach((i) => (i.loading = 'eager'));
+        await Promise.all(imgs.map((i) => (i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = () => r(0); }))));
+      });
+      const v = await page.evaluate(() => {
+        const out: string[] = [];
+        document.querySelectorAll('.prose img, .prose figure.chart').forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.height > window.innerHeight * 0.6 + 1) out.push(`${el.tagName} is ${Math.round(r.height)}px tall`);
+          if (r.width > 961) out.push(`${el.tagName} is ${Math.round(r.width)}px wide`);
+        });
+        return out;
+      });
+      check('Post images', v);
+    });
+  }
+
+  test('Carousel: Veduta screenshots scroll with named prev/next buttons', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await visit(page, '/blog/building-veduta-on-device-ai-agents/');
+    const track = page.locator('.prose [data-carousel]').first();
+    await expect(track).toHaveCount(1);
+    const prev = page.getByRole('button', { name: 'Previous screenshot' }).first();
+    const next = page.getByRole('button', { name: 'Next screenshot' }).first();
+    await expect(prev).toBeVisible();
+    await expect(prev).toBeDisabled();
+    const box = await next.boundingBox();
+    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+    expect(await track.getAttribute('tabindex')).toBe('0');
+    await next.scrollIntoViewIfNeeded();
+    await next.click();
+    await expect.poll(() => track.evaluate((e) => e.scrollLeft)).toBeGreaterThan(50);
+    await expect(prev).toBeEnabled();
+  });
+});
+
+test.describe('Career bullets', () => {
+  test('Career: bullets start at the same left edge as the dates', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await visit(page, '/work/');
+    const v = await page.evaluate(() => {
+      const y = document.querySelector('details.role[open] .y')!.getBoundingClientRect().left;
+      const li = document.querySelector('details.role[open] .role-detail li')!.getBoundingClientRect().left;
+      return Math.abs(y - li) <= 2 ? [] : [`dates at ${y}, bullets at ${li}`];
+    });
+    check('Career', v);
+  });
+});
+
+test.describe('Career motion', () => {
+  test('Career: opening a closed role shows its bullets within 600ms', async ({ page }) => {
+    await visit(page, '/work/');
+    const role = page.locator('details.role').nth(1);
+    await role.locator('summary').click();
+    await expect(role.locator('.role-detail li').first()).toBeVisible({ timeout: 600 });
+    await expect.poll(() => role.locator('.role-detail').evaluate((e) => getComputedStyle(e).opacity), { timeout: 600 }).toBe('1');
+  });
+  test('Career: reduced motion toggles instantly', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await visit(page, '/work/');
+    const role = page.locator('details.role').nth(1);
+    await role.locator('summary').click();
+    expect(await role.evaluate((e) => (e as HTMLDetailsElement).open)).toBe(true);
+    const h = await role.evaluate((e) => e.getBoundingClientRect().height);
+    await page.waitForTimeout(30);
+    expect(await role.evaluate((e) => e.getBoundingClientRect().height)).toBe(h);
+    expect(await role.locator('.role-detail').evaluate((e) => getComputedStyle(e).opacity)).toBe('1');
+    await role.locator('summary').click();
+    expect(await role.evaluate((e) => (e as HTMLDetailsElement).open)).toBe(false);
+  });
+});
+
+test.describe('Smooth motion', () => {
+  const COLOUR_PROPS = ['color', 'background-color', 'border-color', 'all'];
+  for (const url of ['/', '/work/', '/blog/']) {
+    test(`Smooth motion: links, buttons, summaries and cards transition colour in 1 to 320ms [${url}]`, async ({ page }) => {
+      await visit(page, url);
+      const v = await page.evaluate((props) => {
+        const out: string[] = [];
+        document.querySelectorAll('a, button, summary, .card').forEach((el) => {
+          const cs = getComputedStyle(el);
+          const dur = cs.transitionDuration.split(',').map((d) => parseFloat(d) * (d.includes('ms') ? 0.001 : 1));
+          const pr = cs.transitionProperty.split(',').map((x) => x.trim());
+          const ok = pr.some((p, i) => props.includes(p) && dur[i % dur.length] > 0 && dur[i % dur.length] <= 0.32);
+          if (!ok) out.push(`${el.tagName}.${(el as HTMLElement).className}: ${cs.transitionProperty} ${cs.transitionDuration}`);
+        });
+        return out.slice(0, 8);
+      }, COLOUR_PROPS);
+      check('Smooth motion', v);
+    });
+  }
+
+  test('Smooth motion: html scrolls smoothly, and instantly under reduced motion', async ({ page }) => {
+    await visit(page, '/');
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('smooth');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+  });
+
+  test('Smooth motion: cross-document view transitions are enabled', async () => {
+    const css = fs.readFileSync(path.join(DOCS, 'assets', 'site.css'), 'utf8');
+    expect(css).toMatch(/@view-transition\s*\{\s*navigation:\s*auto/);
+  });
+
+  test('Smooth motion: the theme toggle switches without errors and ends on the right colours', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(String(e)));
+    await visit(page, '/work/');
+    const toggle = page.locator('.theme-toggle');
+    const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    const before = await bg();
+    await toggle.click();
+    await expect.poll(bg, { timeout: 2000 }).not.toBe(before);
+    const after = await bg();
+    await toggle.click();
+    await expect.poll(bg, { timeout: 2000 }).toBe(before);
+    expect(after).not.toBe(before);
+    expect(errors).toEqual([]);
+  });
+
+  test('Smooth motion: reduced motion makes every transition and animation instant', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await visit(page, '/work/');
+    const v = await page.evaluate(() => {
+      const out: string[] = [];
+      document.querySelectorAll('body *').forEach((el) => {
+        const cs = getComputedStyle(el);
+        const bad = (s: string) => s.split(',').some((d) => parseFloat(d) > 0.001);
+        if (bad(cs.transitionDuration) || (cs.animationName !== 'none' && bad(cs.animationDuration))) out.push(`${el.tagName}.${(el as HTMLElement).className}`);
+      });
+      return out.slice(0, 8);
+    });
+    check('Smooth motion', v);
+  });
+});
+
+test.describe('Keyboard', () => {
+  const FOCUSABLE = 'a[href], button, input, select, textarea, summary, iframe, [tabindex]';
+
+  perPage('Keyboard: Tab reaches every interactive element in order, shows a visible, unobscured, 3:1 focus ring, and never traps', async (page) => {
+    await page.evaluate(() => (document.querySelectorAll('.prose [data-carousel], .shots') as any)); // no-op: pages are already settled
+    // smooth scrolling is tested on its own; here jumps must be instant so focus can be judged where it lands
+    await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
+    await page.evaluate(async () => {
+      const imgs = Array.from(document.images);
+      imgs.forEach((i) => (i.loading = 'eager'));
+      await Promise.all(imgs.map((i) => (i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = () => r(0); }))));
+    });
+    const expected = await page.evaluate((sel) => {
+      const ux = (window as any).__ux;
+      const list = Array.from(document.querySelectorAll(sel)).filter((el) => {
+        const e = el as HTMLElement & { disabled?: boolean };
+        if (e.disabled || e.getAttribute('tabindex') === '-1' || e.closest('[inert]')) return false;
+        if (e.tagName === 'A' && e.classList.contains('skip')) return true;
+        return ux.vis(e) || (e.tagName === 'SUMMARY' && !!e.getClientRects().length);
+      });
+      (window as any).__expected = list;
+      return list.length;
+    }, FOCUSABLE);
+    const v: string[] = [];
+    const seen: number[] = [];
+    const ringSeen = new Set<string>();
+    for (let i = 0; i < expected + 40; i++) {
+      await page.keyboard.press('Tab');
+      const r = await page.evaluate(async () => {
+        // smooth scrolling: wait until the focused element has been scrolled into view (up to 5s)
+        const t0 = performance.now();
+        while (performance.now() - t0 < 5000) {
+          await new Promise((res) => requestAnimationFrame(res));
+          const a = document.activeElement as HTMLElement | null;
+          if (!a || a === document.body) break;
+          const b = a.getBoundingClientRect();
+          if (b.bottom > 0 && b.top < innerHeight) break;
+        }
+        await new Promise((res) => requestAnimationFrame(res));
+        const el = document.activeElement as HTMLElement;
+        const list = (window as any).__expected as Element[];
+        if (!el || el === document.body) return { wrapped: true } as any;
+        const ux = (window as any).__ux;
+        const cs = getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
+        // focus not obscured: the topmost element at the centre of the focused element is the element, or inside/around it
+        const cx = Math.min(Math.max(rect.left + rect.width / 2, 1), innerWidth - 1);
+        const cy = Math.min(Math.max(rect.top + rect.height / 2, 1), innerHeight - 1);
+        const top = document.elementFromPoint(cx, cy);
+        const obscured = !!top && !(el.contains(top) || top.contains(el));
+        const offscreen = rect.bottom <= 0 || rect.top >= innerHeight || rect.right <= 0 || rect.left >= innerWidth;
+        // ring contrast
+        const parse = (c: string) => (c.match(/[\d.]+/g) || []).map(Number);
+        const lum = (c: number[]) => { const f = (x: number) => { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
+        let bg = [255, 255, 255], n: Element | null = el.parentElement; // the ring sits outside the element
+        while (n) { const b = parse(getComputedStyle(n).backgroundColor); if (b.length >= 3 && (b.length === 3 || b[3] > 0.95)) { bg = b; break; } n = n.parentElement; }
+        const oc = parse(cs.outlineColor);
+        const hasOutline = el.tagName === 'IFRAME' || (cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) >= 2);
+        const L1 = lum(oc), L2 = lum(bg);
+        const ratio = (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
+        return { idx: list.indexOf(el), sel: ux.sel(el), obscured, offscreen, hasOutline, ratio, oc: cs.outlineColor, bg: bg.join(',') };
+      });
+      if (r.wrapped) break;
+      if (r.idx < 0) { v.push(`${r.sel}: focused but not in the expected interactive set`); continue; }
+      if (seen.includes(r.idx)) { if (r.sel.startsWith('iframe')) continue; break; } // a cross-origin iframe keeps focus while Tab moves inside it; anything else seen twice means we wrapped round
+      seen.push(r.idx);
+      if (r.obscured || r.offscreen) v.push(`${r.sel}: focused element is hidden or covered`);
+      if (!r.hasOutline) v.push(`${r.sel}: no focus outline of 2px or more`);
+      else if (r.ratio < 3) { const k = `${r.oc}|${r.bg}`; if (!ringSeen.has(k)) { ringSeen.add(k); v.push(`${r.sel}: focus ring ${r.oc} on rgb(${r.bg}) is ${r.ratio.toFixed(2)}:1, needs 3:1`); } }
+      if (i === 0 && !(await page.evaluate(() => document.activeElement?.classList.contains('skip')))) v.push('the first tab stop is not the skip link');
+    }
+    const missed = expected - new Set(seen).size;
+    if (missed > 0) v.push(`${missed} of ${expected} interactive elements were never reached by Tab`);
+    for (let i = 1; i < seen.length; i++) if (seen[i] < seen[i - 1]) { v.push('tab order does not follow the page order'); break; }
+    check('Keyboard', v);
+  });
+
+  perPage('Keyboard: the skip link is the first tab stop and moves focus to main', async (page) => {
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => document.activeElement?.className)).toContain('skip');
+    await page.keyboard.press('Enter');
+    expect(await page.evaluate(() => document.activeElement?.id)).toBe('main');
+  });
+
+  test('Keyboard: the theme toggle works with Enter and Space', async ({ page }) => {
+    await visit(page, '/work/');
+    const t = page.locator('.theme-toggle');
+    await t.focus();
+    const label = () => t.getAttribute('aria-label');
+    const a = await label();
+    await page.keyboard.press('Enter');
+    await expect.poll(label).not.toBe(a);
+    await page.keyboard.press('Space');
+    await expect.poll(label).toBe(a);
+  });
+
+  test('Keyboard: career rows open and close with Enter and Space', async ({ page }) => {
+    await visit(page, '/work/');
+    const role = page.locator('details.role').nth(1);
+    const open = () => role.evaluate((e) => (e as HTMLDetailsElement).open);
+    await role.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(open).toBe(true);
+    await page.keyboard.press('Enter');
+    await expect.poll(open).toBe(false);
+    await page.keyboard.press('Space');
+    await expect.poll(open).toBe(true);
+    await page.keyboard.press('Space');
+    await expect.poll(open).toBe(false);
+  });
+
+  test('Keyboard: the carousel scrolls by arrow keys and by its buttons, and a disabled button is skipped', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await visit(page, '/blog/building-veduta-on-device-ai-agents/');
+    const track = page.locator('[data-carousel]').first();
+    const left = () => track.evaluate((e) => e.scrollLeft);
+    await track.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect.poll(left).toBeGreaterThan(20);
+    await page.keyboard.press('ArrowLeft');
+    await expect.poll(left).toBeLessThan(5);
+    // at the start Previous is disabled, so Tab from the track goes straight to Next
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toBe('Next screenshot');
+    await page.keyboard.press('Enter');
+    await expect.poll(left).toBeGreaterThan(50);
+    await page.keyboard.press('Shift+Tab');
+    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toBe('Previous screenshot');
+  });
+
+  perPage('Keyboard: axe finds no WCAG A/AA violations at 1440 and 390, with careers open and closed', async (page, url) => {
+    const v: string[] = [];
+    for (const [w, h] of [[1440, 900], [390, 844]]) {
+      await page.setViewportSize({ width: w, height: h });
+      const states = url === '/work/' ? ['closed', 'all-open'] : ['default'];
+      for (const st of states) {
+        if (st !== 'default') await page.evaluate((s) => document.querySelectorAll('details.role').forEach((d) => ((d as HTMLDetailsElement).open = s === 'all-open')), st);
+        const res = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+        res.violations.forEach((x) => v.push(`${w}px ${st}: [${x.id}] ${x.help}: ${x.nodes.slice(0, 2).map((n) => n.target.join(' ')).join('; ')}`));
+      }
+    }
+    check('Keyboard (axe)', v);
   });
 });
 

@@ -13,6 +13,7 @@
       else t = localStorage.getItem('theme');
     } catch (e) {}
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
   })();
 </script>
 <title>Work: apps, AI tooling and career | Karan Sharma</title>
@@ -134,7 +135,7 @@
     </button>
   </header>
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <h1 class="page-title rise">Work</h1>
 
   <section class="section" id="apps" aria-labelledby="h-apps">
@@ -201,34 +202,6 @@
         <div class="actions"><a class="btn btn-primary" href="/blog/building-veduta-on-device-ai-agents/">Read how ASTRAMAN built Veduta</a></div>
       </div>
     </article>
-    <h3 class="subhead">The toolkit</h3>
-    <div class="grid">
-      <div class="card"><h4>A library of skills</h4><p>The work that repeats on every Kotlin Multiplatform app is written down once as a skill: modularisation, Koin, Navigation 3, SQLDelight, Ktor, Compose resources, typography, colour tokens, app icons, in-app purchases, CI/CD, font-scale accessibility and release checks. Writing it down once is cheaper and more predictable than explaining the same setup to a model each time.</p></div>
-      <div class="card"><h4>Starter templates</h4><p>New apps start from a Kotlin Multiplatform template that already builds: multi-module structure, convention plugins, DI, static analysis, testing and an empty component catalogue. Creating a project from it is a copy and a rename, so nothing about the foundation is left to chance.</p></div>
-      <div class="card"><h4>Harness engineering</h4><p>Subagents with narrow tools, hooks for the rules that must not be skipped, MCP servers when a model needs real data rather than a guess, and git worktrees so parallel agents do not collide. Most of the work is deciding what context each agent gets, and what it is not allowed to do.</p></div>
-    </div>
-    <h3 class="subhead">At Commonwealth Bank</h3>
-    <div class="grid">
-      <div class="card"><h4>A design system agents can read</h4><p>Internal MCP servers, including one for the design system, so generated UI is built from the components, tokens and rules the design team actually ships rather than an approximation of them.</p></div>
-      <div class="card"><h4>Design to code, and tests</h4><p>Agents and skills that turn designs into Compose code, generate UI, handle repetitive dev work and write end-to-end tests.</p></div>
-      <div class="card"><h4>Standards, enforced</h4><p>A Jetpack Compose linting system that checks architecture and design-system standards across teams, so reviews spend less time on style. Alongside it, training engineers across the org on AI-assisted development.</p></div>
-    </div>
-    <h3 class="subhead">Built with the same tooling</h3>
-    <div class="grid">
-      <article class="card" aria-labelledby="w-video">
-        <h4 id="w-video">KRAIL's videos, written as code</h4>
-        <p>KRAIL needs video to reach people, so I build the videos with code. A video is a config object rather than a timeline. Scenes, copy, colour, spacing and motion are fields in a schema, and a React and Remotion engine renders them to a vertical video. Nothing is hand-animated per video, so adding a capability means adding a field to the schema, and the look stays consistent across everything that goes out.</p>
-        <p>Around the engine there is a small Next.js dashboard for the parts that are not rendering: the script for each video, per-platform captions for Instagram, TikTok, YouTube Shorts, Facebook, Reddit and LinkedIn, a queue of what to build next, and the posting calendar. The videos are built from the Claude CLI with a skill I wrote for it.</p>
-        <div class="actions">
-          <a class="btn btn-sm" href="https://www.instagram.com/krail.app/" rel="noopener">See the videos on Instagram <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
-          <a class="btn btn-sm" href="https://www.tiktok.com/@krailapp" rel="noopener">TikTok <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
-          <a class="btn btn-sm" href="https://www.threads.com/@krail.app" rel="noopener">Threads <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
-        </div>
-      </article>
-      <a class="card" href="https://github.com/ksharma-xyz/KRAIL-BFF" rel="noopener"><h4>The KRAIL backend <svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></h4><p>A Ktor service for trip planning over the NSW transport network, with Protobuf contracts shared with the app and a containerised deploy.</p></a>
-      <div class="card"><h4>A native design system</h4><p>Design tokens in the W3C format, compiled once into Kotlin and Swift, with catalogue apps in Jetpack Compose and SwiftUI so both platforms read from the same source of truth.</p></div>
-      <div class="card"><h4>A local analytics dashboard</h4><p>Pulls KRAIL's own analytics exports into local storage and a small dashboard, because the hosted retention window is short and the export tools are slow to work with.</p></div>
-    </div>
   </section>
 
   <section class="section" id="career" aria-labelledby="h-career">
@@ -236,7 +209,7 @@
     <div class="roles" data-ux-list>
       <details class="role" open>
         <summary><span class="y num">2024 to now</span><span class="lg"><img src="/assets/orgs/96/commonwealthbankaustralia.webp" alt="" width="96" height="96" loading="lazy"></span><span class="c">Commonwealth Bank<span>Staff Software Engineer</span></span><span class="p">Sydney</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <ul class="role-detail"><li>Built the CommBiz mobile app from scratch. Defined the architecture, tech stack and engineering standards for CBA's flagship business banking app.</li><li>Build for iOS as well as Android, and work on the shared foundations both platforms sit on.</li><li>Lead AI strategy and AI readiness for mobile engineering. Built internal MCP servers, agents and skills (including a design-system MCP) that automate Figma-to-code, UI generation, repetitive dev work and end-to-end testing.</li><li>Designed and built foundational mobile infrastructure used across squads: session management, dependency injection, core networking, encrypted storage, performance monitoring, analytics and end-to-end testing frameworks.</li><li>Developed core business banking features end to end, such as account management and secure multi-step authorisation flows for high-value payments, with push-notification based authentication.</li><li>Lead technical direction for the Android team across architecture, code review and engineering practices. Recently started contributing to backend repositories to improve mobile and backend contracts.</li><li>Wrote a Jetpack Compose linting system that enforces architectural and design-system standards across teams, reducing review cycles.</li><li>Train engineers across the org on AI-assisted development. Contribute to the internal design system and accessibility tooling used by all Android teams.</li></ul>
+        <ul class="role-detail"><li>Now on the CommBank app across Android and iOS, building AI-powered features for the app, and the agentic strategy and AI tooling for mobile across the whole bank.</li><li>Built a RAG and a graph RAG that hold all mobile engineering knowledge, so engineers get answers to their questions without a meeting.</li><li>Built the CommBiz mobile app from scratch. Defined the architecture, tech stack and engineering standards for CBA's flagship business banking app.</li><li>Led AI strategy and AI readiness for mobile engineering on CommBiz. Built internal MCP servers, agents and skills (including a design-system MCP) that automate Figma-to-code, UI generation, repetitive dev work and end-to-end testing.</li><li>Designed and built foundational mobile infrastructure used across squads: session management, dependency injection, core networking, encrypted storage, performance monitoring, analytics and end-to-end testing frameworks.</li><li>Developed core business banking features end to end, such as account management and secure multi-step authorisation flows for high-value payments, with push-notification based authentication.</li><li>Led technical direction for the CommBiz Android team across architecture, code review and engineering practices, and contributed to backend repositories to improve mobile and backend contracts.</li><li>Wrote a Jetpack Compose linting system that enforces architectural and design-system standards across teams, reducing review cycles.</li><li>Train engineers across the org on AI-assisted development. Contributed to the internal design system and accessibility tooling used by the Android teams.</li></ul>
       </details>
       <details class="role">
         <summary><span class="y num">2022 to 2024</span><span class="lg"><img src="/assets/orgs/96/cash-app.webp" alt="" width="96" height="96" loading="lazy"></span><span class="c">Cash App<span>Senior Software Engineer, Block</span></span><span class="p">Sydney</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
@@ -275,11 +248,6 @@
         <ul class="role-detail"><li>Built the app from scratch: social login, multiple-account linking and account switching.</li><li>Built the patient booking and medicine-ordering flow, using Google Location libraries to show assigned clinicians on a map in real time. Built the UI with Material Design.</li><li>Tracked clinician location and abnormal device activity.</li><li>Created a Maven repository and published the library as an AAR.</li></ul>
       </details>
     </div>
-    <h3 class="subhead">Speaking and mentoring</h3>
-    <div class="grid">
-      <a class="card" href="/blog/google-io-extended-2025-compose-multiplatform-to-city/"><h4>Compose Multiplatform to the City</h4><p>How KRAIL is built, at Google I/O Extended in Brisbane. The post has the recording.</p><p class="meta"><span class="num">Jun 2025</span>, Brisbane</p></a>
-      <div class="card"><h4>AI-assisted development</h4><p>Training and mentoring engineers at work on AI-assisted development, and on what holds up in a large codebase.</p></div>
-    </div>
   </section>
 </main>
 
@@ -307,12 +275,45 @@
     if (mq.addEventListener) mq.addEventListener('change', label);
     b.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      label();
-      document.dispatchEvent(new Event('themechange'));
+      function apply() {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        label();
+        document.dispatchEvent(new Event('themechange'));
+      }
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+      if (document.startViewTransition) { try { document.startViewTransition(apply); return; } catch (e) {} }
+      root.classList.add('theme-anim'); apply();
+      setTimeout(function () { root.classList.remove('theme-anim'); }, 320);
     });
   })();
+  // Images fade in once loaded (CSS hides html.js img:not(.loaded)).
+  (function () {
+    function done(i) { i.classList.add('loaded'); }
+    document.querySelectorAll('img').forEach(function (i) {
+      if (i.complete) done(i); else { i.addEventListener('load', function () { done(i); }); i.addEventListener('error', function () { done(i); }); }
+    });
+  })();
+</script>
+<script>
+(function () {
+  // Safari and Firefox without ::details-content: glide the career rows with the Web Animations API.
+  if (CSS.supports('selector(::details-content)') || matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate) return;
+  document.querySelectorAll('details.role').forEach(function (d) {
+    var sum = d.querySelector('summary'), body = d.querySelector('.role-detail'), anim = null;
+    sum.addEventListener('click', function (e) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      e.preventDefault();
+      if (anim) anim.cancel();
+      var closing = d.open, from = d.offsetHeight, to;
+      d.style.overflow = 'hidden';
+      if (closing) { to = sum.offsetHeight; }
+      else { d.open = true; to = d.offsetHeight; body.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 200, delay: 80, easing: 'ease', fill: 'backwards' }); }
+      anim = d.animate({ height: [from + 'px', to + 'px'] }, { duration: 280, easing: 'ease' });
+      anim.onfinish = anim.oncancel = function () { if (closing) d.open = false; d.style.overflow = ''; anim = null; };
+    });
+  });
+})();
 </script>
 </body>
 </html>

@@ -23,6 +23,7 @@ export const THEME_HEAD = `<script>
       else t = localStorage.getItem('theme');
     } catch (e) {}
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
   })();
 </script>`;
 
@@ -44,10 +45,23 @@ export const THEME_SCRIPT = `<script>
     if (mq.addEventListener) mq.addEventListener('change', label);
     b.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      label();
-      document.dispatchEvent(new Event('themechange'));
+      function apply() {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        label();
+        document.dispatchEvent(new Event('themechange'));
+      }
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+      if (document.startViewTransition) { try { document.startViewTransition(apply); return; } catch (e) {} }
+      root.classList.add('theme-anim'); apply();
+      setTimeout(function () { root.classList.remove('theme-anim'); }, 320);
+    });
+  })();
+  // Images fade in once loaded (CSS hides html.js img:not(.loaded)).
+  (function () {
+    function done(i) { i.classList.add('loaded'); }
+    document.querySelectorAll('img').forEach(function (i) {
+      if (i.complete) done(i); else { i.addEventListener('load', function () { done(i); }); i.addEventListener('error', function () { done(i); }); }
     });
   })();
 </script>`;

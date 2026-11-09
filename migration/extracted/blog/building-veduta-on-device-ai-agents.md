@@ -21,7 +21,7 @@ I did not type the app's code. I wrote down what it should do, read the plans an
 
 Below, "we" means me and the agents. The photos in the screenshots are AI-generated samples; no real people appear in them.
 
-## Three pieces: the app, its design engine, and the AI that built them
+## The app, the engine inside it, and the agents that built it
 
 There are three pieces of software in this story.
 

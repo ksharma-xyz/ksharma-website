@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { POSTS } from '../migration/posts.mjs';
-import { renderPost, decorateExternal, CONTENT_START, CONTENT_END } from '../migration/post-shell.mjs';
+import { renderPost, prepareBody, CONTENT_START, CONTENT_END } from '../migration/post-shell.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -29,7 +29,7 @@ for (let i = 0; i < POSTS.length; i++) {
   const next = POSTS[i - 1] || null; // newer
   const prev = POSTS[i + 1] || null; // older
   const out = renderPost(post, body, { prev, next });
-  if (extractBody(out).trim() !== decorateExternal(body.trim())) throw new Error(`body changed for ${post.slug}`);
+  if (extractBody(out).trim() !== prepareBody(body)) throw new Error(`body changed for ${post.slug}`);
   fs.writeFileSync(file, out);
   console.log(`restyled blog/${post.slug}/`);
 }

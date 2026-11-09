@@ -27,9 +27,7 @@ should never invent details not captured here.
 ## Professional summary
 
 Staff Software Engineer with 10+ years building secure, large-scale mobile products at
-Commonwealth Bank, Block (Cash App), and Afterpay. Currently building **CommBiz mobile**
-at CBA from the ground up — owning architecture, engineering standards, and AI strategy
-for the Android org (internal MCP tooling, agents, agentic workflows). Open-source
+Commonwealth Bank, Block (Cash App), and Afterpay. Currently on the **CommBank app** across Android and iOS, building AI-powered features for the app, and the agentic strategy and AI tooling for mobile across the whole bank (moved from CommBiz in 2026). Open-source
 maintainer of **KRAIL** (Compose Multiplatform) and a developer-conference speaker.
 
 ---
@@ -83,8 +81,10 @@ Practical-Coroutines, TinkAndroidSample.
 ### Highlights per role (for expandable detail)
 
 **Commonwealth Bank (2024–present)** — Google Play: CommBank, CommBiz
+- Now on the **CommBank app** across Android and iOS, building AI-powered features for the app, and the agentic strategy and AI tooling for mobile across the whole bank (moved from CommBiz in 2026).
+- Built a **RAG and a graph RAG** that hold all mobile engineering knowledge, so engineers get answers to their questions without a meeting.
 - Built the **CommBiz** mobile app from scratch: architecture, tech stack, engineering standards for CBA's flagship business-banking Android app.
-- Lead **AI strategy & readiness** across the Android org — internal MCP servers, agents, skills (incl. a design-system MCP) automating Figma-to-code, UI generation, repetitive dev work, and end-to-end testing.
+- Led **AI strategy and readiness** on CommBiz: internal MCP servers, agents, skills (incl. a design-system MCP) automating Figma-to-code, UI generation, repetitive dev work, and end-to-end testing.
 - Built foundational mobile infrastructure used across squads: session management, DI, core networking, encrypted storage, performance monitoring, analytics, e2e testing.
 - Delivered core banking features end-to-end: account management, secure multi-step authorization for high-value (million-dollar) payments with push-notification-based authentication.
 - Lead technical direction (architecture, code review, practices); started contributing to backend repos to improve mobile/backend contracts.

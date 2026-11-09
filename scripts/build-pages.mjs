@@ -60,7 +60,7 @@ function home() {
   return `${head}
 ${header('/')}
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <section data-ux-fluid class="hero rise" aria-labelledby="h-name">
     <div class="frame">
       <img class="portrait" src="/assets/shots/portrait.webp" alt="Karan Sharma in a blue blazer, on a boat on Sydney Harbour at night" width="340" height="550" fetchpriority="high">
@@ -103,8 +103,7 @@ ${header('/')}
     <a class="card" href="/work/#ai">
       <div class="tool-list">
         <div class="card card--inner"><b>ASTRAMAN</b><span>Agents that plan, write and review each build</span></div>
-        <div class="card card--inner"><b>A library of skills</b><span>The setup every app repeats, written down once</span></div>
-        <div class="card card--inner"><b>At Commonwealth Bank</b><span>MCP servers and agents for the mobile teams</span></div>
+        <div class="card card--inner"><b>At Commonwealth Bank</b><span>A graph RAG and agents for mobile engineering across the bank</span></div>
       </div>
     </a>
   </section>
@@ -202,7 +201,6 @@ function work() {
         <div class="shots">${shots.map(([s, a]) => `<img src="/assets/shots/${s}" alt="${a}" width="460" height="996" loading="lazy" decoding="async">`).join('')}</div>
       </article>`;
   const lib = (name, url, text) => `<a class="card" href="${url}" rel="noopener"><h4>${name} ${OUT_ICON}</h4><p>${text}</p></a>`;
-  const plain = (name, text) => `<div class="card"><h4>${name}</h4><p>${text}</p></div>`;
   const roles = CAREER.map((r, i) => `<details class="role"${i === 0 ? ' open' : ''}>
         <summary><span class="y num">${r.when}</span><span class="lg"><img src="${r.logo}" alt="" width="${r.w}" height="${r.h}" loading="lazy"></span><span class="c">${esc(r.company)}<span>${esc(r.title)}</span></span><span class="p">${r.city}</span>${CHEV}</summary>
         <ul class="role-detail">${r.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
@@ -210,7 +208,7 @@ function work() {
   return `${open({ title: m.title, description: m.description, canonical: `${BASE}/work/`, ogTitle: m.ogTitle, ogDescription: m.ogDescription, ld: fixLd(m.ld) })}
 ${header('/work/')}
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <h1 class="page-title rise">Work</h1>
 
   <section class="section" id="apps" aria-labelledby="h-apps">
@@ -267,34 +265,6 @@ ${header('/work/')}
         <div class="actions"><a class="btn btn-primary" href="/blog/${VEDUTA.slug}/">Read how ASTRAMAN built Veduta</a></div>
       </div>
     </article>
-    <h3 class="subhead">The toolkit</h3>
-    <div class="grid">
-      ${plain('A library of skills', 'The work that repeats on every Kotlin Multiplatform app is written down once as a skill: modularisation, Koin, Navigation 3, SQLDelight, Ktor, Compose resources, typography, colour tokens, app icons, in-app purchases, CI/CD, font-scale accessibility and release checks. Writing it down once is cheaper and more predictable than explaining the same setup to a model each time.')}
-      ${plain('Starter templates', 'New apps start from a Kotlin Multiplatform template that already builds: multi-module structure, convention plugins, DI, static analysis, testing and an empty component catalogue. Creating a project from it is a copy and a rename, so nothing about the foundation is left to chance.')}
-      ${plain('Harness engineering', 'Subagents with narrow tools, hooks for the rules that must not be skipped, MCP servers when a model needs real data rather than a guess, and git worktrees so parallel agents do not collide. Most of the work is deciding what context each agent gets, and what it is not allowed to do.')}
-    </div>
-    <h3 class="subhead">At Commonwealth Bank</h3>
-    <div class="grid">
-      ${plain('A design system agents can read', 'Internal MCP servers, including one for the design system, so generated UI is built from the components, tokens and rules the design team actually ships rather than an approximation of them.')}
-      ${plain('Design to code, and tests', 'Agents and skills that turn designs into Compose code, generate UI, handle repetitive dev work and write end-to-end tests.')}
-      ${plain('Standards, enforced', 'A Jetpack Compose linting system that checks architecture and design-system standards across teams, so reviews spend less time on style. Alongside it, training engineers across the org on AI-assisted development.')}
-    </div>
-    <h3 class="subhead">Built with the same tooling</h3>
-    <div class="grid">
-      <article class="card" aria-labelledby="w-video">
-        <h4 id="w-video">KRAIL's videos, written as code</h4>
-        <p>KRAIL needs video to reach people, so I build the videos with code. A video is a config object rather than a timeline. Scenes, copy, colour, spacing and motion are fields in a schema, and a React and Remotion engine renders them to a vertical video. Nothing is hand-animated per video, so adding a capability means adding a field to the schema, and the look stays consistent across everything that goes out.</p>
-        <p>Around the engine there is a small Next.js dashboard for the parts that are not rendering: the script for each video, per-platform captions for Instagram, TikTok, YouTube Shorts, Facebook, Reddit and LinkedIn, a queue of what to build next, and the posting calendar. The videos are built from the Claude CLI with a skill I wrote for it.</p>
-        <div class="actions">
-          ${ext('https://www.instagram.com/krail.app/', 'See the videos on Instagram', 'btn btn-sm')}
-          ${ext('https://www.tiktok.com/@krailapp', 'TikTok', 'btn btn-sm')}
-          ${ext('https://www.threads.com/@krail.app', 'Threads', 'btn btn-sm')}
-        </div>
-      </article>
-      ${lib('The KRAIL backend', 'https://github.com/ksharma-xyz/KRAIL-BFF', 'A Ktor service for trip planning over the NSW transport network, with Protobuf contracts shared with the app and a containerised deploy.')}
-      ${plain('A native design system', 'Design tokens in the W3C format, compiled once into Kotlin and Swift, with catalogue apps in Jetpack Compose and SwiftUI so both platforms read from the same source of truth.')}
-      ${plain('A local analytics dashboard', "Pulls KRAIL's own analytics exports into local storage and a small dashboard, because the hosted retention window is short and the export tools are slow to work with.")}
-    </div>
   </section>
 
   <section class="section" id="career" aria-labelledby="h-career">
@@ -302,15 +272,30 @@ ${header('/work/')}
     <div class="roles" data-ux-list>
       ${roles}
     </div>
-    <h3 class="subhead">Speaking and mentoring</h3>
-    <div class="grid">
-      <a class="card" href="${IO_POST}"><h4>Compose Multiplatform to the City</h4><p>How KRAIL is built, at Google I/O Extended in Brisbane. The post has the recording.</p><p class="meta"><span class="num">Jun 2025</span>, Brisbane</p></a>
-      ${plain('AI-assisted development', 'Training and mentoring engineers at work on AI-assisted development, and on what holds up in a large codebase.')}
-    </div>
   </section>
 </main>
 
-${PAGE_END}</body>
+${PAGE_END}<script>
+(function () {
+  // Safari and Firefox without ::details-content: glide the career rows with the Web Animations API.
+  if (CSS.supports('selector(::details-content)') || matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate) return;
+  document.querySelectorAll('details.role').forEach(function (d) {
+    var sum = d.querySelector('summary'), body = d.querySelector('.role-detail'), anim = null;
+    sum.addEventListener('click', function (e) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      e.preventDefault();
+      if (anim) anim.cancel();
+      var closing = d.open, from = d.offsetHeight, to;
+      d.style.overflow = 'hidden';
+      if (closing) { to = sum.offsetHeight; }
+      else { d.open = true; to = d.offsetHeight; body.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 200, delay: 80, easing: 'ease', fill: 'backwards' }); }
+      anim = d.animate({ height: [from + 'px', to + 'px'] }, { duration: 280, easing: 'ease' });
+      anim.onfinish = anim.oncancel = function () { if (closing) d.open = false; d.style.overflow = ''; anim = null; };
+    });
+  });
+})();
+</script>
+</body>
 </html>
 `;
 }
@@ -328,7 +313,7 @@ function blog() {
   return `${open({ title: 'Blog | Karan Sharma', description: m.description, canonical: `${BASE}/blog/`, ogTitle: 'Blog | Karan Sharma', ogDescription: m.ogDescription, ld: fixLd(m.ld) })}
 ${header('/blog/')}
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <h1 class="page-title rise">Blog</h1>
   ${veduta('h2', VEDUTA_LONG).replace('card card--wide post-feature', 'card card--wide post-feature rise')}
   ${groups}
@@ -374,7 +359,7 @@ function photos() {
   return `${open({ title: m.title, description: m.description, canonical: `${BASE}/photos/`, ogTitle: m.ogTitle, ogDescription: m.ogDescription, ld: fixLd(m.ld) })}
 ${header('/photos/')}
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <h1 class="page-title rise">Photos</h1>
   <ul class="photo-grid rise" data-ux-list>
       ${figs}
@@ -395,7 +380,7 @@ function about() {
   return `${open({ title: m.title, description: m.description, canonical: `${BASE}/about/`, ogTitle: m.ogTitle, ogDescription: m.ogDescription, ld: fixLd(m.ld) })}
 ${header('/about/')}
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <h1 class="page-title rise">About</h1>
   <section data-ux-fluid class="about rise" aria-label="About Karan">
     <div class="frame">
@@ -403,7 +388,7 @@ ${header('/about/')}
     </div>
     <div class="prose">
       <p>I'm Karan Sharma, a Staff Software Engineer in Sydney. I have spent more than ten years building secure mobile products, at Commonwealth Bank, Block (Cash App) and Afterpay among others.</p>
-      <p>At Commonwealth Bank I am building CommBiz mobile from the ground up: the architecture, the engineering standards and the AI strategy for the Android org, including internal MCP tooling, agents and agentic workflows. I build for iOS as well as Android, and I train engineers across the org on AI-assisted development.</p>
+      <p>At Commonwealth Bank I work across Android and iOS on the CommBank app. I build AI-powered features for the app, and the agentic strategy and AI tooling for mobile across the whole bank. That includes a RAG and a graph RAG that hold all of our mobile engineering knowledge, so engineers can ask a question and get an answer without a meeting. Before that I built the CommBiz business banking app from the ground up, including its architecture, engineering standards and AI strategy. I also train engineers across the org on AI-assisted development.</p>
       <p>Outside work I maintain KRAIL, an open source Sydney transit app in Compose Multiplatform, and two small games, Sumi and Huezoo. I care about accessibility, and about software that works for everyone who has to use it. I have spoken about KRAIL at Google I/O Extended, and I write about what I learn.</p>
       <p>I studied computer science at Punjab Technical University in India, and started my career in Bangalore before moving to Sydney.</p>
     </div>

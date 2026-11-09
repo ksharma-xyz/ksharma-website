@@ -13,6 +13,7 @@
       else t = localStorage.getItem('theme');
     } catch (e) {}
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
   })();
 </script>
 <title>About Karan Sharma | Staff Software Engineer, Sydney</title>
@@ -111,7 +112,7 @@
     </button>
   </header>
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <h1 class="page-title rise">About</h1>
   <section data-ux-fluid class="about rise" aria-label="About Karan">
     <div class="frame">
@@ -119,7 +120,7 @@
     </div>
     <div class="prose">
       <p>I'm Karan Sharma, a Staff Software Engineer in Sydney. I have spent more than ten years building secure mobile products, at Commonwealth Bank, Block (Cash App) and Afterpay among others.</p>
-      <p>At Commonwealth Bank I am building CommBiz mobile from the ground up: the architecture, the engineering standards and the AI strategy for the Android org, including internal MCP tooling, agents and agentic workflows. I build for iOS as well as Android, and I train engineers across the org on AI-assisted development.</p>
+      <p>At Commonwealth Bank I work across Android and iOS on the CommBank app. I build AI-powered features for the app, and the agentic strategy and AI tooling for mobile across the whole bank. That includes a RAG and a graph RAG that hold all of our mobile engineering knowledge, so engineers can ask a question and get an answer without a meeting. Before that I built the CommBiz business banking app from the ground up, including its architecture, engineering standards and AI strategy. I also train engineers across the org on AI-assisted development.</p>
       <p>Outside work I maintain KRAIL, an open source Sydney transit app in Compose Multiplatform, and two small games, Sumi and Huezoo. I care about accessibility, and about software that works for everyone who has to use it. I have spoken about KRAIL at Google I/O Extended, and I write about what I learn.</p>
       <p>I studied computer science at Punjab Technical University in India, and started my career in Bangalore before moving to Sydney.</p>
     </div>
@@ -181,10 +182,23 @@
     if (mq.addEventListener) mq.addEventListener('change', label);
     b.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      label();
-      document.dispatchEvent(new Event('themechange'));
+      function apply() {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        label();
+        document.dispatchEvent(new Event('themechange'));
+      }
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+      if (document.startViewTransition) { try { document.startViewTransition(apply); return; } catch (e) {} }
+      root.classList.add('theme-anim'); apply();
+      setTimeout(function () { root.classList.remove('theme-anim'); }, 320);
+    });
+  })();
+  // Images fade in once loaded (CSS hides html.js img:not(.loaded)).
+  (function () {
+    function done(i) { i.classList.add('loaded'); }
+    document.querySelectorAll('img').forEach(function (i) {
+      if (i.complete) done(i); else { i.addEventListener('load', function () { done(i); }); i.addEventListener('error', function () { done(i); }); }
     });
   })();
 </script>

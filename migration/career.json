@@ -8,14 +8,15 @@
   "title": "Staff Software Engineer",
   "city": "Sydney",
   "bullets": [
+   "Now on the CommBank app across Android and iOS, building AI-powered features for the app, and the agentic strategy and AI tooling for mobile across the whole bank.",
+   "Built a RAG and a graph RAG that hold all mobile engineering knowledge, so engineers get answers to their questions without a meeting.",
    "Built the CommBiz mobile app from scratch. Defined the architecture, tech stack and engineering standards for CBA's flagship business banking app.",
-   "Build for iOS as well as Android, and work on the shared foundations both platforms sit on.",
-   "Lead AI strategy and AI readiness for mobile engineering. Built internal MCP servers, agents and skills (including a design-system MCP) that automate Figma-to-code, UI generation, repetitive dev work and end-to-end testing.",
+   "Led AI strategy and AI readiness for mobile engineering on CommBiz. Built internal MCP servers, agents and skills (including a design-system MCP) that automate Figma-to-code, UI generation, repetitive dev work and end-to-end testing.",
    "Designed and built foundational mobile infrastructure used across squads: session management, dependency injection, core networking, encrypted storage, performance monitoring, analytics and end-to-end testing frameworks.",
    "Developed core business banking features end to end, such as account management and secure multi-step authorisation flows for high-value payments, with push-notification based authentication.",
-   "Lead technical direction for the Android team across architecture, code review and engineering practices. Recently started contributing to backend repositories to improve mobile and backend contracts.",
+   "Led technical direction for the CommBiz Android team across architecture, code review and engineering practices, and contributed to backend repositories to improve mobile and backend contracts.",
    "Wrote a Jetpack Compose linting system that enforces architectural and design-system standards across teams, reducing review cycles.",
-   "Train engineers across the org on AI-assisted development. Contribute to the internal design system and accessibility tooling used by all Android teams."
+   "Train engineers across the org on AI-assisted development. Contributed to the internal design system and accessibility tooling used by the Android teams."
   ]
  },
  {
