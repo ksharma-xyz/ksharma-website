@@ -144,6 +144,8 @@ a.card:hover h3, a.card:hover h4 { color: var(--signal-ink); }
 .card p { color: var(--muted); }
 .card p a:not(.btn) { color: var(--signal-ink); }
 .grid { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+/* App cards: head, text, links and screenshots share rows, so each starts at the same height across the row. Cards have at most 4 children. */
+.grid--apps > .card { grid-row: span 4; grid-template-rows: subgrid; align-content: start; }
 .app-head { display: flex; align-items: center; gap: var(--s-3); }
 .app-icon { width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--rule); flex: none; }
 .card .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: var(--s-3); }
@@ -194,8 +196,9 @@ a.card:hover h3, a.card:hover h4 { color: var(--signal-ink); }
 .agent { height: 40px; padding: 0 14px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; border: 1px solid var(--rule); font: 500 var(--fs-small)/1 var(--f-mono); color: var(--muted); }
 .agent b { color: var(--signal-ink); font-weight: 700; }
 .steps { display: grid; gap: var(--s-3); counter-reset: s; }
-.steps li { counter-increment: s; position: relative; padding-left: 2.2em; }
-.steps li::before { content: counter(s); position: absolute; left: 0; top: 0; font: 600 var(--fs-small)/1.6 var(--f-mono); color: var(--signal-ink); }
+.steps li { counter-increment: s; position: relative; padding-left: 1.75em; }
+/* Number uses the item's own size and line height, so it shares the first line's baseline. */
+.steps li::before { content: counter(s); position: absolute; left: 0; top: 0; font-family: var(--f-mono); font-weight: 600; font-size: 1em; line-height: inherit; color: var(--signal-ink); }
 
 /* Rows (blog lists) */
 .rows { border-top: 1px solid var(--rule); }

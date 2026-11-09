@@ -155,7 +155,7 @@
         <img src="/assets/shots/krail-3-400.webp" alt="KRAIL home screen in dark mode" width="400" height="870" loading="lazy" decoding="async">
       </div>
     </article>
-    <div class="grid">
+    <div class="grid grid--apps">
       <article class="card" aria-labelledby="w-sumi">
         <div class="app-head"><img class="app-icon" src="/assets/shots/sumi-icon.webp" alt="" width="56" height="56" loading="lazy"><h3 id="w-sumi">Sumi</h3></div>
         <p>A daily Sudoku that respects your attention. Ink on paper, five difficulty levels and streak tracking. No noise, no ads, no dark patterns. Just the puzzle.</p>
@@ -184,8 +184,7 @@
     <article data-ux-fluid class="card card--wide krail" id="astraman" aria-labelledby="w-astraman">
       <div class="text">
         <h3 id="w-astraman" class="display">ASTRAMAN</h3>
-        <p>A set of Claude Code agents runs in sequence. One reads the design files and writes a phased build plan with the design tokens. One writes the Kotlin Multiplatform code phase by phase and commits as it goes. A reviewer runs a quality gate after each phase and records what went wrong. A fourth reads finished builds and proposes edits to the other agents' instructions, so the next build starts from what the last one taught.</p>
-        <p>Each build runs in its own workspace and session, so more than one app can be in progress. The foundation is not regenerated per app: it comes from a verified template, so the base is the same every time and the agents only write what differs.</p>
+        <p>A small team of AI agents that builds apps the way I would. Every app starts from the same tested base, so they only write what is new.</p>
         <ul class="agents" aria-label="The agents">
           <li class="agent"><b>Vishwakarma</b>plans</li><li class="agent"><b>Karma</b>builds</li><li class="agent"><b>Vivek</b>reviews</li>
           <li class="agent"><b>Drishti</b>learns</li><li class="agent"><b>Tarka</b>checks the logic</li><li class="agent"><b>Fixer</b>retries</li>
@@ -194,10 +193,10 @@
       <div class="text">
         <h4>How a build runs</h4>
         <ol class="steps">
-          <li><strong>Read the handoff and plan.</strong> Design files become a phased plan with tokens.</li>
-          <li><strong>Write the Kotlin Multiplatform code.</strong> Phase by phase, committing as it goes.</li>
-          <li><strong>Review, gate, retry.</strong> A quality gate after every phase.</li>
-          <li><strong>Learn from the build.</strong> Lessons are written back into the agents' instructions.</li>
+          <li><strong>Plan.</strong> Read the designs and plan the work.</li>
+          <li><strong>Build.</strong> Write the code, one step at a time.</li>
+          <li><strong>Check.</strong> Review each step before the next.</li>
+          <li><strong>Learn.</strong> Note what went wrong for next time.</li>
         </ol>
         <div class="actions"><a class="btn btn-primary" href="/blog/building-veduta-on-device-ai-agents/">Read how ASTRAMAN built Veduta</a></div>
       </div>
