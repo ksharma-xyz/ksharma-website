@@ -1,11 +1,12 @@
 name: Lighthouse audit
 
+# Runs once the deploy workflow has published the site, so it always audits the new
+# version and never a half-deployed one.
 on:
-  push:
+  workflow_run:
+    workflows: ['Deploy site']
+    types: [completed]
     branches: [main]
-    paths:
-      - 'docs/**'
-      - '.github/workflows/lighthouse.yml'
   workflow_dispatch:
 
 permissions:
@@ -17,6 +18,7 @@ concurrency:
 
 jobs:
   audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -29,11 +31,8 @@ jobs:
         with:
           node-version: '20'
       - run: npm install -g lighthouse@latest
-      - name: Wait for GitHub Pages to publish this commit
-        run: |
-          echo "Giving Pages ~90s to deploy before auditing $SITE_URL"
-          sleep 90
-          curl -sI "$SITE_URL" | head -5
+      - name: Check the site responds
+        run: curl --silent --fail --head "$SITE_URL" | head -5
       - name: Run Lighthouse · desktop
         run: |
           mkdir -p audit
