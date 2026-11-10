@@ -10,16 +10,19 @@ public, so the `.woff2` file is git-ignored and must never be committed here.
 
 How it reaches the site:
 
-- `.github/workflows/deploy.yml` downloads the official Switzer zip from Fontshare on every
-  deploy, takes `Switzer-Variable.woff2` out of it, checks its SHA-256, copies it into
-  `docs/assets/fonts/` and publishes the site. The file only ever exists on the site itself.
+- `scripts/fetch-font.sh` downloads the official Switzer zip from Fontshare, takes
+  `Switzer-Variable.woff2` out of it, checks its SHA-256 and saves it in this folder.
+- `.github/workflows/deploy.yml` runs that script on every deploy, then publishes the site.
+  The file only ever exists on the site itself.
 - GitHub Pages must be set to deploy from **GitHub Actions**, not from the `/docs` folder.
 - The workflow refuses to deploy if the font is ever tracked in this repo.
 - If Fontshare is down or ships a new version, the deploy stops and the live site stays on
   its previous version. For a new version, check the file and update `FONT_SHA256` in the
-  workflow.
+  script.
 
-For local previews, keep your own copy of the file in this folder. Git ignores it.
+For local previews, run `./scripts/fetch-font.sh` once in each fresh checkout or worktree.
+Git ignores the file. Without it pages fall back to the system font; `scripts/audit.sh` and
+`tests/run.sh` print a warning when it is missing.
 
 To swap the font, change the `@font-face` block and the `--font` token at the top of
 `assets/site.css`, and the `preload` link in each page's `<head>`.

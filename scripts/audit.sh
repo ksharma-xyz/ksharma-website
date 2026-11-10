@@ -19,6 +19,10 @@ if [ "${1:-}" = "live" ]; then
   echo "Auditing the live site: $URL"
 else
   URL="http://localhost:$PORT${AUDIT_PATH:-/}"
+  if ! "$ROOT/scripts/fetch-font.sh" --check; then
+    echo "WARNING: the Switzer font is missing from docs/assets/fonts/, so pages fall back to the"
+    echo "         system font and will not match the live site. Run ./scripts/fetch-font.sh"
+  fi
   echo "Serving $ROOT/docs on $URL"
   python3 -m http.server "$PORT" --directory "$ROOT/docs" >/dev/null 2>&1 &
   SERVER_PID=$!

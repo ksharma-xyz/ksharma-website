@@ -5,6 +5,11 @@ set -uo pipefail
 cd "$(dirname "$0")"
 export PORT="${PORT:-8899}"
 
+if ! ../scripts/fetch-font.sh --check; then
+  echo "WARNING: the Switzer font is missing from docs/assets/fonts/, so pages fall back to the"
+  echo "         system font and will not match the live site. Run ./scripts/fetch-font.sh"
+fi
+
 if [ ! -d node_modules ]; then
   npm ci || npm install || exit 1
 fi
