@@ -2,8 +2,8 @@ name: Deploy site
 
 # Publishes docs/ to GitHub Pages. The Switzer webfont is not in this repo: its licence
 # (ITF Free Font License) allows self-hosting on our own site but not publishing the file
-# in a public repository. It lives in a private repo and is copied in here, at deploy
-# time, so it only ever exists on the site itself. See docs/assets/fonts/README.md.
+# in a public repository. Each deploy downloads the official file from Fontshare, checks
+# it, and adds it to the published site. See docs/assets/fonts/README.md.
 
 on:
   push:
@@ -33,8 +33,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       FONT: Switzer-Variable.woff2
-      # Checksum of the official, unmodified Fontshare file. Update it together with the
-      # file in the private repo.
+      FONT_ZIP_URL: https://api.fontshare.com/v2/fonts/download/switzer
+      # Checksum of the official, unmodified Fontshare file. If Fontshare ships a new
+      # version the check fails and the deploy stops: review the new file, then update this.
       FONT_SHA256: d1bf801ffb1a6096def70a7c532255722ad87d948b13a8a586e342f7091f8ee4
     steps:
       - uses: actions/checkout@v7
@@ -48,19 +49,19 @@ jobs:
             exit 1
           fi
 
-      - name: Fetch the font from the private repo
-        uses: actions/checkout@v7
-        with:
-          repository: ksharma-xyz/ksharma-website-fonts
-          ssh-key: ${{ secrets.FONTS_DEPLOY_KEY }}
-          path: .fonts
-          persist-credentials: false
+      - name: Download the font from Fontshare
+        run: |
+          curl --silent --show-error --fail --location --retry 3 --retry-delay 5 \
+            --user-agent 'ksharma-website-deploy/1.0' \
+            --output switzer.zip "$FONT_ZIP_URL"
+          mkdir .fonts
+          unzip -q -j switzer.zip "*/WEB/fonts/$FONT" -d .fonts
 
       - name: Verify the font and place it in the site
         run: |
           echo "$FONT_SHA256  .fonts/$FONT" | sha256sum --check --strict -
           cp ".fonts/$FONT" "docs/assets/fonts/$FONT"
-          rm -rf .fonts
+          rm -rf .fonts switzer.zip
 
       - uses: actions/upload-pages-artifact@v5
         with:

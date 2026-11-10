@@ -10,17 +10,16 @@ public, so the `.woff2` file is git-ignored and must never be committed here.
 
 How it reaches the site:
 
-- The file lives in the private repo `ksharma-xyz/ksharma-website-fonts`.
-- `.github/workflows/deploy.yml` reads that repo with a read-only deploy key (secret
-  `FONTS_DEPLOY_KEY`), checks the file's SHA-256, copies it into `docs/assets/fonts/` and
-  publishes the site. The file only ever exists on the site itself.
+- `.github/workflows/deploy.yml` downloads the official Switzer zip from Fontshare on every
+  deploy, takes `Switzer-Variable.woff2` out of it, checks its SHA-256, copies it into
+  `docs/assets/fonts/` and publishes the site. The file only ever exists on the site itself.
 - GitHub Pages must be set to deploy from **GitHub Actions**, not from the `/docs` folder.
 - The workflow refuses to deploy if the font is ever tracked in this repo.
+- If Fontshare is down or ships a new version, the deploy stops and the live site stays on
+  its previous version. For a new version, check the file and update `FONT_SHA256` in the
+  workflow.
 
 For local previews, keep your own copy of the file in this folder. Git ignores it.
-
-To update the font, replace the file in the private repo with a fresh Fontshare download and
-update `FONT_SHA256` in the deploy workflow.
 
 To swap the font, change the `@font-face` block and the `--font` token at the top of
 `assets/site.css`, and the `preload` link in each page's `<head>`.
