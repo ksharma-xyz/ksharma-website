@@ -237,16 +237,44 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)');
   var glyphs = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ0123456789';
 
-  /* Headline: the verb decodes left to right, then cycles every 2.6s. Static "Building" with reduced motion. */
-  var nameEl = document.getElementById('name');
-  var verbs = ['Building', 'Designing', 'Shipping'], vi = 0, cycleTimer = 0, finalName = verbs[0];
+  /* Headline: the verb decodes left to right, then cycles every 2.6s. Static "Building" with reduced motion.
+     The real word is laid out from the first frame and uncovered letter by letter with a clip, so its
+     width never changes while it decodes. The scrambling glyphs sit in an overlay on top, out of the
+     layout. The caret glides to the end of the new word instead of jumping there. */
+  var nameEl = document.getElementById('name'), verbEl = nameEl.parentNode, caret = verbEl.querySelector('.caret');
+  var scr = document.createElement('span'); scr.className = 'scr'; verbEl.insertBefore(scr, caret);
+  var verbs = ['Building', 'Designing', 'Shipping'], vi = 0, cycleTimer = 0, finalName = verbs[0], scrambleRaf = 0;
+  function glyph() { return glyphs[(Math.random() * glyphs.length) | 0]; }
+  function endScramble() { cancelAnimationFrame(scrambleRaf); scrambleRaf = 0; nameEl.style.clipPath = ''; scr.textContent = ''; }
   function scramble() {
-    var start = performance.now(), dur = 600;
+    endScramble();
+    var caretFrom = caret.getBoundingClientRect().left;
+    nameEl.textContent = finalName;
+    var n = finalName.length, node = nameEl.firstChild, box = nameEl.getBoundingClientRect(), range = document.createRange();
+    var W = box.width, cell = W / n, xs = [], cells = [], i;
+    for (i = 0; i < n; i++) { range.setStart(node, i); range.setEnd(node, i + 1); xs.push(range.getBoundingClientRect().left - box.left); }
+    xs.push(W);
+    for (i = 0; i < n; i++) {
+      var c = document.createElement('i');
+      c.style.left = (i * cell) + 'px'; c.style.width = cell + 'px'; c.appendChild(document.createElement('b'));
+      scr.appendChild(c); cells.push(c);
+    }
+    nameEl.style.clipPath = 'inset(-0.3em 100% -0.3em -0.1em)';
+    var dx = caretFrom - caret.getBoundingClientRect().left;
+    caret.style.transition = 'none'; caret.style.transform = 'translateX(' + dx + 'px)';
+    caret.getBoundingClientRect();
+    caret.style.transition = ''; caret.style.transform = '';
+    var start = performance.now(), dur = 600, shown = -1, lastSwap = -1e9;
     (function tick(now) {
-      var p = Math.min(1, (now - start) / dur), out = '';
-      for (var i = 0; i < finalName.length; i++) out += (i / finalName.length < p) ? finalName[i] : glyphs[(Math.random() * glyphs.length) | 0];
-      nameEl.textContent = out;
-      if (p < 1) requestAnimationFrame(tick); else nameEl.textContent = finalName;
+      var p = Math.min(1, (now - start) / dur), k = Math.floor(p * n);
+      if (p >= 1) { endScramble(); return; }
+      if (k !== shown) {
+        shown = k;
+        nameEl.style.clipPath = 'inset(-0.3em ' + (W - xs[k]) + 'px -0.3em -0.1em)';
+        for (i = 0; i < n; i++) cells[i].style.visibility = (i * cell >= xs[k] - 1) ? '' : 'hidden';
+      }
+      if (now - lastSwap >= 70) { lastSwap = now; for (i = 0; i < n; i++) cells[i].firstChild.textContent = glyph(); }
+      scrambleRaf = requestAnimationFrame(tick);
     })(start);
   }
   function startCycle() {
@@ -289,7 +317,7 @@
   }
   function loop(t) { raf = requestAnimationFrame(loop); if (t - last < 55) return; last = t; step(); }
   function startRain() { cancelAnimationFrame(raf); raf = 0; if (!reduce.matches && !document.hidden) raf = requestAnimationFrame(loop); }
-  function stopAll() { cancelAnimationFrame(raf); raf = 0; clearInterval(cycleTimer); }
+  function stopAll() { cancelAnimationFrame(raf); raf = 0; clearInterval(cycleTimer); endScramble(); }
 
   readColours(); startRain(); startCycle();
   addEventListener('resize', readColours);
