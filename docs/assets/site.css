@@ -197,6 +197,12 @@ a.card:hover h3, a.card:hover h4 { color: var(--signal-ink); }
 .hero h1 .caret { display: inline-block; width: 0.42em; height: 0.78em; margin-left: 0.08em; background: var(--signal); vertical-align: -0.04em; animation: blink 1.1s steps(1) infinite; transition: transform .24s var(--ease); }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* Store logos on app cards: icon-only round links */
+.stores { display: inline-flex; gap: var(--s-2); }
+.store { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; transition: color .15s, border-color .15s; }
+.store svg { width: 20px; height: 20px; fill: currentColor; }
+.store:hover { border-color: var(--signal); color: var(--signal-ink); }
+
 /* App feature (KRAIL and ASTRAMAN) */
 .krail { display: grid; gap: var(--s-5); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 1000px) { .krail { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; } }
@@ -398,6 +404,7 @@ main:focus { outline: none; }
   .hero .actions .btn:not(.btn-primary) { display: none; }
   .hero .actions .btn-primary { min-width: 220px; justify-content: center; }
   .card .actions { flex-wrap: wrap; gap: var(--s-2); }
+  .stores { flex: 1 1 100%; justify-content: center; }
   .card .actions .btn { flex: 1 1 auto; justify-content: center; padding-inline: 14px; white-space: normal; height: auto; min-height: 48px; padding-block: 12px; line-height: 1.25; text-align: center; }
   .section-head { flex-direction: column; justify-content: center; text-align: center; gap: var(--s-1); }
   .section-head .btn { border-color: transparent; background: transparent; color: var(--signal-ink); height: auto; min-height: 44px; }

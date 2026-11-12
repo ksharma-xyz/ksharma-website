@@ -24,6 +24,10 @@ const fixLd = ld => JSON.parse(JSON.stringify(ld)
 
 const link = (href, label, cls = 'btn', extra = '') => `<a class="${cls}" href="${href}"${extra}>${label}</a>`;
 const ext = (href, label, cls = 'btn', lead = '') => `<a class="${cls}" href="${href}" rel="noopener">${lead}${label} ${OUT_ICON}</a>`;
+/* Store logos: icon-only links, named for screen readers by aria-label. */
+const APPLE_I = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>';
+const PLAY_I = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594zM1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924zm12.207 10.065l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973zm0 2.067l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z"/></svg>';
+const store = (href, label, icon) => `<a class="store" href="${href}" rel="noopener" aria-label="${label}">${icon}</a>`;
 const PAGE_END = `${footer()}\n${THEME_SCRIPT}\n`;
 
 const IO_POST = '/blog/google-io-extended-2025-compose-multiplatform-to-city/';
@@ -222,10 +226,10 @@ ${PAGE_END}<script>
 /* ------------------------------------------------------------------ */
 function work() {
   const m = META.work;
-  const appCard = (id, name, icon, text, site, gh, shots) => `<article class="card" aria-labelledby="${id}">
+  const appCard = (id, name, icon, text, site, gh, shots, stores) => `<article class="card" aria-labelledby="${id}">
         <div class="app-head"><img class="app-icon" src="/assets/shots/${icon}" alt="" width="56" height="56" loading="lazy"><h3 id="${id}">${name}</h3></div>
         <p>${text}</p>
-        <div class="actions">${ext(site, 'Website', 'btn btn-sm')}${ext(gh, 'GitHub', 'btn btn-sm', GH)}</div>
+        <div class="actions">${ext(site, 'Website', 'btn btn-sm')}${ext(gh, 'GitHub', 'btn btn-sm', GH)}<span class="stores">${store(stores[0], name + ' on the App Store', APPLE_I)}${store(stores[1], name + ' on Google Play', PLAY_I)}</span></div>
         <div class="shots">${shots.map(([s, a]) => `<img src="/assets/shots/${s}" alt="${a}" width="460" height="996" loading="lazy" decoding="async">`).join('')}</div>
       </article>`;
   const lib = (name, url, text) => `<a class="card" href="${url}" rel="noopener"><h4>${name} ${OUT_ICON}</h4><p>${text}</p></a>`;
@@ -258,8 +262,8 @@ ${header('/work/')}
       </div>
     </article>
     <div class="grid grid--apps">
-      ${appCard('w-sumi', 'Sumi', 'sumi-icon.webp', 'A daily Sudoku that respects your attention. Ink on paper, five difficulty levels and streak tracking. No noise, no ads, no dark patterns. Just the puzzle.', 'https://ksharma-xyz.github.io/Sumi/', 'https://github.com/ksharma-xyz/Sumi', [['sumi-1.webp', 'Sumi home screen'], ['sumi-2.webp', 'Sumi puzzle screen']])}
-      ${appCard('w-huezoo', 'Huezoo', 'huezoo-icon.webp', 'A colour perception game built around Delta-E science. Find the outlier among near-identical hues. It starts forgiving and gets quietly brutal, and it ranks you by accuracy, not just speed.', 'https://ksharma-xyz.github.io/HueZoo/', 'https://github.com/ksharma-xyz/HueZoo', [['huezoo-1.webp', 'Huezoo home screen'], ['huezoo-2.webp', 'Huezoo gameplay, picking the odd colour out']])}
+      ${appCard('w-sumi', 'Sumi', 'sumi-icon.webp', 'A daily Sudoku that respects your attention. Ink on paper, five difficulty levels and streak tracking. No noise, no ads, no dark patterns. Just the puzzle.', 'https://ksharma-xyz.github.io/Sumi/', 'https://github.com/ksharma-xyz/Sumi', [['sumi-1.webp', 'Sumi home screen'], ['sumi-2.webp', 'Sumi puzzle screen']], ['https://apps.apple.com/us/app/sumi-zen-sudoku/id6764288103', 'https://play.google.com/store/apps/details?id=xyz.ksharma.sumi'])}
+      ${appCard('w-huezoo', 'Huezoo', 'huezoo-icon.webp', 'A colour perception game built around Delta-E science. Find the outlier among near-identical hues. It starts forgiving and gets quietly brutal, and it ranks you by accuracy, not just speed.', 'https://ksharma-xyz.github.io/HueZoo/', 'https://github.com/ksharma-xyz/HueZoo', [['huezoo-1.webp', 'Huezoo home screen'], ['huezoo-2.webp', 'Huezoo gameplay, picking the odd colour out']], ['https://apps.apple.com/us/app/huezoo/id6761459879', 'https://play.google.com/store/apps/details?id=xyz.ksharma.huezoo'])}
       <div class="card"><h3>Next app, in progress</h3><p>Kotlin Multiplatform like the rest, for iOS and Android, and the first one built end to end by <a href="#astraman">ASTRAMAN</a>. Coming soon.</p></div>
     </div>
     <h3 class="subhead">Open source libraries and services</h3>

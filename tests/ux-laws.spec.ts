@@ -1032,6 +1032,7 @@ test.describe('Arrow rule', () => {
         const icons = Array.from(a.querySelectorAll('svg'));
         const hasExt = !!a.querySelector('svg.ext');
         if (ARROW.test(text)) out.push(`${ux.sel(a)} has an arrow character in its label`);
+        if (external && a.matches('a.store')) continue; // icon-only store logo, see Store links
         if (external) {
           if (!hasExt) out.push(`${ux.sel(a)} opens another site but has no external icon`);
           const label = (a.textContent || '').trim();
@@ -1055,14 +1056,26 @@ test.describe('Arrow rule', () => {
   });
 });
 
-test.describe('No store links', () => {
-  perPage('No store links: no App Store or Google Play link or button anywhere', async (page, _url, res) => {
-    const raw = await res.text();
-    const v: string[] = [];
-    if (/apps\.apple\.com|play\.google\.com/i.test(raw)) v.push('served HTML contains an App Store or Google Play URL');
-    const dom = await page.evaluate(() => document.body.innerText);
-    if (/App Store|Google Play/.test(dom)) v.push('rendered page mentions "App Store" or "Google Play"');
-    check('No store links', v);
+test.describe('Store links', () => {
+  // App Store and Google Play appear only as icon-only logo links (a.store) on the app cards:
+  // labelled for screen readers, a 44px target, and nothing else mentions the stores.
+  perPage('Store links: store URLs only as labelled, icon-only logo links at least 44px', async (page) => {
+    const v = await page.evaluate(() => {
+      const out: string[] = [];
+      for (const a of Array.from(document.querySelectorAll('a[href]'))) {
+        const href = a.getAttribute('href') || '';
+        if (!/apps\.apple\.com|play\.google\.com/i.test(href)) continue;
+        if (!a.matches('a.store')) { out.push(`${href} is a store link without the .store logo style`); continue; }
+        if (!(a.getAttribute('aria-label') || '').trim()) out.push(`${href} has no aria-label`);
+        if ((a.textContent || '').trim()) out.push(`${href} has visible text, it must be icon-only`);
+        if (!a.querySelector('svg')) out.push(`${href} has no logo`);
+        const r = a.getBoundingClientRect();
+        if (r.width && (r.width < 44 || r.height < 44)) out.push(`${href} is ${Math.round(r.width)}x${Math.round(r.height)}px, needs 44x44`);
+      }
+      if (/App Store|Google Play/.test(document.body.innerText)) out.push('rendered text mentions "App Store" or "Google Play"');
+      return out;
+    });
+    check('Store links', v);
   });
 });
 
