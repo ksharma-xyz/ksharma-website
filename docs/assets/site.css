@@ -394,11 +394,13 @@ main:focus { outline: none; }
 @media (max-width: 640px) {
   main { gap: var(--s-6); padding-block: var(--s-4) var(--s-6); }
   .hero { padding-bottom: 0; }
-  .actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin-inline: auto; }
   .hero .actions { justify-content: center; }
-  .actions .btn { width: 100%; justify-content: center; }
-  .section-head { flex-direction: column; justify-content: center; text-align: center; gap: var(--s-3); }
-  .section-head .btn { width: 100%; max-width: 320px; justify-content: center; }
+  .hero .actions .btn:not(.btn-primary) { display: none; }
+  .hero .actions .btn-primary { min-width: 220px; justify-content: center; }
+  .card .actions { flex-wrap: wrap; gap: var(--s-2); }
+  .card .actions .btn { flex: 1 1 auto; justify-content: center; padding-inline: 14px; white-space: normal; height: auto; min-height: 48px; padding-block: 12px; line-height: 1.25; text-align: center; }
+  .section-head { flex-direction: column; justify-content: center; text-align: center; gap: var(--s-1); }
+  .section-head .btn { border-color: transparent; background: transparent; color: var(--signal-ink); height: auto; min-height: 44px; }
   .card, .card--feature { padding: var(--s-4); }
   .krail { gap: var(--s-4); }
   .page-title, .section > h2 { text-align: center; }
