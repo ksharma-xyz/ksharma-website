@@ -123,7 +123,7 @@ p a:not(.btn):hover, li a:not(.btn):not(.row):hover { color: var(--ink); }
   :root:not([data-theme="light"]) .theme-toggle .i-sun { display: block; }
   :root:not([data-theme="light"]) .theme-toggle .i-moon { display: none; }
 }
-@media (max-width: 720px) { .site-header { flex-wrap: wrap; row-gap: 0; } .nav { order: 3; width: 100%; margin-left: -14px; } .site-header .icon-btn { margin-left: auto; } }
+@media (max-width: 720px) { .site-header { flex-wrap: wrap; row-gap: 0; } .nav { order: 3; width: 100%; margin-left: 0; justify-content: center; } .site-header .icon-btn { margin-left: auto; } }
 
 /* Page frame */
 main { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-7); padding-block: var(--s-5) var(--s-7); }
@@ -175,7 +175,14 @@ a.card:hover h3, a.card:hover h4 { color: var(--signal-ink); }
 .frame { position: relative; max-width: 300px; }
 .frame::before { content: ""; position: absolute; inset: -12% -18% -8% -18%; z-index: 0; background: radial-gradient(60% 55% at 50% 60%, var(--glow), transparent 70%); filter: blur(24px); pointer-events: none; }
 .portrait { position: relative; z-index: 1; display: block; box-shadow: var(--lift); width: 100%; height: auto; aspect-ratio: 340 / 550; object-fit: cover; border-radius: 16px; max-width: 100%; }
-@media (max-width: 899.98px) { .frame { max-width: 220px; } }
+@media (max-width: 899.98px) {
+  .frame { max-width: 240px; width: 100%; margin-inline: auto; }
+  .frame::before { inset: -12% -10% -8% -10%; }
+  .hero { justify-items: center; text-align: center; }
+  .hero { padding-top: var(--s-4); gap: var(--s-6); }
+  .hero .copy { align-items: center; justify-content: flex-start; width: 100%; padding-top: 0; }
+  .hero .actions { justify-content: center; }
+}
 .hero .copy { display: flex; flex-direction: column; justify-content: space-between; gap: var(--s-6); min-width: 0; padding-top: clamp(12px, 3vh, 40px); }
 .hero h1 { margin-top: -0.2em; }
 @supports (text-box: trim-both cap alphabetic) { .hero h1 { margin-top: 0; text-box: trim-start cap alphabetic; } }
@@ -381,3 +388,18 @@ html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after { transit
 }
 main:focus { outline: none; }
 .carousel-btns[hidden] { display: none; }
+
+/* Phones: one centred column with even spacing. Same gap between every block, equal side padding,
+   buttons full width and equal, section heads stacked and centred. */
+@media (max-width: 640px) {
+  main { gap: var(--s-6); padding-block: var(--s-4) var(--s-6); }
+  .hero { padding-bottom: 0; }
+  .actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin-inline: auto; }
+  .hero .actions { justify-content: center; }
+  .actions .btn { width: 100%; justify-content: center; }
+  .section-head { flex-direction: column; justify-content: center; text-align: center; gap: var(--s-3); }
+  .section-head .btn { width: 100%; max-width: 320px; justify-content: center; }
+  .card, .card--feature { padding: var(--s-4); }
+  .krail { gap: var(--s-4); }
+  .page-title, .section > h2 { text-align: center; }
+}
